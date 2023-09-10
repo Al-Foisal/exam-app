@@ -35,7 +35,7 @@
 </head>
 
 <body>
-    @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
+    @include('sweetalert::alert', ['cdn' => 'https://cdn.jsdelivr.net/npm/sweetalert2@9'])
     <div class="main_content_iner add-position">
         <div class="container-fluid p-0">
             <div class="row justify-content-center">
@@ -49,19 +49,24 @@
                                         <h5 class="modal-title text_white">Log in</h5>
                                     </div>
                                     <div class="modal-body">
-                                        <form>
+                                        <form action="{{ route('storeLogin') }}" method="post">
+                                            @csrf
                                             <div class>
-                                                <input type="text" class="form-control" placeholder="Enter your email">
+                                                <input type="text" class="form-control"
+                                                    placeholder="Enter your email" name="email">
                                             </div>
                                             <div class>
-                                                <input type="password" class="form-control" placeholder="Password">
+                                                <input type="password" class="form-control" placeholder="Password"
+                                                    name="password">
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <button class="btn btn-primary text-center">Log in</button>
+                                                    <button type="submit" class="btn btn-primary text-center">Log
+                                                        in</button>
                                                 </div>
                                                 <div class="col-md-6" style="text-align: right;">
-                                                    <a href="#" class="pass_forget_btn" style="margin-top: 7px;">Forget Password?</a>
+                                                    <a href="#" class="pass_forget_btn"
+                                                        style="margin-top: 7px;">Forget Password?</a>
                                                 </div>
                                             </div>
                                         </form>
