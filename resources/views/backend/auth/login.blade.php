@@ -35,6 +35,7 @@
 </head>
 
 <body>
+    @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
     <div class="main_content_iner add-position">
         <div class="container-fluid p-0">
             <div class="row justify-content-center">
