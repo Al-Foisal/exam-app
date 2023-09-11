@@ -19,6 +19,10 @@ Route::controller(AdminAuthenticationController::class)->middleware('guest:admin
 
     Route::get('/', 'login')->name('login');
     Route::post('/store-login', 'storeLogin')->name('storeLogin');
+    Route::get('/forgot-password', 'forgotPassword')->name('forgotPassword');
+    Route::post('/store-forgot-password', 'storeForgotPassword')->name('storeForgotPassword');
+    Route::get('/reset-password/{token}', 'resetPassword')->name('resetPassword');
+    Route::post('/store-reset-password', 'storeResetPassword')->name('storeResetPassword');
 });
 
 Route::middleware('auth:admin')->group(function () {

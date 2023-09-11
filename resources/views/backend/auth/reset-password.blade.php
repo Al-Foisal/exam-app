@@ -6,7 +6,7 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Sales</title>
+    <title>Rest Password</title>
 
 
     <link rel="stylesheet" href="{{ asset('backend/css/bootstrap1.min.css') }}" />
@@ -46,27 +46,31 @@
 
                                 <div class="modal-content cs_modal">
                                     <div class="modal-header justify-content-center theme_bg_1">
-                                        <h5 class="modal-title text_white">Log in</h5>
+                                        <h5 class="modal-title text_white">Reset password</h5>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="{{ route('storeLogin') }}" method="post">
+                                        <form action="{{ route('storeResetPassword') }}" method="post">
                                             @csrf
+                                            <input type="hidden" name="token" value="{{ $request->token }}">
                                             <div class>
                                                 <input type="text" class="form-control"
-                                                    placeholder="Enter your email" name="email">
+                                                    placeholder="Enter your email" name="email" value="{{ request()->email }}">
                                             </div>
                                             <div class>
                                                 <input type="password" class="form-control" placeholder="Password"
-                                                    name="password">
+                                                    name="password" value="12345678">
+                                            </div>
+                                            <div class>
+                                                <input type="password" class="form-control" placeholder="Confirm Password"
+                                                    name="password_confirmation" value="12345678">
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary text-center">Log
-                                                        in</button>
+                                                    <button type="submit" class="btn btn-primary text-center">Reset Password</button>
                                                 </div>
                                                 <div class="col-md-6" style="text-align: right;">
-                                                    <a href="{{ route('forgotPassword') }}" class="pass_forget_btn"
-                                                        style="margin-top: 7px;">Forget Password?</a>
+                                                    <a href="{{ route('login') }}" class="pass_forget_btn"
+                                                        style="margin-top: 7px;">Login with your account?</a>
                                                 </div>
                                             </div>
                                         </form>
