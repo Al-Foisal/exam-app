@@ -7,32 +7,26 @@
     </div>
     <ul id="sidebar_menu">
         <li class="mm-active">
-            <a class="has-arrow" href="#" aria-expanded="false">
+            <a href="{{ route('dashboard') }}" aria-expanded="false">
                 <div class="icon_menu">
                     <img src="{{ asset('backend/img/menu-icon/dashboard.svg') }}" alt>
                 </div>
                 <span>Dashboard</span>
             </a>
-            <ul>
-                <li><a class="active" href="index-2.html">Sales</a></li>
-                <li><a href="index_2.html">Default</a></li>
-                <li><a href="index_3.html">Dark Menu</a></li>
-            </ul>
         </li>
         <li class>
             <a class="has-arrow" href="#" aria-expanded="false">
                 <div class="icon_menu">
                     <img src="{{ asset('backend/img/menu-icon/2.svg') }}" alt>
                 </div>
-                <span>Apps</span>
+                <span>INFO</span>
             </a>
             <ul>
-                <li><a href="editor.html">editor</a></li>
-                <li><a href="mail_box.html">Mail Box</a></li>
-                <li><a href="chat.html">Chat</a></li>
-                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="{{ route('page.index') }}">Pages</a></li>
+                <li><a href="{{ route('showCompanyInfo') }}">Mail Box</a></li>
             </ul>
         </li>
+        <hr>
         <li class>
             <a class="has-arrow" href="#" aria-expanded="false">
                 <div class="icon_menu">

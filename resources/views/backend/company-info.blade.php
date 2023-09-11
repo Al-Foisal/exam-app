@@ -7,9 +7,8 @@
                 <div class="page_title_left">
                     <h3 class="f_s_30 f_w_700 text_white">Company Information</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Salessa </a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Sales</li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
+                        <li class="breadcrumb-item active">Company Information</li>
                     </ol>
                 </div>
             </div>
@@ -20,13 +19,6 @@
 
         <div class="col-lg-12">
             <div class="white_card card_height_100 mb_30">
-                <div class="white_card_header">
-                    <div class="box_header m-0">
-                        <div class="main-title">
-                            <h3 class="m-0">Form row</h3>
-                        </div>
-                    </div>
-                </div>
                 <div class="white_card_body">
                     <div class="card-body">
                         <form action="{{ route('storeCompanyInfo') }}" method="post" enctype="multipart/form-data">
@@ -146,7 +138,7 @@
                                     placeholder="Enter pinterest link" name="pinterest"
                                         value="{{ $info->pinterest ?? '' }}">
                             </div>
-                            <button type="submit" class="btn btn-primary">Sign in</button>
+                            <button type="submit" class="btn btn-primary">Update Company Information</button>
                         </form>
                     </div>
                 </div>
