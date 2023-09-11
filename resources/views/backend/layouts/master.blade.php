@@ -128,6 +128,8 @@
     <script src="{{ asset('backend/vendors/chart_am/kelly.js') }}"></script>
     <script src="{{ asset('backend/vendors/chart_am/chart-custom.js') }}"></script>
 
+    @include('sweetalert::alert')
+    
     <script src="{{ asset('backend/js/dashboard_init.js') }}"></script>
     <script src="{{ asset('backend/js/custom.js') }}"></script>
 
