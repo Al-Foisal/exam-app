@@ -38,5 +38,13 @@
                 <li><a href="{{ route('showCompanyInfo') }}">Company Info</a></li>
             </ul>
         </li>
+        <li class="mm-active">
+            <a href="{{ route('subject.index') }}" aria-expanded="false">
+                <div class="icon_menu">
+                    <img src="{{ asset('backend/img/menu-icon/dashboard.svg') }}" alt>
+                </div>
+                <span>Subject</span>
+            </a>
+        </li>
     </ul>
 </nav>
