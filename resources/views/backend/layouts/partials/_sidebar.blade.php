@@ -31,20 +31,72 @@
                 <div class="icon_menu">
                     <img src="{{ asset('backend/img/menu-icon/2.svg') }}" alt>
                 </div>
+                <span>BCS</span>
+            </a>
+            <ul>
+                <li><a href="{{ route('admin.index') }}">All Admin List</a></li>
+                <li><a href="{{ route('admin.create') }}">Create New Admin</a></li>
+            </ul>
+        </li>
+        <li class>
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="icon_menu">
+                    <img src="{{ asset('backend/img/menu-icon/2.svg') }}" alt>
+                </div>
+                <span>Bank</span>
+            </a>
+            <ul>
+                <li><a href="{{ route('admin.index') }}">All Admin List</a></li>
+                <li><a href="{{ route('admin.create') }}">Create New Admin</a></li>
+            </ul>
+        </li>
+        <li class>
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="icon_menu">
+                    <img src="{{ asset('backend/img/menu-icon/2.svg') }}" alt>
+                </div>
+                <span>Others</span>
+            </a>
+            <ul>
+                <li><a href="{{ route('admin.index') }}">All Admin List</a></li>
+                <li><a href="{{ route('admin.create') }}">Create New Admin</a></li>
+            </ul>
+        </li>
+        <li class>
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="icon_menu">
+                    <img src="{{ asset('backend/img/menu-icon/2.svg') }}" alt>
+                </div>
+                <span>Free</span>
+            </a>
+            <ul>
+                <li><a href="{{ route('admin.index') }}">All Admin List</a></li>
+                <li><a href="{{ route('admin.create') }}">Create New Admin</a></li>
+            </ul>
+        </li>
+        <li class>
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="icon_menu">
+                    <img src="{{ asset('backend/img/menu-icon/2.svg') }}" alt>
+                </div>
+                <span>Settings</span>
+            </a>
+            <ul>
+                <li><a href="{{ route('subject.index') }}">Subject</a></li>
+                <li><a href="{{ route('topic.source.index') }}">Topic & Source</a></li>
+            </ul>
+        </li>
+        <li class>
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="icon_menu">
+                    <img src="{{ asset('backend/img/menu-icon/2.svg') }}" alt>
+                </div>
                 <span>Website Info</span>
             </a>
             <ul>
                 <li><a href="{{ route('page.index') }}">Pages</a></li>
                 <li><a href="{{ route('showCompanyInfo') }}">Company Info</a></li>
             </ul>
-        </li>
-        <li class="mm-active">
-            <a href="{{ route('subject.index') }}" aria-expanded="false">
-                <div class="icon_menu">
-                    <img src="{{ asset('backend/img/menu-icon/dashboard.svg') }}" alt>
-                </div>
-                <span>Subject</span>
-            </a>
         </li>
     </ul>
 </nav>

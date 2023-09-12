@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\CompanyInfoController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\SubjectController;
+use App\Http\Controllers\Backend\TopicSourceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +53,15 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/edit/{subject}', 'edit')->name('edit');
         Route::put('/update/{subject}', 'update')->name('update');
         Route::delete('/delete/{subject}', 'delete')->name('delete');
+    });
+
+    Route::controller(TopicSourceController::class)->prefix('/topic-source')->name('topic.source.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{topic_source}', 'edit')->name('edit');
+        Route::put('/update/{topic_source}', 'update')->name('update');
+        Route::delete('/delete/{topic_source}', 'delete')->name('delete');
     });
 
     Route::get('/company-info', [CompanyInfoController::class, 'showCompanyInfo'])->name('showCompanyInfo');
