@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-
+@section('title', 'Entire company information')
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -35,39 +35,36 @@
                                     <label class="form-label" for="inputEmail4">Email <span class="text-danger">*</span>
                                     </label>
                                     <input type="email" class="form-control" id="inputEmail4" placeholder="Email"
-                                        name="email"
-                                        value="{{ $info->email ?? '' }}">
+                                        name="email" value="{{ $info->email ?? '' }}">
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="inputAddress">Address</label>
                                 <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"
-                                    name="address"
-                                    value="{{ $info->address ?? '' }}">
+                                    name="address" value="{{ $info->address ?? '' }}">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="inputAddress">About Company/Project <span
                                         class="text-danger">*</span> </label>
                                 <input type="text" class="form-control" id="inputAddress"
-                                    placeholder="A company/project summary" name="about"
-                                    value="{{ $info->about ?? '' }}">
+                                    placeholder="A company/project summary" name="about" value="{{ $info->about ?? '' }}">
                             </div>
                             <div class="row mb-3">
                                 <div class=" col-md-4">
                                     <label class="form-label" for="inputCity">Phone One <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" id="inputCity" name="phone_one"
-                                    value="{{ $info->phone_one ?? '' }}">
+                                        value="{{ $info->phone_one ?? '' }}">
                                 </div>
                                 <div class=" col-md-4">
                                     <label class="form-label" for="inputCity">Phone Two</label>
                                     <input type="text" class="form-control" id="inputCity" name="phone_two"
-                                    value="{{ $info->phone_two ?? '' }}">
+                                        value="{{ $info->phone_two ?? '' }}">
                                 </div>
                                 <div class=" col-md-4">
                                     <label class="form-label" for="inputZip">Phone Three</label>
                                     <input type="text" class="form-control" id="inputZip" name="phone_three"
-                                    value="{{ $info->phone_three ?? '' }}">
+                                        value="{{ $info->phone_three ?? '' }}">
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -76,7 +73,7 @@
                                     </label>
                                     <input type="file" class="form-control" id="inputCity" name="logo">
 
-                                    @if($info->logo)
+                                    @if ($info->logo)
                                         <img src="{{ $info->logo }}" style="height:100px;">
                                     @endif
                                 </div>
@@ -84,14 +81,14 @@
                                     <label class="form-label" for="inputCity">Favicon <span class="text-danger">*</span>
                                     </label>
                                     <input type="file" class="form-control" id="inputCity" name="favicon">
-                                    @if($info->favicon)
+                                    @if ($info->favicon)
                                         <img src="{{ $info->favicon }}" style="height:100px;">
                                     @endif
                                 </div>
                                 <div class=" col-md-4">
                                     <label class="form-label" for="inputZip">App logo</label>
                                     <input type="file" class="form-control" id="inputZip" name="app_logo">
-                                    @if($info->app_logo)
+                                    @if ($info->app_logo)
                                         <img src="{{ $info->app_logo }}" style="height:100px;">
                                     @endif
                                 </div>
@@ -106,37 +103,35 @@
                                 <label class="form-label" for="inputAddress">Facebook</label>
                                 <input type="url" class="form-control" id="inputAddress"
                                     placeholder="Enter facebook link" name="facebook"
-                                        value="{{ $info->facebook ?? '' }}">
+                                    value="{{ $info->facebook ?? '' }}">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="inputAddress">Twitter</label>
                                 <input type="url" class="form-control" id="inputAddress"
-                                    placeholder="Enter twitter link" name="twitter"
-                                        value="{{ $info->twitter ?? '' }}">
+                                    placeholder="Enter twitter link" name="twitter" value="{{ $info->twitter ?? '' }}">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="inputAddress">Instagram</label>
                                 <input type="url" class="form-control" id="inputAddress"
                                     placeholder="Enter instagram link" name="instagram"
-                                        value="{{ $info->instagram ?? '' }}">
+                                    value="{{ $info->instagram ?? '' }}">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="inputAddress">Youtube</label>
                                 <input type="url" class="form-control" id="inputAddress"
-                                    placeholder="Enter youtube link" name="youtube"
-                                        value="{{ $info->youtube ?? '' }}">
+                                    placeholder="Enter youtube link" name="youtube" value="{{ $info->youtube ?? '' }}">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="inputAddress">Linkedin</label>
                                 <input type="url" class="form-control" id="inputAddress"
                                     placeholder="Enter linkedin link" name="linkedin"
-                                        value="{{ $info->linkedin ?? '' }}">
+                                    value="{{ $info->linkedin ?? '' }}">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="inputAddress">Pinterest</label>
                                 <input type="url" class="form-control" id="inputAddress"
                                     placeholder="Enter pinterest link" name="pinterest"
-                                        value="{{ $info->pinterest ?? '' }}">
+                                    value="{{ $info->pinterest ?? '' }}">
                             </div>
                             <button type="submit" class="btn btn-primary">Update Company Information</button>
                         </form>

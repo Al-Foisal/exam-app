@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="zxx">
 
-<!-- Mirrored from demo.dashboardpack.com/sales-html/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 10 Sep 2023 09:16:07 GMT -->
-
 <head>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Sales</title>
+    <title>@yield('title') - {{ $company->name }}</title>
 
 
     <link rel="stylesheet" href="{{ asset('backend/css/bootstrap1.min.css') }}" />
@@ -129,7 +127,7 @@
     <script src="{{ asset('backend/vendors/chart_am/chart-custom.js') }}"></script>
 
     @include('sweetalert::alert')
-    
+
     <script src="{{ asset('backend/js/dashboard_init.js') }}"></script>
     <script src="{{ asset('backend/js/custom.js') }}"></script>
 

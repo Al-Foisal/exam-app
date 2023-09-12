@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\AdminAuthenticationController;
+use App\Http\Controllers\Backend\AdminManagementController;
 use App\Http\Controllers\Backend\CompanyInfoController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\PageController;
@@ -32,6 +33,15 @@ Route::middleware('auth:admin')->group(function () {
     Route::controller(DashboardController::class)->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard');
         Route::post('/logout', 'logout')->name('logout');
+    });
+
+    Route::controller(AdminManagementController::class)->prefix('/admin')->name('admin.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{admin}', 'edit')->name('edit');
+        Route::put('/update/{admin}', 'update')->name('update');
+        Route::delete('/delete/{admin}', 'delete')->name('delete');
     });
 
     Route::get('/company-info', [CompanyInfoController::class, 'showCompanyInfo'])->name('showCompanyInfo');

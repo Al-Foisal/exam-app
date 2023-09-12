@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-
+@section('title', 'Dashboard')
 @section('content')
     <div class="row">
         <div class="col-12">

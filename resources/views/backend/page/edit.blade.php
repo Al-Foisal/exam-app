@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-
+@section('title', 'Update existing page')
 @section('content')
     <div class="row">
         <div class="col-12">

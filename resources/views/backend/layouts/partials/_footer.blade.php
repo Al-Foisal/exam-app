@@ -3,8 +3,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="footer_iner text-center">
-                    <p>2020 © Influence - Designed by <a href="#"> <i class="ti-heart"></i> </a><a href="#">
-                            Dashboard</a></p>
+                    <p>{{ date("Y") }} © {{ $company->name }} - Developed by <i class="ti-heart"></i> <a href="https://wiztecbd.com/"> Wizard Software and Technology Bangladesh Ltd.</a></p>
                 </div>
             </div>
         </div>

@@ -20,11 +20,12 @@
                 <div class="header_right d-flex justify-content-between align-items-center">
                     <div class="profile_info">
                         <img src="{{ asset(auth()->guard('admin')->user()->image ?? '') }}" alt="#">
-                        <div class="profile_info_iner">
+                        <div class="profile_info_iner" style="width: 270px;">
                             <div class="profile_author_name">
                                 <h5>{{ auth()->guard('admin')->user()->name ?? '' }}</h5>
+                                <small class="text-light">{{ auth()->user()->email }}</small>
                             </div>
-                            <div class="profile_info_details">
+                            <div class="profile_info_details" style="border: 1px solid #567aed;border-radius: 0 0 10px 15px;">
                                 <form action="{{ route('logout') }}" method="post">
                                     @csrf
                                     <button type="submit" class="btn btn-info btn-sm"
