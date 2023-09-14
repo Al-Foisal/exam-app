@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\AdminAuthenticationController;
 use App\Http\Controllers\Backend\AdminManagementController;
 use App\Http\Controllers\Backend\CompanyInfoController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\ExamController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\SubjectController;
 use App\Http\Controllers\Backend\TopicSourceController;
@@ -62,6 +63,14 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/edit/{topic_source}', 'edit')->name('edit');
         Route::put('/update/{topic_source}', 'update')->name('update');
         Route::delete('/delete/{topic_source}', 'delete')->name('delete');
+    });
+
+    Route::controller(ExamController::class)->prefix('/exam')->name('exam.')->group(function () {
+        Route::get('/index', 'index')->name('index');
+        Route::get('/create/{exam_id?}', 'create')->name('create');
+        Route::any('/store-or-update/{exam_id?}', 'storeOrUpdate')->name('storeOrUpdate');
+        Route::get('/manage-question/{exam_id}', 'manageQuestion')->name('manageQuestion');
+        Route::post('/get-topic', 'getTopic')->name('getTopic'); //ajax request
     });
 
     Route::get('/company-info', [CompanyInfoController::class, 'showCompanyInfo'])->name('showCompanyInfo');
