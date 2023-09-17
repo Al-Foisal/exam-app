@@ -39,8 +39,6 @@ class ExamController extends Controller {
 
     public function storeOrUpdate(Request $request, $exam_id = null) {
 
-// dd($request->all());
-
         if (!$exam_id) {
             Exam::create([
                 'name'                       => $request->name,
@@ -80,6 +78,10 @@ class ExamController extends Controller {
         $data['exam'] = $exam = Exam::where('id', $exam_id)->first();
 
         return view('backend.exam.manage-question', $data);
+    }
+
+    public function createOrUpdateManageQuestion(Request $request) {
+        dd($request->all());
     }
 
     //ajax response

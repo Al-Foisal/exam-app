@@ -158,6 +158,7 @@
         $('.m_select2').select2({
             tokenSeparators: [',', ' ']
         });
+        $('.summernote').summernote({});
     </script>
     @yield('js')
 </body>
