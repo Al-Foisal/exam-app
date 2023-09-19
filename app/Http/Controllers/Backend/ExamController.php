@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
+use App\Models\ExamQuestion;
+use App\Models\ExamQuestionOption;
 use App\Models\Subject;
 use App\Models\TopicSource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ExamController extends Controller {
     public function index() {
@@ -81,7 +84,91 @@ class ExamController extends Controller {
     }
 
     public function createOrUpdateManageQuestion(Request $request) {
-        dd($request->all());
+        // dd($request->all());
+
+        $subject_id = $request->subject_id;
+
+        if (isset($request->question_id) && count($request->question_id) > 0) {
+
+            foreach ($request->question_id as $question_id) {
+                $update_question                       = ExamQuestion::find($question_id);
+                $update_question->question_name        = $request->input('question_name_' . $question_id);
+                $update_question->question_explanation = $request->input('question_explanation_' . $question_id);
+                $update_question->save();
+
+                $update_option = $request->input('question_option_name_' . $question_id);
+
+                DB::table('exam_question_options')->where('exam_question_id', $question_id)->delete();
+
+                foreach ($update_option as $u_key => $option) {
+
+                    if ($request->input('question_option_' . $question_id) == $u_key) {
+                        $answer = 1;
+                    } else {
+                        $answer = 0;
+                    }
+
+                    ExamQuestionOption::create([
+                        'exam_question_id' => $update_question->id,
+                        'option'           => $option,
+                        'is_answer'        => $answer,
+                    ]);
+                }
+
+            }
+
+        }
+
+        if (isset($request->serial_number) && count($request->serial_number) > 0) {
+
+            foreach ($request->serial_number as $key => $serial_number) {
+                $question = ExamQuestion::create([
+                    'exam_id'              => $request->exam_id,
+                    'subject_id'           => $subject_id,
+                    'question_name'        => $request->question_name[$key],
+                    'question_explanation' => $request->question_explanation[$key],
+                ]);
+
+                $postfix = $request->input('question_option_name_' . $subject_id . $serial_number);
+
+                foreach ($postfix as $o_key => $option) {
+
+                    if ($request->input('question_option_' . $subject_id . $serial_number) == $o_key) {
+                        $answer = 1;
+                    } else {
+                        $answer = 0;
+                    }
+
+                    ExamQuestionOption::create([
+                        'exam_question_id' => $question->id,
+                        'option'           => $option,
+                        'is_answer'        => $answer,
+                    ]);
+                }
+
+            }
+
+        }
+
+        return back()->withToastSuccess('Question updated or created successfully');
+    }
+
+    public function deleteQuestion($question_id) {
+        $data = ExamQuestion::find($question_id);
+
+        if ($data) {
+
+            foreach ($data->questionOptions as $option) {
+                $option->delete();
+            }
+
+            $data->delete();
+
+            return response()->json(['status' => true]);
+        } else {
+            return response()->json(['status' => false]);
+        }
+
     }
 
     //ajax response
