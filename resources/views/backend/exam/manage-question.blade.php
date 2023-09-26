@@ -241,7 +241,7 @@
 
                                                             <div class="col-md-12">
                                                                 <label for="">Question Name</label>
-                                                                <textarea class="question_name" placeholder="Enter question name here" name=""></textarea>
+                                                                <textarea class="question_name summernote11" placeholder="Enter question name here" name=""></textarea>
                                                             </div>
 
                                                             <div class="col-md-12 mt-2">
@@ -270,7 +270,7 @@
                                                                                             for="is_answer_{{ $q_subject->id }}_{{ $i }}">
                                                                                         </label>
                                                                                     </div>
-                                                                                    <textarea class="question_option_name"></textarea>
+                                                                                    <textarea class="question_option_name summernote11"></textarea>
                                                                                 </div>
                                                                                 <br>
                                                                                 <br>

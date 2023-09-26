@@ -33,7 +33,7 @@
                                     <th scope="col">Topic & Source Name</th>
                                     <th scope="col">Marking System</th>
                                     <th scope="col">Exam Timeline</th>
-                                    <th scope="col">Duration</th>
+                                    <th scope="col">Duration(Minutes)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,7 +58,7 @@
                                                 </button>
                                             </form> --}}
                                         </td>
-                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->published_at->format('d F Y') }}</td>
                                         <td>
                                             @foreach ($item->subjects as $subject)
                                                 {{ $subject->name }}
@@ -84,7 +84,7 @@
                                             Published Date: {{ $item->published_at->format('Y-m-d H:i:s A') }}, <br>
                                             Expired Date: {{ $item->expired_at->format('Y-m-d H:i:s A') }}
                                         </td>
-                                        <td>{{ $item->duration / 60 }} M</td>
+                                        <td>{{ $item->duration / 60 }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

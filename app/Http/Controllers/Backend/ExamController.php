@@ -44,7 +44,6 @@ class ExamController extends Controller {
 
         if (!$exam_id) {
             Exam::create([
-                'name'                       => $request->name,
                 'category'                   => $request->category,
                 'subcategory'                => $request->subcategory,
                 'childcategory'              => $request->childcategory,
@@ -58,7 +57,6 @@ class ExamController extends Controller {
             ]);
         } else {
             $exam                             = Exam::find($exam_id);
-            $exam->name                       = $request->name;
             $exam->category                   = $request->category;
             $exam->subcategory                = $request->subcategory;
             $exam->childcategory              = $request->childcategory;

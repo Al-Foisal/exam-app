@@ -34,8 +34,10 @@
                 <span>BCS</span>
             </a>
             <ul>
-                <li><a href="{{ route('exam.index', ['ref' => 'BCS', 'type' => 'Preliminary']) }}">Preliminary Exam List</a></li>
-                <li><a href="{{ route('exam.create', ['ref' => 'BCS', 'type' => 'Preliminary']) }}">Create Preliminary Exam</a></li>
+                <li><a href="{{ route('exam.index', ['ref' => 'BCS', 'type' => 'Preliminary']) }}">Preliminary Exam
+                        List</a></li>
+                <li><a href="{{ route('exam.create', ['ref' => 'BCS', 'type' => 'Preliminary']) }}">Create Preliminary
+                        Exam</a></li>
             </ul>
         </li>
         <li class>
@@ -46,9 +48,10 @@
                 <span>Bank</span>
             </a>
             <ul>
+                <li><a href="{{ route('exam.index', ['ref' => 'Bank', 'type' => 'Preliminary']) }}">Preliminary Exam
+                        List</a></li>
                 <li><a href="{{ route('exam.create', ['ref' => 'Bank', 'type' => 'Preliminary']) }}">Create Preliminary
                         Exam</a></li>
-                <li><a href="{{ route('admin.create') }}">Create New Admin</a></li>
             </ul>
         </li>
         <li class>
@@ -59,7 +62,8 @@
                 <span>Others</span>
             </a>
             <ul>
-                <li><a href="{{ route('exam.create', ['ref' => 'Others', 'type' => 'Preliminary']) }}">Create Preliminary
+                <li><a href="{{ route('exam.create', ['ref' => 'Others', 'type' => 'Preliminary']) }}">Create
+                        Preliminary
                         Exam</a></li>
                 <li><a href="{{ route('admin.create') }}">Create New Admin</a></li>
             </ul>
