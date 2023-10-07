@@ -16,3 +16,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+exam-app.sql
+/exam-app-admin-template
