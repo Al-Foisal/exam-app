@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\UserAuthController;
+use App\Http\Controllers\Api\UserProfileController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,8 +15,26 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "api" middleware group. Make something great!
 |
-*/
+ */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->get('/logout', function (Request $request) {
+    $user = $request->user();
+    $user->tokens()->delete();
+    Auth::guard('web')->logout();
+
+    return ['status' => true, 'message' => 'Logout Successful!'];
+});
+
+Route::controller(UserAuthController::class)->prefix('/auth')->group(function () {
+    Route::post('/register', 'register');
+    Route::post('/verify-otp', 'verifyOtp');
+    Route::post('/login', 'login');
+    Route::post('/store-forgot-password', 'storeForgotPassword');
+    Route::post('/reset-password', 'resetPassword');
+    Route::post('/resend-otp', 'resendOTP');
+});
+
+Route::middleware('auth:sanctum')->controller(UserProfileController::class)->prefix('/profile')->group(function () {
+    Route::get('/user', 'user');
+    Route::post('/update', 'update');
 });
