@@ -12,4 +12,9 @@ class Written extends Model {
     public function writtenQuestion() {
         return $this->hasMany(WrittenQuestion::class);
     }
+
+    protected $casts = [
+        'published_at' => 'datetime: Y-m-d H:i:s',
+        'expired_at'   => 'datetime: Y-m-d H:i:s',
+    ];
 }

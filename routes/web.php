@@ -66,13 +66,28 @@ Route::middleware('auth:admin')->group(function () {
     });
 
     Route::controller(ExamController::class)->prefix('/exam')->name('exam.')->group(function () {
+        /**
+         * preliminary
+         */
         Route::get('/index', 'index')->name('index');
         Route::get('/create/{exam_id?}', 'create')->name('create');
         Route::any('/store-or-update/{exam_id?}', 'storeOrUpdate')->name('storeOrUpdate');
-        
+
         Route::get('/mcq-question/{exam_id}', 'mcqQuestion')->name('mcqQuestion');
         Route::post('/create-or-update-mcq-question/{exam_id}', 'createOrUpdateMCQQuestion')->name('createOrUpdateMCQQuestion');
         Route::get('/delete-question/{question_id}', 'deleteQuestion')->name('deleteQuestion');
+
+        /**
+         * written
+         */
+        Route::get('/written', 'written')->name('written');
+        Route::get('/written-create/{exam_id?}', 'writtenCreate')->name('writtenCreate');
+        Route::any('/written-store-or-update/{exam_id?}', 'writtenStoreOrUpdate')->name('writtenStoreOrUpdate');
+
+        Route::get('/written-question/{exam_id}', 'writtenQuestion')->name('writtenQuestion');
+        Route::post('/create-or-update-written-question/{exam_id}', 'createOrUpdateWrittenQuestion')->name('createOrUpdateWrittenQuestion');
+        Route::get('/delete-written-question/{question_id}', 'deleteWrittenQuestion')->name('deleteQuestion');
+
         Route::post('/get-topic', 'getTopic')->name('getTopic'); //ajax request
     });
 

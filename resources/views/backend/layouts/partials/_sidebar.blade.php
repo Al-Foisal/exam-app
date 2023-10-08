@@ -36,7 +36,9 @@
             <ul>
                 <li><a href="{{ route('exam.index', ['ref' => 'BCS', 'type' => 'Preliminary']) }}">Preliminary Exam
                         List</a></li>
-                <li><a href="{{ route('exam.create', ['ref' => 'BCS', 'type' => 'Preliminary']) }}">Create Preliminary
+                <li><a href="{{ route('exam.written', ['ref' => 'BCS', 'type' => 'Written']) }}">Written Exam
+                        List</a></li>
+                <li><a href="{{ route('exam.writtenCreate', ['ref' => 'BCS', 'type' => 'Written']) }}">Create Written
                         Exam</a></li>
             </ul>
         </li>
