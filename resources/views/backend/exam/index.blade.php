@@ -41,7 +41,7 @@
                                     <tr>
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td class="d-flex justify-content-around">
-                                            <a href="{{ route('exam.manageQuestion', [$item->id, 'ref' => 'BCS', 'type' => 'Preliminary']) }}"
+                                            <a href="{{ route('exam.mcqQuestion', [$item->id, 'ref' => 'BCS', 'type' => 'Preliminary']) }}"
                                                 class="btn btn-info me-2">
                                                 <i class="fas fa-file-signature"></i>
                                             </a>

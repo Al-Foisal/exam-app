@@ -74,14 +74,14 @@ class ExamController extends Controller {
 
     }
 
-    public function manageQuestion($exam_id) {
+    public function mcqQuestion($exam_id) {
         $data         = [];
         $data['exam'] = $exam = Exam::where('id', $exam_id)->first();
 
-        return view('backend.exam.manage-question', $data);
+        return view('backend.exam.mcq-question', $data);
     }
 
-    public function createOrUpdateManageQuestion(Request $request) {
+    public function createOrUpdateMCQQuestion(Request $request) {
         // dd($request->all());
 
         $subject_id = $request->subject_id;

@@ -69,8 +69,9 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/index', 'index')->name('index');
         Route::get('/create/{exam_id?}', 'create')->name('create');
         Route::any('/store-or-update/{exam_id?}', 'storeOrUpdate')->name('storeOrUpdate');
-        Route::get('/manage-question/{exam_id}', 'manageQuestion')->name('manageQuestion');
-        Route::post('/create-or-update-manage-question/{exam_id}', 'createOrUpdateManageQuestion')->name('createOrUpdateManageQuestion');
+        
+        Route::get('/mcq-question/{exam_id}', 'mcqQuestion')->name('mcqQuestion');
+        Route::post('/create-or-update-mcq-question/{exam_id}', 'createOrUpdateMCQQuestion')->name('createOrUpdateMCQQuestion');
         Route::get('/delete-question/{question_id}', 'deleteQuestion')->name('deleteQuestion');
         Route::post('/get-topic', 'getTopic')->name('getTopic'); //ajax request
     });
