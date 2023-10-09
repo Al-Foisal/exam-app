@@ -5,7 +5,8 @@
         <div class="col-12">
             <div class="page_title_box d-flex align-items-center justify-content-between">
                 <div class="page_title_left">
-                    <h3 class="f_s_30 f_w_700 text_white">List of {{ request()->ref . ' ' . request()->type }} Exam</h3>
+                    <h3 class="f_s_30 f_w_700 text_white">List of
+                        {{ request()->child ?? request()->ref }}{{ ' ' . request()->type }} Exam</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a
@@ -13,7 +14,8 @@
                         <li class="breadcrumb-item active">Index</li>
                     </ol>
                 </div>
-                <a href="{{ route('exam.writtenCreate', ['ref' => 'BCS', 'type' => 'Written']) }}" class="white_btn3">Create
+                <a href="{{ route('exam.writtenCreate', ['ref' => request()->ref, 'type' => 'Written', 'child' => request()->child]) }}"
+                    class="white_btn3">Create
                     Written Exam</a>
             </div>
         </div>

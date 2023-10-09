@@ -6,11 +6,16 @@
             <div class="page_title_box d-flex align-items-center justify-content-between">
                 <div class="page_title_left">
                     <h3 class="f_s_30 f_w_700 text_white">{{ request()->exam_id ? 'Update' : 'Create' }} new
-                        {{ request()->ref . ' ' . request()->type }} exam</h3>
+                        {{ request()->child ?? request()->ref }}{{ ' ' . request()->type }} exam</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">{{ request()->ref . ' ' . request()->type }}
                                 exam</a></li>
+                        @if (request()->child)
+                            <li class="breadcrumb-item"><a
+                                    href="javascript:void(0);">{{ request()->child . ' ' . request()->type }}
+                                    exam</a></li>
+                        @endif
                         <li class="breadcrumb-item active">{{ request()->exam_id ? 'Update' : 'Create' }}</li>
                     </ol>
                 </div>
@@ -27,7 +32,7 @@
                             action="{{ request()->exam_id ? route('exam.storeOrUpdate', request()->exam_id) : route('exam.storeOrUpdate') }}"
                             method="post" enctype="multipart/form-data">
                             @csrf
-                            
+
                             <input type="hidden" name="category" value="{{ request()->ref }}">
                             <input type="hidden" name="subcategory" value="{{ request()->type }}">
                             <input type="hidden" name="childcategory" value="{{ request()->child }}">

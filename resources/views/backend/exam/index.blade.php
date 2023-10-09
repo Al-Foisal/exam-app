@@ -5,15 +5,22 @@
         <div class="col-12">
             <div class="page_title_box d-flex align-items-center justify-content-between">
                 <div class="page_title_left">
-                    <h3 class="f_s_30 f_w_700 text_white">List of {{ request()->ref . ' ' . request()->type }}</h3>
+                    <h3 class="f_s_30 f_w_700 text_white">List of
+                        {{ request()->child ?? request()->ref }}{{ ' ' . request()->type }}</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a
                                 href="javascript:void(0);">{{ request()->ref . ' ' . request()->type }}</a></li>
+                        @if (request()->child)
+                            <li class="breadcrumb-item"><a
+                                    href="javascript:void(0);">{{ request()->child . ' ' . request()->type }}
+                                    exam</a></li>
+                        @endif
                         <li class="breadcrumb-item active">Index</li>
                     </ol>
                 </div>
-                <a href="{{ route('exam.create', ['ref' => 'BCS', 'type' => 'Preliminary']) }}" class="white_btn3">Create
+                <a href="{{ route('exam.create', ['ref' => request()->ref, 'type' => 'Preliminary', 'child' => request()->child]) }}"
+                    class="white_btn3">Create
                     Preliminary Exam</a>
             </div>
         </div>

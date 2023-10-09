@@ -38,8 +38,6 @@
                         List</a></li>
                 <li><a href="{{ route('exam.written', ['ref' => 'BCS', 'type' => 'Written']) }}">Written Exam
                         List</a></li>
-                <li><a href="{{ route('exam.writtenCreate', ['ref' => 'BCS', 'type' => 'Written']) }}">Create Written
-                        Exam</a></li>
             </ul>
         </li>
         <li class>
@@ -52,8 +50,8 @@
             <ul>
                 <li><a href="{{ route('exam.index', ['ref' => 'Bank', 'type' => 'Preliminary']) }}">Preliminary Exam
                         List</a></li>
-                <li><a href="{{ route('exam.create', ['ref' => 'Bank', 'type' => 'Preliminary']) }}">Create Preliminary
-                        Exam</a></li>
+                <li><a href="{{ route('exam.written', ['ref' => 'Bank', 'type' => 'Written']) }}">Written Exam
+                        List</a></li>
             </ul>
         </li>
         <li class>
@@ -64,10 +62,34 @@
                 <span>Others</span>
             </a>
             <ul>
-                <li><a href="{{ route('exam.create', ['ref' => 'Others', 'type' => 'Preliminary']) }}">Create
-                        Preliminary
+                <li>
+                    <a
+                        href="{{ route('exam.index', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => 'Primary']) }}">
+                        Primary Preliminary Exam
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="{{ route('exam.index', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => '11 to 20 Grade']) }}">
+                        11 to 20 Grade Preliminary Exam
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="{{ route('exam.index', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => 'Non-Cadre']) }}">
+                        Non-Cadre Preliminary Exam
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="{{ route('exam.index', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => 'Job Solution']) }}">
+                        Job Solution Preliminary Exam
+                    </a>
+                </li>
+                <li><a
+                        href="{{ route('exam.written', ['ref' => 'Others', 'type' => 'Written', 'child' => 'Job Solution']) }}">Job
+                        Solution Written
                         Exam</a></li>
-                <li><a href="{{ route('admin.create') }}">Create New Admin</a></li>
             </ul>
         </li>
         <li class>
@@ -78,9 +100,17 @@
                 <span>Free</span>
             </a>
             <ul>
-                <li><a href="{{ route('exam.create', ['ref' => 'Free', 'type' => 'Preliminary']) }}">Create Preliminary
+                <li><a
+                        href="{{ route('exam.index', ['ref' => 'Free', 'type' => 'Preliminary', 'child' => 'Weekly']) }}">Weekly
+                        Preliminary
                         Exam</a></li>
-                <li><a href="{{ route('admin.create') }}">Create New Admin</a></li>
+                <li><a
+                        href="{{ route('exam.index', ['ref' => 'Free', 'type' => 'Preliminary', 'child' => 'Daily']) }}">Daily
+                        Preliminary
+                        Exam</a></li>
+                <li><a href="{{ route('exam.written', ['ref' => 'Free', 'type' => 'Written', 'child' => 'Weekly']) }}">Weekly
+                        Written
+                        Exam</a></li>
             </ul>
         </li>
         <li class>
