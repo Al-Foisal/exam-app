@@ -9,6 +9,7 @@ use App\Models\ExamQuestionOption;
 use App\Models\Subject;
 use App\Models\TopicSource;
 use App\Models\Written;
+use App\Models\WrittenQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -203,25 +204,25 @@ class ExamController extends Controller {
 
         if (!$exam_id) {
             Written::create([
-                'category'                   => $request->category,
-                'subcategory'                => $request->subcategory,
-                'childcategory'              => $request->childcategory,
-                'subject_id'                 => implode(',', $request->subject_id),
-                'topic_id'                   => implode(',', $request->topic_id),
-                'published_at'               => $request->published_at,
-                'expired_at'                 => $request->expired_at,
-                'duration'                   => ($request->duration * 60),
+                'category'      => $request->category,
+                'subcategory'   => $request->subcategory,
+                'childcategory' => $request->childcategory,
+                'subject_id'    => implode(',', $request->subject_id),
+                'topic_id'      => implode(',', $request->topic_id),
+                'published_at'  => $request->published_at,
+                'expired_at'    => $request->expired_at,
+                'duration'      => ($request->duration * 60),
             ]);
         } else {
-            $exam                             = Written::find($exam_id);
-            $exam->category                   = $request->category;
-            $exam->subcategory                = $request->subcategory;
-            $exam->childcategory              = $request->childcategory;
-            $exam->subject_id                 = implode(',', $request->subject_id);
-            $exam->topic_id                   = implode(',', $request->topic_id);
-            $exam->published_at               = $request->published_at;
-            $exam->expired_at                 = $request->expired_at;
-            $exam->duration                   = ($request->duration * 60);
+            $exam                = Written::find($exam_id);
+            $exam->category      = $request->category;
+            $exam->subcategory   = $request->subcategory;
+            $exam->childcategory = $request->childcategory;
+            $exam->subject_id    = implode(',', $request->subject_id);
+            $exam->topic_id      = implode(',', $request->topic_id);
+            $exam->published_at  = $request->published_at;
+            $exam->expired_at    = $request->expired_at;
+            $exam->duration      = ($request->duration * 60);
             $exam->save();
         }
 
@@ -244,29 +245,10 @@ class ExamController extends Controller {
         if (isset($request->question_id) && count($request->question_id) > 0) {
 
             foreach ($request->question_id as $question_id) {
-                $update_question                       = ExamQuestion::find($question_id);
-                $update_question->question_name        = $request->input('question_name_' . $question_id);
-                $update_question->question_explanation = $request->input('question_explanation_' . $question_id);
+                $update_question       = WrittenQuestion::find($question_id);
+                $update_question->name = $request->input('question_name_' . $question_id);
+                $update_question->mark = $request->input('question_mark_' . $question_id);
                 $update_question->save();
-
-                $update_option = $request->input('question_option_name_' . $question_id);
-
-                DB::table('exam_question_options')->where('exam_question_id', $question_id)->delete();
-
-                foreach ($update_option as $u_key => $option) {
-
-                    if ($request->input('question_option_' . $question_id) == $u_key) {
-                        $answer = 1;
-                    } else {
-                        $answer = 0;
-                    }
-
-                    ExamQuestionOption::create([
-                        'exam_question_id' => $update_question->id,
-                        'option'           => $option,
-                        'is_answer'        => $answer,
-                    ]);
-                }
 
             }
 
@@ -275,35 +257,32 @@ class ExamController extends Controller {
         if (isset($request->serial_number) && count($request->serial_number) > 0) {
 
             foreach ($request->serial_number as $key => $serial_number) {
-                $question = ExamQuestion::create([
-                    'exam_id'              => $request->exam_id,
-                    'subject_id'           => $subject_id,
-                    'question_name'        => $request->question_name[$key],
-                    'question_explanation' => $request->question_explanation[$key],
+                WrittenQuestion::create([
+                    'written_id' => $request->written_id,
+                    'subject_id' => $subject_id,
+                    'name'       => $request->question_name[$key],
+                    'mark'       => $request->question_mark[$key],
                 ]);
-
-                $postfix = $request->input('question_option_name_' . $subject_id . $serial_number);
-
-                foreach ($postfix as $o_key => $option) {
-
-                    if ($request->input('question_option_' . $subject_id . $serial_number) == $o_key) {
-                        $answer = 1;
-                    } else {
-                        $answer = 0;
-                    }
-
-                    ExamQuestionOption::create([
-                        'exam_question_id' => $question->id,
-                        'option'           => $option,
-                        'is_answer'        => $answer,
-                    ]);
-                }
 
             }
 
         }
 
         return back()->withToastSuccess('Question updated or created successfully');
+    }
+
+    public function deleteWrittenQuestion($question_id) {
+        $data = WrittenQuestion::find($question_id);
+
+        if ($data) {
+
+            $data->delete();
+
+            return response()->json(['status' => true]);
+        } else {
+            return response()->json(['status' => false]);
+        }
+
     }
 
     //ajax response

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('written_questions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('written_id');
+            $table->unsignedBigInteger('subject_id');
             $table->text('name');
             $table->unsignedInteger('mark');
             $table->timestamps();

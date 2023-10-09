@@ -81,12 +81,12 @@ Route::middleware('auth:admin')->group(function () {
          * written
          */
         Route::get('/written', 'written')->name('written');
-        Route::get('/written-create/{exam_id?}', 'writtenCreate')->name('writtenCreate');
-        Route::any('/written-store-or-update/{exam_id?}', 'writtenStoreOrUpdate')->name('writtenStoreOrUpdate');
+        Route::get('/written-create/{written_id?}', 'writtenCreate')->name('writtenCreate');
+        Route::any('/written-store-or-update/{written_id?}', 'writtenStoreOrUpdate')->name('writtenStoreOrUpdate');
 
-        Route::get('/written-question/{exam_id}', 'writtenQuestion')->name('writtenQuestion');
-        Route::post('/create-or-update-written-question/{exam_id}', 'createOrUpdateWrittenQuestion')->name('createOrUpdateWrittenQuestion');
-        Route::get('/delete-written-question/{question_id}', 'deleteWrittenQuestion')->name('deleteQuestion');
+        Route::get('/written-question/{written_id}', 'writtenQuestion')->name('writtenQuestion');
+        Route::post('/create-or-update-written-question/{written_id}', 'createOrUpdateWrittenQuestion')->name('createOrUpdateWrittenQuestion');
+        Route::get('/delete-written-question/{question_id}', 'deleteWrittenQuestion')->name('deleteWrittenQuestion');
 
         Route::post('/get-topic', 'getTopic')->name('getTopic'); //ajax request
     });
