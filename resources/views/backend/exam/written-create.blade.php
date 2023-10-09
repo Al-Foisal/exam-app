@@ -95,7 +95,7 @@
                                     <input type="file" class="form-control" id="" name="question"
                                         accept=".pdf">
 
-                                    @if ($exam->question)
+                                    @if (isset($exam) && $exam->question)
                                         <a target="_blank" href="{{ asset($exam->question) }}">View Question</a>
                                     @else
                                         No question set yet
@@ -105,7 +105,7 @@
                                 <div class=" col-md-6">
                                     <label class="form-label" for="inputZip">Question Answer (PDF)</label>
                                     <input type="file" class="form-control" id="" name="answer" accept=".pdf">
-                                    @if ($exam->answer)
+                                    @if (isset($exam) && $exam->answer)
                                         <a target="_blank" href="{{ asset($exam->answer) }}">View Answer</a>
                                     @else
                                         No answer set yet
