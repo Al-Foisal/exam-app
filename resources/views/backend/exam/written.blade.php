@@ -36,6 +36,7 @@
                                     <th scope="col">Marking System</th>
                                     <th scope="col">Exam Timeline</th>
                                     <th scope="col">Duration(Minutes)</th>
+                                    <th scope="col">Question & Answer</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -86,6 +87,19 @@
                                             Expired Date: {{ $item->expired_at->format('Y-m-d H:i:s A') }}
                                         </td>
                                         <td>{{ $item->duration / 60 }}</td>
+                                        <td>
+                                            @if ($item->question)
+                                                <a target="_blank" href="{{ asset($item->question) }}">View Question</a>
+                                            @else
+                                                No question set yet
+                                            @endif
+                                            <br>
+                                            @if ($item->answer)
+                                                <a target="_blank" href="{{ asset($item->answer) }}">View Answer</a>
+                                            @else
+                                                No answer set yet
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

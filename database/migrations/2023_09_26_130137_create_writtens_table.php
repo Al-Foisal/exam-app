@@ -21,7 +21,8 @@ return new class extends Migration
             $table->timestamp('published_at');
             $table->timestamp('expired_at');
             $table->unsignedBigInteger('duration');
-            $table->string('question_pdf')->nullable();
+            $table->string('question')->nullable();
+            $table->string('answer')->nullable();
             $table->timestamps();
         });
     }

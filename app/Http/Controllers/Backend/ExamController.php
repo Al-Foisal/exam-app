@@ -12,6 +12,7 @@ use App\Models\Written;
 use App\Models\WrittenQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class ExamController extends Controller {
     public function index() {
@@ -203,6 +204,43 @@ class ExamController extends Controller {
     public function writtenStoreOrUpdate(Request $request, $exam_id = null) {
 
         if (!$exam_id) {
+
+            if ($request->hasFile('question')) {
+
+                $image_file = $request->file('question');
+
+                if ($image_file) {
+
+                    $img_gen   = hexdec(uniqid());
+                    $image_url = 'images/written/';
+                    $image_ext = strtolower($image_file->getClientOriginalExtension());
+
+                    $img_name = $img_gen . '.' . $image_ext;
+                    $question = $image_url . $img_gen . '.' . $image_ext;
+
+                    $image_file->move($image_url, $img_name);
+                }
+
+            }
+
+            if ($request->hasFile('answer')) {
+
+                $image_file = $request->file('answer');
+
+                if ($image_file) {
+
+                    $img_gen   = hexdec(uniqid());
+                    $image_url = 'images/written/';
+                    $image_ext = strtolower($image_file->getClientOriginalExtension());
+
+                    $img_name = $img_gen . '.' . $image_ext;
+                    $answer   = $image_url . $img_gen . '.' . $image_ext;
+
+                    $image_file->move($image_url, $img_name);
+                }
+
+            }
+
             Written::create([
                 'category'      => $request->category,
                 'subcategory'   => $request->subcategory,
@@ -212,6 +250,8 @@ class ExamController extends Controller {
                 'published_at'  => $request->published_at,
                 'expired_at'    => $request->expired_at,
                 'duration'      => ($request->duration * 60),
+                'question'      => $question ?? '',
+                'answer'        => $answer ?? '',
             ]);
         } else {
             $exam                = Written::find($exam_id);
@@ -224,6 +264,61 @@ class ExamController extends Controller {
             $exam->expired_at    = $request->expired_at;
             $exam->duration      = ($request->duration * 60);
             $exam->save();
+
+            if ($request->hasFile('question')) {
+
+                $image_file = $request->file('question');
+
+                if ($image_file) {
+
+                    $image_path = public_path($exam->answer);
+
+                    if (File::exists($image_path)) {
+                        File::delete($image_path);
+                    }
+
+                    $img_gen   = hexdec(uniqid());
+                    $image_url = 'images/written/';
+                    $image_ext = strtolower($image_file->getClientOriginalExtension());
+
+                    $img_name = $img_gen . '.' . $image_ext;
+                    $question = $image_url . $img_gen . '.' . $image_ext;
+
+                    $image_file->move($image_url, $img_name);
+
+                    $exam->question = $question;
+                    $exam->save();
+                }
+
+            }
+
+            if ($request->hasFile('answer')) {
+
+                $image_file = $request->file('answer');
+
+                if ($image_file) {
+
+                    $image_path = public_path($exam->answer);
+
+                    if (File::exists($image_path)) {
+                        File::delete($image_path);
+                    }
+
+                    $img_gen   = hexdec(uniqid());
+                    $image_url = 'images/written/';
+                    $image_ext = strtolower($image_file->getClientOriginalExtension());
+
+                    $img_name = $img_gen . '.' . $image_ext;
+                    $answer   = $image_url . $img_gen . '.' . $image_ext;
+
+                    $image_file->move($image_url, $img_name);
+
+                    $exam->answer = $answer;
+                    $exam->save();
+                }
+
+            }
+
         }
 
         return back()->withToastSuccess('Exam created successfully');

@@ -1,17 +1,26 @@
 @extends('backend.layouts.master')
-@section('title', request()->exam_id ? 'Update' : 'Create' . ' new ' . request()->ref . ' ' . request()->type . ' exam')
+@section('title',
+    request()->written_id
+    ? 'Update'
+    : 'Create' .
+    ' new ' .
+    request()->ref .
+    ' ' .
+    request()->type .
+    '
+    exam')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="page_title_box d-flex align-items-center justify-content-between">
                 <div class="page_title_left">
-                    <h3 class="f_s_30 f_w_700 text_white">{{ request()->exam_id ? 'Update' : 'Create' }} new
+                    <h3 class="f_s_30 f_w_700 text_white">{{ request()->written_id ? 'Update' : 'Create' }} new
                         {{ request()->child ?? request()->ref }}{{ ' ' . request()->type }} exam</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">{{ request()->ref . ' ' . request()->type }}
                                 exam</a></li>
-                        <li class="breadcrumb-item active">{{ request()->exam_id ? 'Update' : 'Create' }}</li>
+                        <li class="breadcrumb-item active">{{ request()->written_id ? 'Update' : 'Create' }}</li>
                     </ol>
                 </div>
             </div>
@@ -24,7 +33,7 @@
                 <div class="white_card_body">
                     <div class="card-body">
                         <form
-                            action="{{ request()->exam_id ? route('exam.writtenStoreOrUpdate', request()->exam_id) : route('exam.writtenStoreOrUpdate') }}"
+                            action="{{ request()->written_id ? route('exam.writtenStoreOrUpdate', request()->written_id) : route('exam.writtenStoreOrUpdate') }}"
                             method="post" enctype="multipart/form-data">
                             @csrf
 
@@ -78,6 +87,29 @@
                                             class="text-danger">*</span></label>
                                     <input type="datetime-local" class="form-control" id="inputCity" name="expired_at"
                                         value="{{ isset($exam) ? $exam->expired_at : '' }}">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class=" col-md-6">
+                                    <label class="form-label" for="inputZip">Question Paper (PDF)</label>
+                                    <input type="file" class="form-control" id="" name="question"
+                                        accept=".pdf">
+
+                                    @if ($exam->question)
+                                        <a target="_blank" href="{{ asset($exam->question) }}">View Question</a>
+                                    @else
+                                        No question set yet
+                                    @endif
+
+                                </div>
+                                <div class=" col-md-6">
+                                    <label class="form-label" for="inputZip">Question Answer (PDF)</label>
+                                    <input type="file" class="form-control" id="" name="answer" accept=".pdf">
+                                    @if ($exam->answer)
+                                        <a target="_blank" href="{{ asset($exam->answer) }}">View Answer</a>
+                                    @else
+                                        No answer set yet
+                                    @endif
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Save</button>
