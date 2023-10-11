@@ -91,7 +91,7 @@
                                                 </div>
                                             </div>
 
-                                            <form action="{{ route('exam.createOrUpdateManageQuestion', $exam->id) }}"
+                                            <form action="{{ route('exam.createOrUpdateMCQQuestion', $exam->id) }}"
                                                 method="post" enctype="multipart/form-data">
                                                 @csrf
 
