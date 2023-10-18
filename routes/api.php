@@ -42,6 +42,7 @@ Route::middleware('auth:sanctum')->controller(UserProfileController::class)->pre
 
 Route::middleware('auth:sanctum')->controller(QuestionManageController::class)->prefix('/question')->group(function () {
     Route::post('/check-live-exam', 'checkLiveExam');
+    Route::post('/routine', 'routine');
     Route::post('/archive', 'archive');
     Route::post('/archive-exam-question-details', 'archiveExamQuestionDetails');
 });

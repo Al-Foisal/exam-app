@@ -68,6 +68,55 @@ class QuestionManageController extends Controller {
         return $this->successMessage('', $data);
     }
 
+    public function routine(Request $request) {
+        $data = [];
+
+        $data['category']      = $category      = $request->category;
+        $data['subcategory']   = $sub   = $request->subcategory;
+        $data['childcategory'] = $child = $request->childcategory;
+
+        if ($sub === 'Preliminary') {
+            $exam = Exam::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', $category)
+                ->where('subcategory', $sub);
+
+            if ($child) {
+                $exam = $exam->where('childcategory', $child);
+            }
+
+            $exam = $exam->orderByDesc('id')->paginate();
+
+            foreach ($exam as $item) {
+                $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
+                $item['sources']  = TopicSource::whereIn('id', explode(',', $item->topic_id))->get();
+            }
+
+        } else
+
+        if ($sub === 'Written') {
+            $exam = Written::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', $category)
+                ->where('subcategory', $sub);
+
+            if ($child) {
+                $exam = $exam->where('childcategory', $child);
+            }
+
+            $exam = $exam->orderByDesc('id')->paginate();
+
+            foreach ($exam as $item) {
+                $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
+                $item['sources']  = TopicSource::whereIn('id', explode(',', $item->topic_id))->get();
+            }
+
+        }
+
+        $data['exam'] = $exam;
+
+        return $this->successMessage('', $data);
+
+    }
+
     public function archive(Request $request) {
         $data = [];
 
