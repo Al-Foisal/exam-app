@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\QuestionManageController;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserProfileController;
 use Illuminate\Http\Request;
@@ -37,4 +38,9 @@ Route::controller(UserAuthController::class)->prefix('/auth')->group(function ()
 Route::middleware('auth:sanctum')->controller(UserProfileController::class)->prefix('/profile')->group(function () {
     Route::get('/user', 'user');
     Route::post('/update', 'update');
+});
+
+Route::middleware('auth:sanctum')->controller(QuestionManageController::class)->prefix('/question')->group(function () {
+    Route::post('/archive', 'archive');
+    Route::post('/archive-exam-question-details', 'archiveExamQuestionDetails');
 });
