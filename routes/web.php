@@ -88,6 +88,12 @@ Route::middleware('auth:admin')->group(function () {
         Route::post('/create-or-update-written-question/{written_id}', 'createOrUpdateWrittenQuestion')->name('createOrUpdateWrittenQuestion');
         Route::get('/delete-written-question/{question_id}', 'deleteWrittenQuestion')->name('deleteWrittenQuestion');
 
+        /**
+         * syllabus
+         */
+        Route::get('/syllabus', 'syllabus')->name('syllabus');
+        Route::post('/upload-syllabus', 'uploadSyllabus')->name('uploadSyllabus');
+
         Route::post('/get-topic', 'getTopic')->name('getTopic'); //ajax request
     });
 

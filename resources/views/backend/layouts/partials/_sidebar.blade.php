@@ -1,3 +1,13 @@
+<style>
+    .sidebar {
+        width: 350px;
+    }
+
+    .main_content {
+        padding-left: 350px;
+    }
+</style>
+
 <nav class="sidebar vertical-scroll  ps-container ps-theme-default ps-active-y">
     <div class="logo d-flex justify-content-between">
         <a href="index-2.html"><img src="{{ asset($company->logo) }}" style="height: 70px;"></a>
@@ -34,10 +44,19 @@
                 <span>BCS</span>
             </a>
             <ul>
-                <li><a href="{{ route('exam.index', ['ref' => 'BCS', 'type' => 'Preliminary']) }}">Preliminary Exam
+                <li><a href="{{ route('exam.index', ['ref' => 'BCS', 'type' => 'Preliminary']) }}"
+                        class="text-success">Preliminary Exam
                         List</a></li>
-                <li><a href="{{ route('exam.written', ['ref' => 'BCS', 'type' => 'Written']) }}">Written Exam
+                <li><a href="{{ route('exam.written', ['ref' => 'BCS', 'type' => 'Written']) }}"
+                        class="text-info">Written Exam
                         List</a></li>
+                <hr>
+                <li><a href="{{ route('exam.syllabus', ['ref' => 'BCS', 'type' => 'Preliminary']) }}"
+                        class="text-success">Preliminary
+                        Syllabus</a></li>
+                <li><a href="{{ route('exam.syllabus', ['ref' => 'BCS', 'type' => 'Written']) }}"
+                        class="text-info">Written
+                        Syllabus</a></li>
             </ul>
         </li>
         <li class>
@@ -48,10 +67,19 @@
                 <span>Bank</span>
             </a>
             <ul>
-                <li><a href="{{ route('exam.index', ['ref' => 'Bank', 'type' => 'Preliminary']) }}">Preliminary Exam
+                <li><a href="{{ route('exam.index', ['ref' => 'Bank', 'type' => 'Preliminary']) }}"
+                        class="text-success">Preliminary Exam
                         List</a></li>
-                <li><a href="{{ route('exam.written', ['ref' => 'Bank', 'type' => 'Written']) }}">Written Exam
+                <li><a href="{{ route('exam.written', ['ref' => 'Bank', 'type' => 'Written']) }}"
+                        class="text-info">Written Exam
                         List</a></li>
+                <hr>
+                <li><a href="{{ route('exam.syllabus', ['ref' => 'Bank', 'type' => 'Preliminary']) }}"
+                        class="text-success">Preliminary
+                        Syllabus</a></li>
+                <li><a href="{{ route('exam.syllabus', ['ref' => 'Bank', 'type' => 'Written']) }}"
+                        class="text-info">Written
+                        Syllabus</a></li>
             </ul>
         </li>
         <li class>
@@ -63,33 +91,63 @@
             </a>
             <ul>
                 <li>
-                    <a
-                        href="{{ route('exam.index', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => 'Primary']) }}">
+                    <a href="{{ route('exam.index', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => 'Primary']) }}"
+                        class="text-success">
                         Primary Preliminary Exam
                     </a>
                 </li>
                 <li>
-                    <a
-                        href="{{ route('exam.index', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => '11 to 20 Grade']) }}">
+                    <a href="{{ route('exam.index', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => '11 to 20 Grade']) }}"
+                        class="text-success">
                         11 to 20 Grade Preliminary Exam
                     </a>
                 </li>
                 <li>
-                    <a
-                        href="{{ route('exam.index', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => 'Non-Cadre']) }}">
+                    <a href="{{ route('exam.index', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => 'Non-Cadre']) }}"
+                        class="text-success">
                         Non-Cadre Preliminary Exam
                     </a>
                 </li>
                 <li>
-                    <a
-                        href="{{ route('exam.index', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => 'Job Solution']) }}">
+                    <a href="{{ route('exam.index', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => 'Job Solution']) }}"
+                        class="text-success">
                         Job Solution Preliminary Exam
                     </a>
                 </li>
-                <li><a
-                        href="{{ route('exam.written', ['ref' => 'Others', 'type' => 'Written', 'child' => 'Job Solution']) }}">Job
+                <li><a href="{{ route('exam.written', ['ref' => 'Others', 'type' => 'Written', 'child' => 'Job Solution']) }}"
+                        class="text-info">Job
                         Solution Written
                         Exam</a></li>
+                <hr>
+
+                <li>
+                    <a href="{{ route('exam.syllabus', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => 'Primary']) }}"
+                        class="text-success">
+                        Primary Preliminary Syllabus
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('exam.syllabus', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => '11 to 20 Grade']) }}"
+                        class="text-success">
+                        11 to 20 Grade Preliminary Syllabus
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('exam.syllabus', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => 'Non-Cadre']) }}"
+                        class="text-success">
+                        Non-Cadre Preliminary Syllabus
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('exam.syllabus', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => 'Job Solution']) }}"
+                        class="text-success">
+                        Job Solution Preliminary Syllabus
+                    </a>
+                </li>
+                <li><a href="{{ route('exam.syllabus', ['ref' => 'Others', 'type' => 'Written', 'child' => 'Job Solution']) }}"
+                        class="text-info">Job
+                        Solution Written
+                        Syllabus</a></li>
             </ul>
         </li>
         <li class>
@@ -100,17 +158,31 @@
                 <span>Free</span>
             </a>
             <ul>
-                <li><a
-                        href="{{ route('exam.index', ['ref' => 'Free', 'type' => 'Preliminary', 'child' => 'Weekly']) }}">Weekly
+                <li><a href="{{ route('exam.index', ['ref' => 'Free', 'type' => 'Preliminary', 'child' => 'Weekly']) }}"
+                        class="text-success">Weekly
                         Preliminary
                         Exam</a></li>
-                <li><a
-                        href="{{ route('exam.index', ['ref' => 'Free', 'type' => 'Preliminary', 'child' => 'Daily']) }}">Daily
+                <li><a href="{{ route('exam.index', ['ref' => 'Free', 'type' => 'Preliminary', 'child' => 'Daily']) }}"
+                        class="text-success">Daily
                         Preliminary
                         Exam</a></li>
-                <li><a href="{{ route('exam.written', ['ref' => 'Free', 'type' => 'Written', 'child' => 'Weekly']) }}">Weekly
+                <li><a href="{{ route('exam.written', ['ref' => 'Free', 'type' => 'Written', 'child' => 'Weekly']) }}"
+                        class="text-info">Weekly
                         Written
                         Exam</a></li>
+                <hr>
+                <li><a href="{{ route('exam.syllabus', ['ref' => 'Free', 'type' => 'Preliminary', 'child' => 'Weekly']) }}"
+                        class="text-success">Weekly
+                        Preliminary
+                        Syllabus</a></li>
+                <li><a href="{{ route('exam.syllabus', ['ref' => 'Free', 'type' => 'Preliminary', 'child' => 'Daily']) }}"
+                        class="text-success">Daily
+                        Preliminary
+                        Syllabus</a></li>
+                <li><a href="{{ route('exam.syllabus', ['ref' => 'Free', 'type' => 'Written', 'child' => 'Weekly']) }}"
+                        class="text-info">Weekly
+                        Written
+                        Syllabus</a></li>
             </ul>
         </li>
         <li class>

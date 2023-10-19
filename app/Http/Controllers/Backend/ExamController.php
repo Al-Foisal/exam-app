@@ -7,6 +7,7 @@ use App\Models\Exam;
 use App\Models\ExamQuestion;
 use App\Models\ExamQuestionOption;
 use App\Models\Subject;
+use App\Models\Syllabus;
 use App\Models\TopicSource;
 use App\Models\Written;
 use App\Models\WrittenQuestion;
@@ -378,6 +379,69 @@ class ExamController extends Controller {
             return response()->json(['status' => false]);
         }
 
+    }
+
+    //syllabus
+    public function syllabus() {
+        $data = Syllabus::where('category', request()->ref)
+            ->where('subcategory', request()->type);
+
+        if (request()->child) {
+            $data = $data->where('childcategory', request()->child);
+        }
+
+        $data = $data->first();
+
+        return view('backend.exam.syllabus', compact('data'));
+    }
+
+    public function uploadSyllabus(Request $request) {
+
+        $data = Syllabus::where('category', $request->category)
+            ->where('subcategory', $request->subcategory)
+            ->where('childcategory', $request->childcategory)
+            ->first();
+
+        if ($request->hasFile('syllabus')) {
+
+            $image_file = $request->file('syllabus');
+
+            if ($image_file) {
+
+//remove existing syllabus
+                if ($data) {
+                    $image_path = public_path($data->syllabus);
+
+                    if (File::exists($image_path)) {
+                        File::delete($image_path);
+                    }
+
+                }
+
+                $img_gen   = hexdec(uniqid());
+                $image_url = 'images/syllabus/';
+                $image_ext = strtolower($image_file->getClientOriginalExtension());
+
+                $img_name = $img_gen . '.' . $image_ext;
+                $syllabus = $image_url . $img_gen . '.' . $image_ext;
+
+                $image_file->move($image_url, $img_name);
+            }
+
+        }
+
+        Syllabus::updateOrCreate(
+            [
+                'id' => $data->id ?? null,
+            ],
+            [
+                'category'      => $request->category,
+                'subcategory'   => $request->subcategory,
+                'childcategory' => $request->childcategory,
+                'syllabus'      => $syllabus ?? '',
+            ]);
+
+        return back()->withToastSuccess('Syllabus uploaded successfully');
     }
 
     //ajax response
