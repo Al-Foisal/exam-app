@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
+use App\Models\Favorite;
 use App\Models\Subject;
+use App\Models\Syllabus;
 use App\Models\TopicSource;
 use App\Models\Written;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class QuestionManageController extends Controller {
+class ExamManageController extends Controller {
     public function checkLiveExam(Request $request) {
         $data = [];
 
@@ -166,6 +169,20 @@ class QuestionManageController extends Controller {
 
     }
 
+    public function syllabus(Request $request) {
+        $data = [];
+
+        $data['category']      = $category      = $request->category;
+        $data['subcategory']   = $sub   = $request->subcategory;
+        $data['childcategory'] = $child = $request->childcategory;
+        $data['syllabus']      = Syllabus::where('category', $category)
+            ->where('subcategory', $sub)
+            ->where('childcategory', $child)
+            ->first();
+
+        return $this->successMessage('', $data);
+    }
+
     public function archiveExamQuestionDetails(Request $request) {
         $data = [];
 
@@ -193,6 +210,92 @@ class QuestionManageController extends Controller {
         $data['sources']  = $sources;
 
         return $this->successMessage('', $data);
+    }
+
+    public function toggleFavorite(Request $request) {
+        $data = [];
+
+        $data['category']      = $category      = $request->category;
+        $data['subcategory']   = $sub   = $request->subcategory;
+        $data['childcategory'] = $child = $request->childcategory;
+
+        $favorite = Favorite::where('user_id', Auth::id())
+            ->where('question_id', $request->question_id)
+            ->where('category', $category)
+            ->where('subcategory', $sub)
+            ->where('childcategory', $child)
+            ->first();
+
+        if ($favorite) {
+            $favorite->delete();
+
+            return $this->successMessage('Question removed from favorite');
+        }
+
+        Favorite::create([
+            'category'      => $category,
+            'subcategory'   => $sub,
+            'childcategory' => $child,
+            'question_id'   => $request->question_id,
+            'subject_id'    => $request->subject_id,
+            'user_id'       => Auth::id(),
+        ]);
+
+        return $this->successMessage('Question added to favourite');
+    }
+
+    public function favoriteList(Request $request) {
+        $data = [];
+
+        $data['category']      = $category      = $request->category;
+        $data['subcategory']   = $sub   = $request->subcategory;
+        $data['childcategory'] = $child = $request->childcategory;
+
+        if ($sub === 'Preliminary') {
+
+            $favorite = Favorite::where('user_id', Auth::id())
+                ->where('category', $category)
+                ->where('subcategory', $sub)
+                ->where('childcategory', $child);
+
+            if ($request->subject_id) {
+                $favorite = $favorite->where('subject_id', $request->subject_id);
+            }
+
+            if ($request->search) {
+                $favorite = $favorite->whereHas('preliQuestion', function ($q) use ($request) {
+                    return $q->where('question_name', 'LIKE', '%' . $request->search . '%');
+                });
+            }
+
+            $favorite = $favorite->with('preliQuestion.questionOptions')
+                ->latest()
+                ->paginate();
+        } else {
+            $favorite = Favorite::where('user_id', Auth::id())
+                ->where('category', $category)
+                ->where('subcategory', $sub)
+                ->where('childcategory', $child);
+
+            if ($request->subject_id) {
+                $favorite = $favorite->where('subject_id', $request->subject_id);
+            }
+
+            if ($request->search) {
+                $favorite = $favorite->whereHas('writtenQuestion', function ($q) use ($request) {
+                    return $q->where('name', 'LIKE', '%' . $request->search . '%');
+                });
+            }
+
+            $favorite = $favorite->with('writtenQuestion')
+                ->latest()
+                ->paginate();
+        }
+
+        $data['favorite'] = $favorite;
+
+        return $this->successMessage('', $data);
+
     }
 
 }

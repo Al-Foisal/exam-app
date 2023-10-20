@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\QuestionManageController;
+use App\Http\Controllers\Api\ExamManageController;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserProfileController;
 use Illuminate\Http\Request;
@@ -40,9 +40,12 @@ Route::middleware('auth:sanctum')->controller(UserProfileController::class)->pre
     Route::post('/update', 'update');
 });
 
-Route::middleware('auth:sanctum')->controller(QuestionManageController::class)->prefix('/question')->group(function () {
+Route::middleware('auth:sanctum')->controller(ExamManageController::class)->prefix('/exam')->group(function () {
     Route::post('/check-live-exam', 'checkLiveExam');
     Route::post('/routine', 'routine');
     Route::post('/archive', 'archive');
+    Route::post('/syllabus', 'syllabus');
     Route::post('/archive-exam-question-details', 'archiveExamQuestionDetails');
+    Route::post('/toggle-favorite', 'toggleFavorite');
+    Route::post('/favorite-list', 'favoriteList');
 });
