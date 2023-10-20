@@ -17,6 +17,10 @@ return new class extends Migration
             $table->unsignedBigInteger('subject_id');
             $table->longText('question_name')->nullable();
             $table->longText('question_explanation')->nullable();
+            $table->unsignedBigInteger('correct')->default(0);
+            $table->unsignedBigInteger('negative')->default(0);
+            $table->unsignedBigInteger('empty')->default(0);
+            $table->unsignedBigInteger('total')->default(0);
             $table->timestamps();
         });
     }

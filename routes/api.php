@@ -49,3 +49,36 @@ Route::middleware('auth:sanctum')->controller(ExamManageController::class)->pref
     Route::post('/toggle-favorite', 'toggleFavorite');
     Route::post('/favorite-list', 'favoriteList');
 });
+
+Route::get('/category', function () {
+    return [
+        'BCS'    => [
+            'Preliminary',
+            'Written',
+        ],
+        'Bank'   => [
+            'Preliminary',
+            'Written',
+        ],
+        'Others' => [
+            'Preliminary' => [
+                'Primary',
+                '11 to 20 Grade',
+                'Non-Cadre',
+                'Job Solution',
+            ],
+            'Written'     => [
+                'Job Solution',
+            ],
+        ],
+        'Free'   => [
+            'Preliminary' => [
+                'Weekly',
+                'Daily',
+            ],
+            'Written'     => [
+                'Weekly',
+            ],
+        ],
+    ];
+});
