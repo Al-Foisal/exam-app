@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AnswerController;
 use App\Http\Controllers\Api\ExamManageController;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserProfileController;
@@ -48,6 +49,13 @@ Route::middleware('auth:sanctum')->controller(ExamManageController::class)->pref
     Route::post('/archive-exam-question-details', 'archiveExamQuestionDetails');
     Route::post('/toggle-favorite', 'toggleFavorite');
     Route::post('/favorite-list', 'favoriteList');
+});
+
+Route::middleware('auth:sanctum')->controller(AnswerController::class)->prefix('/answer')->group(function () {
+    Route::post('/store-preliminary-answer', 'storePreliminaryAnswer');
+    Route::post('/show-preliminary-answer', 'showPreliminaryAnswer');
+    Route::post('/preliminary-answer-script', 'preliminaryAnswerScript');
+    Route::post('/preliminary-answer-merit-list', 'preliminaryAnswerMeritList');
 });
 
 Route::get('/category', function () {

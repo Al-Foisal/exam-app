@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Exam extends Model {
     use HasFactory;
@@ -11,6 +12,10 @@ class Exam extends Model {
 
     public function questions() {
         return $this->hasMany(ExamQuestion::class);
+    }
+
+    public function userAnswer() {
+        return $this->hasOne(PreliminaryAnswer::class)->withDefault('user_id', Auth::id());
     }
 
     protected $casts = [

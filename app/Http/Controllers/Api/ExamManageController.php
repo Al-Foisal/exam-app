@@ -31,18 +31,9 @@ class ExamManageController extends Controller {
                 $exam = $exam->where('childcategory', $child);
             }
 
-            $exam = $exam->with('questions.questionOptions')->first();
+            $exam = $exam->with('questions.questionOptions','userAnswer')->first();
 
-            $subjects = Subject::whereIn('id', explode(',', $exam->subject_id))->get();
-            $sources  = TopicSource::whereIn('id', explode(',', $exam->topic_id))->get();
-
-            if ($exam) {
-                $is_live = true;
-            }
-
-        } else
-
-        if ($sub === 'Written') {
+        } elseif ($sub === 'Written') {
             $exam = Written::whereDate('published_at', '<=', date('Y-m-d'))
                 ->whereDate('expired_at', '>=', date('Y-m-d'))
                 ->where('category', $category)
@@ -54,16 +45,19 @@ class ExamManageController extends Controller {
 
             $exam = $exam->with('writtenQuestion')->first();
 
+        }
+
+        $data['exam'] = $exam;
+        $subjects     = [];
+        $sources      = [];
+
+        if ($exam) {
             $subjects = Subject::whereIn('id', explode(',', $exam->subject_id))->get();
             $sources  = TopicSource::whereIn('id', explode(',', $exam->topic_id))->get();
 
-            if ($exam) {
-                $is_live = true;
-            }
-
+            $is_live = true;
         }
 
-        $data['exam']         = $exam;
         $data['subjects']     = $subjects;
         $data['sources']      = $sources;
         $data['is_live_exam'] = $is_live;
@@ -94,9 +88,7 @@ class ExamManageController extends Controller {
                 $item['sources']  = TopicSource::whereIn('id', explode(',', $item->topic_id))->get();
             }
 
-        } else
-
-        if ($sub === 'Written') {
+        } elseif ($sub === 'Written') {
             $exam = Written::whereDate('published_at', '>', date('Y-m-d'))
                 ->where('category', $category)
                 ->where('subcategory', $sub);
@@ -136,7 +128,7 @@ class ExamManageController extends Controller {
                 $exam = $exam->where('childcategory', $child);
             }
 
-            $exam = $exam->orderByDesc('id')->paginate();
+            $exam = $exam->orderByDesc('id')->with('userAnswer')->paginate();
 
             foreach ($exam as $item) {
                 $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
