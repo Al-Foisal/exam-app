@@ -56,6 +56,8 @@ Route::middleware('auth:sanctum')->controller(AnswerController::class)->prefix('
     Route::post('/show-preliminary-answer', 'showPreliminaryAnswer');
     Route::post('/preliminary-answer-script', 'preliminaryAnswerScript');
     Route::post('/preliminary-answer-merit-list', 'preliminaryAnswerMeritList');
+
+    Route::post('/store-written-answer', 'storeWrittenAnswer');
 });
 
 Route::get('/category', function () {

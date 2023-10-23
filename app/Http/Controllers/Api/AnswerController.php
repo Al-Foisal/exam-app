@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Exam;
 use App\Models\ExamQuestion;
 use App\Models\PreliminaryAnswer;
+use App\Models\WrittenAnswer;
+use App\Models\WrittenAnswerQuestion;
+use App\Models\WrittenAnswerQuestionScript;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class AnswerController extends Controller {
     public function storePreliminaryAnswer(Request $request) {
@@ -219,6 +223,66 @@ class AnswerController extends Controller {
             ->paginate();
 
         return $this->successMessage('ok', $get_exam_answer);
+    }
+
+    public function storeWrittenAnswer(Request $request) {
+        DB::beginTransaction();
+
+        try {
+
+            if (WrittenAnswer::where('user_id', Auth::id())->where('exam_id', $request->exam_id)->exists()) {
+                return $this->errorMessage('This answer has been taken before');
+            }
+
+            $answer = WrittenAnswer::create([
+                'user_id' => Auth::id(),
+                'exam_id' => $request->exam_id,
+            ]);
+
+            foreach (json_decode($request->question_id) as $question) {
+                $answer_question = WrittenAnswerQuestion::create([
+                    'written_answer_id'   => $answer->id,
+                    'written_question_id' => $question,
+                ]);
+
+                $files = [];
+
+                $request_file_name = 'student_script_' . $question;
+
+                if ($request->hasfile($request_file_name)) {
+
+                    foreach ($request->file($request_file_name) as $file) {
+                        $name = $question . '-' . $answer_question->written_answer_id . Str::uuid() . '.' . $file->extension();
+                        $file->move(public_path('images/script/'), $name);
+                        $files[] = 'images/script/' . $name;
+                    }
+
+                }
+
+                foreach ($files as $f) {
+                    WrittenAnswerQuestionScript::create([
+                        'written_answer_question_id' => $answer_question->id,
+                        'student_script'             => $f,
+                    ]);
+                }
+
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'status'  => true,
+                'message' => 'Your answer has been submitted',
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return response()->json([
+                'status'  => false,
+                'message' => $th,
+            ]);
+        }
+
     }
 
 }
