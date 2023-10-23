@@ -31,7 +31,7 @@ class ExamManageController extends Controller {
                 $exam = $exam->where('childcategory', $child);
             }
 
-            $exam = $exam->with('questions.questionOptions','userAnswer')->first();
+            $exam = $exam->with('questions.questionOptions', 'userAnswer')->first();
 
         } elseif ($sub === 'Written') {
             $exam = Written::whereDate('published_at', '<=', date('Y-m-d'))
@@ -43,7 +43,7 @@ class ExamManageController extends Controller {
                 $exam = $exam->where('childcategory', $child);
             }
 
-            $exam = $exam->with('writtenQuestion')->first();
+            $exam = $exam->with('writtenQuestion', 'userAnswer')->first();
 
         }
 
@@ -146,7 +146,7 @@ class ExamManageController extends Controller {
                 $exam = $exam->where('childcategory', $child);
             }
 
-            $exam = $exam->orderByDesc('id')->paginate();
+            $exam = $exam->orderByDesc('id')->with('userAnswer')->paginate();
 
             foreach ($exam as $item) {
                 $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
