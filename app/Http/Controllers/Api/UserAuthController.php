@@ -27,7 +27,7 @@ class UserAuthController extends Controller {
                 return $this->validationMessage($validator->errors());
             }
 
-            $last_user = User::latest()->first();
+            $last_user = User::where('type', 'user')->latest()->first();
 
             if ($last_user) {
                 $register_number     = str_pad((int) $last_user->register_number + 1, 6, "0", STR_PAD_LEFT);

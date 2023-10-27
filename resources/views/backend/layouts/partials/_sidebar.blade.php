@@ -41,6 +41,19 @@
                 <div class="icon_menu">
                     <img src="{{ asset('backend/img/menu-icon/2.svg') }}" alt>
                 </div>
+                <span>Teacher</span>
+            </a>
+            <ul>
+                <li>
+                    <a href="{{ route('teacher.index') }}">All Teacher List</a>
+                </li>
+            </ul>
+        </li>
+        <li class>
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="icon_menu">
+                    <img src="{{ asset('backend/img/menu-icon/2.svg') }}" alt>
+                </div>
                 <span>BCS</span>
             </a>
             <ul>
@@ -112,6 +125,12 @@
                     <a href="{{ route('exam.index', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => 'Job Solution']) }}"
                         class="text-success">
                         Job Solution Preliminary Exam
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('exam.written', ['ref' => 'Others', 'type' => 'Written', 'child' => '11 to 20 Grade']) }}"
+                        class="text-info">
+                        11 to 20 Grade Written Exam
                     </a>
                 </li>
                 <li><a href="{{ route('exam.written', ['ref' => 'Others', 'type' => 'Written', 'child' => 'Job Solution']) }}"
