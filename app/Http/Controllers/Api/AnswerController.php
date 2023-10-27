@@ -218,9 +218,15 @@ class AnswerController extends Controller {
 
         $get_exam_answer = PreliminaryAnswer::where('exam_id', $request->exam_id)
             ->select(['id', 'user_id', 'obtained_marks', 'created_at'])
-            ->orderBy('obtained_marks', 'desc')
-            ->with('user')
-            ->paginate();
+            ->orderBy('obtained_marks', 'desc');
+
+        if ($request->search) {
+            $get_exam_answer = $get_exam_answer->whereHas('user', function ($q) use ($request) {
+                return $q->where('name', 'LIKE', '%' . $request->search . '%');
+            });
+        }
+
+        $get_exam_answer = $get_exam_answer->with('user')->paginate();
 
         return $this->successMessage('ok', $get_exam_answer);
     }

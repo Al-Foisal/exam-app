@@ -128,6 +128,10 @@ class ExamManageController extends Controller {
                 $exam = $exam->where('childcategory', $child);
             }
 
+            if ($request->subject_id) {
+                $exam = $exam->where('subject_id', 'LIKE', '%' . $request->subject_id . '%');
+            }
+
             $exam = $exam->orderByDesc('id')->with('userAnswer')->paginate();
 
             foreach ($exam as $item) {
@@ -135,15 +139,17 @@ class ExamManageController extends Controller {
                 $item['sources']  = TopicSource::whereIn('id', explode(',', $item->topic_id))->get();
             }
 
-        } else
-
-        if ($sub === 'Written') {
+        } elseif ($sub === 'Written') {
             $exam = Written::whereDate('expired_at', '<', date('Y-m-d'))
                 ->where('category', $category)
                 ->where('subcategory', $sub);
 
             if ($child) {
                 $exam = $exam->where('childcategory', $child);
+            }
+
+            if ($request->subject_id) {
+                $exam = $exam->where('subject_id', 'LIKE', '%' . $request->subject_id . '%');
             }
 
             $exam = $exam->orderByDesc('id')->with('userAnswer')->paginate();
