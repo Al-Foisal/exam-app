@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Exam;
 use App\Models\ExamQuestion;
 use App\Models\PreliminaryAnswer;
+use App\Models\Subject;
+use App\Models\TopicSource;
 use App\Models\WrittenAnswer;
 use App\Models\WrittenAnswerQuestion;
 use App\Models\WrittenAnswerQuestionScript;
@@ -157,61 +159,24 @@ class AnswerController extends Controller {
 
     public function preliminaryAnswerScript(Request $request) {
 
-        if (!PreliminaryAnswer::where('user_id', Auth::id())->where('exam_id', $request->exam_id)->exists()) {
-            return $this->errorMessage('Somthing went wrong', '');
-        }
+        // if (!PreliminaryAnswer::where('user_id', Auth::id())->where('exam_id', $request->exam_id)->exists()) {
+        //     return $this->errorMessage('Somthing went wrong', '');
+        // }
 
-        $answer = PreliminaryAnswer::where('user_id', Auth::id())
-            ->where('exam_id', $request->exam_id)
+        $answer = Exam::query()
+            ->whereHas('userAnswer', function ($q) {
+                return $q->where('user_id', Auth::id());
+            })
             ->with(
-                'user',
-                'exam',
-            )
-            ->first();
+                'userAnswer.user'
+            )->paginate();
 
-        $total_question = (int) $request->total_question;
-
-        $root_answer = (str_replace("A", 0, $answer->answer));
-        $root_answer = (str_replace("B", 1, $root_answer));
-        $root_answer = (str_replace("C", 2, $root_answer));
-        $root_answer = json_decode(str_replace("D", 3, $root_answer));
-
-        $questions = ExamQuestion::where('exam_id', $request->exam_id)->limit($total_question)->with('questionOptions')->get();
-
-        foreach ($questions as $key => $item) {
-
-            if ($item->questionOptions->count() > 0) {
-
-                foreach ($item->questionOptions as $ie_key => $ie) {
-
-                    if ($ie->is_answer == 1) {
-
-                        if ($ie_key == $root_answer->$key) {
-                            $item['is_correct']   = 1;
-                            $item['given_answer'] = $root_answer->$key;
-                        } elseif ($root_answer->$key == '') {
-                            $item['is_correct'] = 2;
-                            // $item['given_answer'] = $root_answer->$key;
-                            $item['given_answer'] = '';
-                        } else {
-                            $item['is_correct']   = 3;
-                            $item['given_answer'] = $root_answer->$key;
-                        }
-
-                        break;
-
-                    }
-
-                }
-
-            } else {
-                $item['is_correct']   = 2;
-                $item['given_answer'] = '';
-            }
-
+        foreach ($answer as $item) {
+            $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
+            $item['sources']  = TopicSource::whereIn('id', explode(',', $item->topic_id))->get();
         }
 
-        return $this->successMessage('ok', $questions);
+        return $this->successMessage('ok', $answer);
     }
 
     public function preliminaryAnswerMeritList(Request $request) {
