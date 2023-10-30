@@ -32,8 +32,10 @@
                 <span>Users</span>
             </a>
             <ul>
-                <li><a href="{{ route('admin.index') }}">All Admin List</a></li>
-                <li><a href="{{ route('admin.create') }}">Create New Admin</a></li>
+                <li><a href="{{ route('admin.index') }}">Admin</a></li>
+                <li>
+                    <a href="{{ route('teacher.index') }}">Teacher</a>
+                </li>
             </ul>
         </li>
         <li class>
@@ -44,9 +46,25 @@
                 <span>Teacher</span>
             </a>
             <ul>
+                <li><a href="{{ route('teacher.exam.index', ['ref' => 'BCS', 'type' => 'Written']) }}"
+                        class="text-info">BCS</a></li>
+
+                <li><a href="{{ route('teacher.exam.index', ['ref' => 'Bank', 'type' => 'Written']) }}"
+                        class="text-info">Bank</a></li>
+
                 <li>
-                    <a href="{{ route('teacher.index') }}">All Teacher List</a>
+                    <a href="{{ route('teacher.exam.index', ['ref' => 'Others', 'type' => 'Written', 'child' => '11 to 20 Grade']) }}"
+                        class="text-info">
+                        11 to 20 Grade
+                    </a>
                 </li>
+
+                <li><a href="{{ route('teacher.exam.index', ['ref' => 'Others', 'type' => 'Written', 'child' => 'Job Solution']) }}"
+                        class="text-info">Job
+                        Solution</a></li>
+
+                <li><a href="{{ route('teacher.exam.index', ['ref' => 'Free', 'type' => 'Written', 'child' => 'Weekly']) }}"
+                        class="text-info">Weekly</a></li>
             </ul>
         </li>
         <li class>

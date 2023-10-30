@@ -49,6 +49,9 @@ Route::middleware('auth:sanctum')->controller(ExamManageController::class)->pref
     Route::post('/archive-exam-question-details', 'archiveExamQuestionDetails');
     Route::post('/toggle-favorite', 'toggleFavorite');
     Route::post('/favorite-list', 'favoriteList');
+    Route::post('/result-list', 'resultList');
+    Route::post('/subject-list', 'subjectList');
+    Route::post('/merit-list', 'meritList');
 });
 
 Route::middleware('auth:sanctum')->controller(AnswerController::class)->prefix('/answer')->group(function () {

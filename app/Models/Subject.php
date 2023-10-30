@@ -9,6 +9,10 @@ class Subject extends Model {
     use HasFactory;
     protected $guarded = [];
 
+    public function topicAndSources() {
+        return $this->hasMany(TopicSource::class);
+    }
+
     public function exams() {
         return $this->hasMany(ExamQuestion::class);
     }

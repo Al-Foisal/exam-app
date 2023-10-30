@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
 use App\Models\Favorite;
+use App\Models\PreliminaryAnswer;
 use App\Models\Subject;
 use App\Models\Syllabus;
 use App\Models\TopicSource;
@@ -132,7 +133,10 @@ class ExamManageController extends Controller {
                 $exam = $exam->where('subject_id', 'LIKE', '%' . $request->subject_id . '%');
             }
 
-            $exam = $exam->orderByDesc('id')->with('userAnswer')->paginate();
+            $exam = $exam->orderByDesc('id')
+                ->with('userAnswer')
+                ->withCount('questions')
+                ->paginate();
 
             foreach ($exam as $item) {
                 $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
@@ -152,7 +156,10 @@ class ExamManageController extends Controller {
                 $exam = $exam->where('subject_id', 'LIKE', '%' . $request->subject_id . '%');
             }
 
-            $exam = $exam->orderByDesc('id')->with('userAnswer')->paginate();
+            $exam = $exam->orderByDesc('id')
+                ->with('userAnswer')
+                ->withCount('writtenQuestion')
+                ->paginate();
 
             foreach ($exam as $item) {
                 $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
@@ -294,6 +301,73 @@ class ExamManageController extends Controller {
 
         return $this->successMessage('', $data);
 
+    }
+
+    public function resultList(Request $request) {
+        $data = [];
+
+        $data['category']      = $category      = $request->category;
+        $data['subcategory']   = $sub   = $request->subcategory;
+        $data['childcategory'] = $child = $request->childcategory;
+
+        $answer = PreliminaryAnswer::where('user_id', Auth::id())
+            ->whereHas('exam', function ($q) use ($category) {
+                return $q->where('category', $category);
+            })
+            ->whereHas('exam', function ($q) use ($sub) {
+                return $q->where('subcategory', $sub);
+            })
+            ->whereHas('exam', function ($q) use ($child) {
+                return $q->where('childcategory', $child);
+            })->latest()->paginate();
+
+        foreach ($answer as $item) {
+            $item['subjects'] = Subject::whereIn('id', explode(',', $item->exam->subject_id))->get();
+            $item['sources']  = TopicSource::whereIn('id', explode(',', $item->exam->topic_id))->get();
+        }
+
+        return $this->successMessage('ok', $answer);
+    }
+
+    public function subjectList() {
+        $data = Subject::with('topicAndSources')->get();
+
+        return $this->successMessage('', $data);
+    }
+
+    public function meritList(Request $request) {
+
+        $data = [];
+
+        $data['category']      = $category      = $request->category;
+        $data['subcategory']   = $sub   = $request->subcategory;
+        $data['childcategory'] = $child = $request->childcategory;
+
+        $exam = PreliminaryAnswer::where('user_id', Auth::id())
+            ->latest()
+            ->whereHas('exam', function ($q) use ($category) {
+                return $q->where('category', $category);
+            })
+            ->whereHas('exam', function ($q) use ($sub) {
+                return $q->where('subcategory', $sub);
+            })
+            ->whereHas('exam', function ($q) use ($child) {
+                return $q->where('childcategory', $child);
+            })->first();
+
+        $get_exam_answer = PreliminaryAnswer::where('exam_id', $exam->exam_id)
+            ->select(['id', 'user_id', 'obtained_marks', 'created_at'])
+            ->orderBy('obtained_marks', 'desc');
+
+        if ($request->search) {
+            $get_exam_answer = $get_exam_answer->whereHas('user', function ($q) use ($request) {
+                return $q->where('name', 'LIKE', '%' . $request->search . '%');
+            });
+        }
+
+        $get_exam_answer = $get_exam_answer->with('user')->paginate();
+
+        return $this->successMessage('ok', $get_exam_answer);
     }
 
 }

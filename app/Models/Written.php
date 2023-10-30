@@ -22,4 +22,8 @@ class Written extends Model {
     public function userAnswer() {
         return $this->hasOne(WrittenAnswer::class)->withDefault('user_id', Auth::id());
     }
+
+    public function answer() {
+        return $this->hasMany(WrittenAnswer::class, 'exam_id', 'id');
+    }
 }

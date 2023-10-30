@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ExamController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\SubjectController;
+use App\Http\Controllers\Backend\TeacherExamAssignController;
 use App\Http\Controllers\Backend\TeacherManagementController;
 use App\Http\Controllers\Backend\TopicSourceController;
 use Illuminate\Support\Facades\Route;
@@ -101,11 +102,17 @@ Route::middleware('auth:admin')->group(function () {
     /**
      * teacher section
      */
-    Route::controller(TeacherManagementController::class)->prefix('/teacher')->name('teacher.')->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/create-or-edit/{id?}', 'createOrEdit')->name('createOrEdit');
-        Route::post('/store-or-update/{id?}', 'storeOrUpdate')->name('storeOrUpdate');
-        Route::get('/show/{id}', 'show')->name('show');
+    Route::prefix('/teacher')->name('teacher.')->group(function () {
+        Route::controller(TeacherManagementController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create-or-edit/{id?}', 'createOrEdit')->name('createOrEdit');
+            Route::post('/store-or-update/{id?}', 'storeOrUpdate')->name('storeOrUpdate');
+            Route::get('/show/{id}', 'show')->name('show');
+        });
+
+        Route::controller(TeacherExamAssignController::class)->prefix('/exam')->name('exam.')->group(function () {
+            Route::get('/', 'index')->name('index');
+        });
     });
 
     Route::get('/company-info', [CompanyInfoController::class, 'showCompanyInfo'])->name('showCompanyInfo');

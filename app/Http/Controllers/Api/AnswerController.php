@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Exam;
 use App\Models\ExamQuestion;
 use App\Models\PreliminaryAnswer;
-use App\Models\Subject;
-use App\Models\TopicSource;
 use App\Models\WrittenAnswer;
 use App\Models\WrittenAnswerQuestion;
 use App\Models\WrittenAnswerQuestionScript;
@@ -146,6 +144,8 @@ class AnswerController extends Controller {
             )
             ->first();
 
+        $data['question_count'] = ExamQuestion::where('exam_id', $answer->exam->id)->count();
+
         $data['total_examinee']        = PreliminaryAnswer::where('exam_id', $request->exam_id)->count();
         $data['answer']                = $answer;
         $data['total_passed_examinee'] = PreliminaryAnswer::where('exam_id', $request->exam_id)->where('obtained_marks', '>', $answer->exam->pass_marks)->count();
@@ -159,24 +159,61 @@ class AnswerController extends Controller {
 
     public function preliminaryAnswerScript(Request $request) {
 
-        // if (!PreliminaryAnswer::where('user_id', Auth::id())->where('exam_id', $request->exam_id)->exists()) {
-        //     return $this->errorMessage('Somthing went wrong', '');
-        // }
-
-        $answer = Exam::query()
-            ->whereHas('userAnswer', function ($q) {
-                return $q->where('user_id', Auth::id());
-            })
-            ->with(
-                'userAnswer.user'
-            )->paginate();
-
-        foreach ($answer as $item) {
-            $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
-            $item['sources']  = TopicSource::whereIn('id', explode(',', $item->topic_id))->get();
+        if (!PreliminaryAnswer::where('user_id', Auth::id())->where('exam_id', $request->exam_id)->exists()) {
+            return $this->errorMessage('Somthing went wrong', '');
         }
 
-        return $this->successMessage('ok', $answer);
+        $answer = PreliminaryAnswer::where('user_id', Auth::id())
+            ->where('exam_id', $request->exam_id)
+            ->with(
+                'user',
+                'exam',
+            )
+            ->first();
+
+        $total_question = (int) $request->total_question;
+
+        $root_answer = (str_replace("A", 0, $answer->answer));
+        $root_answer = (str_replace("B", 1, $root_answer));
+        $root_answer = (str_replace("C", 2, $root_answer));
+        $root_answer = json_decode(str_replace("D", 3, $root_answer));
+
+        $questions = ExamQuestion::where('exam_id', $request->exam_id)->limit($total_question)->with('questionOptions')->get();
+
+        foreach ($questions as $key => $item) {
+
+            if ($item->questionOptions->count() > 0) {
+
+                foreach ($item->questionOptions as $ie_key => $ie) {
+
+                    if ($ie->is_answer == 1) {
+
+                        if ($ie_key == $root_answer->$key) {
+                            $item['is_correct']   = 1;
+                            $item['given_answer'] = $root_answer->$key;
+                        } elseif ($root_answer->$key == '') {
+                            $item['is_correct'] = 2;
+                            // $item['given_answer'] = $root_answer->$key;
+                            $item['given_answer'] = '';
+                        } else {
+                            $item['is_correct']   = 3;
+                            $item['given_answer'] = $root_answer->$key;
+                        }
+
+                        break;
+
+                    }
+
+                }
+
+            } else {
+                $item['is_correct']   = 2;
+                $item['given_answer'] = '';
+            }
+
+        }
+
+        return $this->successMessage('ok', $questions);
     }
 
     public function preliminaryAnswerMeritList(Request $request) {
@@ -201,12 +238,12 @@ class AnswerController extends Controller {
 
         try {
 
-            if (WrittenAnswer::where('user_id', Auth::id())->where('exam_id', $request->exam_id)->exists()) {
+            if (WrittenAnswer::where('user_id', $request->user_id)->where('exam_id', $request->exam_id)->exists()) {
                 return $this->errorMessage('This answer has been taken before');
             }
 
             $answer = WrittenAnswer::create([
-                'user_id' => Auth::id(),
+                'user_id' => $request->user_id,
                 'exam_id' => $request->exam_id,
             ]);
 

@@ -33,7 +33,7 @@
                                     <th scope="col">Exam Name</th>
                                     <th scope="col">Subjects Name</th>
                                     <th scope="col">Topic & Source Name</th>
-                                    <th scope="col">Marking System</th>
+                                    {{-- <th scope="col">Marking System</th> --}}
                                     <th scope="col">Exam Timeline</th>
                                     <th scope="col">Duration(Minutes)</th>
                                     <th scope="col">Question & Answer</th>
@@ -79,9 +79,9 @@
                                                 @endif
                                             @endforeach
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             000
-                                        </td>
+                                        </td> --}}
                                         <td>
                                             Published Date: {{ $item->published_at->format('Y-m-d H:i:s A') }}, <br>
                                             Expired Date: {{ $item->expired_at->format('Y-m-d H:i:s A') }}
@@ -89,13 +89,14 @@
                                         <td>{{ $item->duration / 60 }}</td>
                                         <td>
                                             @if ($item->question)
-                                                <a target="_blank" href="{{ asset($item->question) }}">View Question</a>
+                                                <a target="_blank" class="btn btn-sm btn-outline-info" href="{{ asset($item->question) }}">View Question</a>
                                             @else
                                                 No question set yet
                                             @endif
                                             <br>
+                                            <br>
                                             @if ($item->answer)
-                                                <a target="_blank" href="{{ asset($item->answer) }}">View Answer</a>
+                                                <a target="_blank" class="btn btn-sm btn-outline-info" href="{{ asset($item->answer) }}">View Answer</a>
                                             @else
                                                 No answer set yet
                                             @endif
