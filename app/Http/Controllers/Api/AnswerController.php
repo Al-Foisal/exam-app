@@ -287,7 +287,7 @@ class AnswerController extends Controller {
 
             return response()->json([
                 'status'  => false,
-                'message' => $th,
+                'message' => $th->getMessage(),
             ]);
         }
 

@@ -87,72 +87,87 @@ class ExamController extends Controller {
 
     public function createOrUpdateMCQQuestion(Request $request) {
         // dd($request->all());
+        DB::beginTransaction();
 
-        $subject_id = $request->subject_id;
+        try {
+            $subject_id = $request->subject_id;
 
-        if (isset($request->question_id) && count($request->question_id) > 0) {
+            if (isset($request->question_id) && count($request->question_id) > 0) {
 
-            foreach ($request->question_id as $question_id) {
-                $update_question                       = ExamQuestion::find($question_id);
-                $update_question->question_name        = $request->input('question_name_' . $question_id);
-                $update_question->question_explanation = $request->input('question_explanation_' . $question_id);
-                $update_question->save();
+                foreach ($request->question_id as $question_id) {
+                    $update_question                       = ExamQuestion::find($question_id);
+                    $update_question->question_name        = $request->input('question_name_' . $question_id);
+                    $update_question->question_explanation = $request->input('question_explanation_' . $question_id);
+                    $update_question->save();
 
-                $update_option = $request->input('question_option_name_' . $question_id);
+                    $update_option = $request->input('question_option_name_' . $question_id);
 
-                DB::table('exam_question_options')->where('exam_question_id', $question_id)->delete();
+                    DB::table('exam_question_options')->where('exam_question_id', $question_id)->delete();
 
-                foreach ($update_option as $u_key => $option) {
+                    foreach ($update_option as $u_key => $option) {
 
-                    if ($request->input('question_option_' . $question_id) == $u_key) {
-                        $answer = 1;
-                    } else {
-                        $answer = 0;
+                        if ($request->input('question_option_' . $question_id) == $u_key) {
+                            $answer = 1;
+                        } else {
+                            $answer = 0;
+                        }
+
+                        ExamQuestionOption::create([
+                            'exam_question_id' => $update_question->id,
+                            'option'           => $option,
+                            'is_answer'        => $answer,
+                        ]);
                     }
 
-                    ExamQuestionOption::create([
-                        'exam_question_id' => $update_question->id,
-                        'option'           => $option,
-                        'is_answer'        => $answer,
-                    ]);
                 }
 
             }
 
-        }
+            if (isset($request->serial_number) && count($request->serial_number) > 0) {
 
-        if (isset($request->serial_number) && count($request->serial_number) > 0) {
+                foreach ($request->serial_number as $key => $serial_number) {
+                    $question = ExamQuestion::create([
+                        'exam_id'              => $request->exam_id,
+                        'subject_id'           => $subject_id,
+                        'question_name'        => $request->question_name[$key],
+                        'question_explanation' => $request->question_explanation[$key],
+                    ]);
 
-            foreach ($request->serial_number as $key => $serial_number) {
-                $question = ExamQuestion::create([
-                    'exam_id'              => $request->exam_id,
-                    'subject_id'           => $subject_id,
-                    'question_name'        => $request->question_name[$key],
-                    'question_explanation' => $request->question_explanation[$key],
-                ]);
+                    $postfix = $request->input('question_option_name_' . $subject_id . $serial_number);
 
-                $postfix = $request->input('question_option_name_' . $subject_id . $serial_number);
+                    if ($postfix != null) {
 
-                foreach ($postfix as $o_key => $option) {
+                        foreach ($postfix as $o_key => $option) {
 
-                    if ($request->input('question_option_' . $subject_id . $serial_number) == $o_key) {
-                        $answer = 1;
-                    } else {
-                        $answer = 0;
+                            if ($request->input('question_option_' . $subject_id . $serial_number) == $o_key) {
+                                $answer = 1;
+                            } else {
+                                $answer = 0;
+                            }
+
+                            ExamQuestionOption::create([
+                                'exam_question_id' => $question->id,
+                                'option'           => $option,
+                                'is_answer'        => $answer,
+                            ]);
+                        }
+
                     }
 
-                    ExamQuestionOption::create([
-                        'exam_question_id' => $question->id,
-                        'option'           => $option,
-                        'is_answer'        => $answer,
-                    ]);
                 }
 
             }
 
+            DB::commit();
+
+            return back()->withToastSuccess('Question updated or created successfully');
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return back()->withToastError($th->getMessage());
         }
 
-        return back()->withToastSuccess('Question updated or created successfully');
     }
 
     public function deleteQuestion($question_id) {
@@ -335,36 +350,47 @@ class ExamController extends Controller {
 
     public function createOrUpdateWrittenQuestion(Request $request) {
         // dd($request->all());
+        DB::beginTransaction();
 
-        $subject_id = $request->subject_id;
+        try {
+            $subject_id = $request->subject_id;
 
-        if (isset($request->question_id) && count($request->question_id) > 0) {
+            if (isset($request->question_id) && count($request->question_id) > 0) {
 
-            foreach ($request->question_id as $question_id) {
-                $update_question       = WrittenQuestion::find($question_id);
-                $update_question->name = $request->input('question_name_' . $question_id);
-                $update_question->mark = $request->input('question_mark_' . $question_id);
-                $update_question->save();
+                foreach ($request->question_id as $question_id) {
+                    $update_question       = WrittenQuestion::find($question_id);
+                    $update_question->name = $request->input('question_name_' . $question_id);
+                    $update_question->mark = $request->input('question_mark_' . $question_id);
+                    $update_question->save();
 
-            }
-
-        }
-
-        if (isset($request->serial_number) && count($request->serial_number) > 0) {
-
-            foreach ($request->serial_number as $key => $serial_number) {
-                WrittenQuestion::create([
-                    'written_id' => $request->written_id,
-                    'subject_id' => $subject_id,
-                    'name'       => $request->question_name[$key],
-                    'mark'       => $request->question_mark[$key],
-                ]);
+                }
 
             }
 
+            if (isset($request->serial_number) && count($request->serial_number) > 0) {
+
+                foreach ($request->serial_number as $key => $serial_number) {
+                    WrittenQuestion::create([
+                        'written_id' => $request->written_id,
+                        'subject_id' => $subject_id,
+                        'name'       => $request->question_name[$key],
+                        'mark'       => $request->question_mark[$key],
+                    ]);
+
+                }
+
+            }
+
+            DB::commit();
+
+            return back()->withToastSuccess('Question updated or created successfully');
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return back()->withToastError($th->getMessage());
         }
 
-        return back()->withToastSuccess('Question updated or created successfully');
     }
 
     public function deleteWrittenQuestion($question_id) {

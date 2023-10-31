@@ -1,4 +1,4 @@
-<style>
+{{-- <style>
     .sidebar {
         width: 350px;
     }
@@ -6,7 +6,7 @@
     .main_content {
         padding-left: 350px;
     }
-</style>
+</style> --}}
 
 <nav class="sidebar vertical-scroll  ps-container ps-theme-default ps-active-y">
     <div class="logo d-flex justify-content-between">

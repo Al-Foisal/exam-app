@@ -40,7 +40,7 @@
                                 $subjects = DB::table('subjects')
                                     ->whereIn('id', explode(',', $exam->subject_id))
                                     ->get();
-                                
+
                                 $topic = DB::table('topic_sources')
                                     ->whereIn('id', explode(',', $exam->topic_id))
                                     ->get();
@@ -258,7 +258,7 @@
                                                                     </div>
                                                                     <!-- /.card-header -->
                                                                     <div class="p-5">
-                                                                        <div class="form-group clearfix">
+                                                                        <div class="form-group">
                                                                             @for ($i = 0; $i < 4; $i++)
                                                                                 <div class="d-flex justify-content-start">
                                                                                     <div class="icheck-success d-inline">
@@ -270,7 +270,7 @@
                                                                                             for="is_answer_{{ $q_subject->id }}_{{ $i }}">
                                                                                         </label>
                                                                                     </div>
-                                                                                    <textarea class="question_option_name summernote11"></textarea>
+                                                                                    <textarea class="question_option_name summernote111"></textarea>
                                                                                 </div>
                                                                                 <br>
                                                                                 <br>
@@ -283,7 +283,7 @@
 
                                                             <div class="col-md-12">
                                                                 <label for="">Question Explanation</label>
-                                                                <textarea class="question_explanation summernote22" placeholder="Enter question explanation here"></textarea>
+                                                                <textarea class="question_explanation summernote11" placeholder="Enter question explanation here"></textarea>
                                                             </div>
                                                             <hr>
                                                         </div>
@@ -303,7 +303,7 @@
 @endsection
 
 @section('js')
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
     <script src="{{ asset('summernote-math.js') }}"></script>
 
     <script>
@@ -326,6 +326,29 @@
             // $(e).parent().find(".question_name").addClass('summernote');
 
             $(e).data('serial_number', ++serial_number);
+            // $('.summernote11').summernote();
+            $('.summernote11').summernote({
+                height: 100,
+                toolbar: [
+                    ['fontsize', ['10', '25']],
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['insert', ['picture', 'link', 'math']],
+                    ['para', ['paragraph']],
+                    ['misc', ['codeview']]
+                ],
+            });
+            $('.summernote111').summernote({
+                height: 100,
+                width: 1000,
+                toolbar: [
+                    ['fontsize', ['10', '25']],
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['insert', ['picture', 'link', 'math']],
+                    ['para', ['paragraph']],
+                    ['misc', ['codeview']]
+                ],
+            });
+
         }
 
         function openQuestion(e) {
@@ -380,7 +403,7 @@
         }
     </script>
 
-    <script>
+    {{-- <script>
         $('.summernote11').summernote({
             height: 100,
             toolbar: [
@@ -440,5 +463,5 @@
                 ['misc', ['codeview']]
             ],
         });
-    </script>
+    </script> --}}
 @endsection
