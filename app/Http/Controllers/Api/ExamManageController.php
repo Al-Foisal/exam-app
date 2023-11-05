@@ -22,6 +22,8 @@ class ExamManageController extends Controller {
         $data['childcategory'] = $child = $request->childcategory;
         $is_live               = false;
 
+        $exam = [];
+
         if ($sub === 'Preliminary') {
             $exam = Exam::whereDate('published_at', '<=', date('Y-m-d'))
                 ->whereDate('expired_at', '>=', date('Y-m-d'))
