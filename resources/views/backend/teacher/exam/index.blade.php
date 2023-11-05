@@ -39,11 +39,10 @@
                                     <tr>
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td>
-                                            <a href="{{ route('exam.writtenQuestion', [$item->id, 'ref' => 'BCS', 'type' => 'Written']) }}"
+                                            <a href="{{ route('teacher.written.assignPaper', [$item->id, request()->ref]) }}"
                                                 class="btn btn-info me-2">
                                                 <i class="fas fa-file-signature"></i>
                                             </a>
-
                                         </td>
                                         <td>{{ $item->published_at->format('d F Y') }}</td>
                                         <td>
@@ -55,11 +54,15 @@
                                             @endforeach
                                         </td>
                                         <td>
-                                            {{ $item->published_at->format('Y-m-d') }} <br> <b>to</b> <br> {{ $item->expired_at->format('Y-m-d') }}
+                                            {{ $item->published_at->format('Y-m-d') }} <br> <b>to</b> <br>
+                                            {{ $item->expired_at->format('Y-m-d') }}
                                         </td>
                                         <td>{{ $item->duration / 60 }} M.</td>
                                         <td>
-                                            5/ <span class="text-primary fw-bolder">{{ $item->answer_count }}</span> /8
+                                            <span title="Total assigned paper">5</span>/ <span
+                                                class="text-primary fw-bolder"
+                                                title="Total submitted paper">{{ $item->answer_count }}</span> / <span
+                                                title="Total assigned teacher">5</span>
                                         </td>
                                     </tr>
                                 @endforeach

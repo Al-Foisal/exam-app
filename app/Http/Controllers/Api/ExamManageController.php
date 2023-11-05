@@ -321,7 +321,15 @@ class ExamManageController extends Controller {
             })
             ->whereHas('exam', function ($q) use ($child) {
                 return $q->where('childcategory', $child);
-            })->latest()->paginate();
+            });
+
+        if ($request->subject_id) {
+            $answer = $answer->whereHas('exam', function ($q) use ($request) {
+                return $q->where('subject_id', 'LIKE', '%' . $request->subject_id . '%');
+            });
+        }
+
+        $answer = $answer->latest()->paginate();
 
         foreach ($answer as $item) {
             $item['subjects'] = Subject::whereIn('id', explode(',', $item->exam->subject_id))->get();

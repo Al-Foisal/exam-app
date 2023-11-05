@@ -46,24 +46,24 @@
                 <span>Teacher</span>
             </a>
             <ul>
-                <li><a href="{{ route('teacher.exam.index', ['ref' => 'BCS', 'type' => 'Written']) }}"
+                <li><a href="{{ route('teacher.written.index', ['ref' => 'BCS', 'type' => 'Written']) }}"
                         class="text-info">BCS</a></li>
 
-                <li><a href="{{ route('teacher.exam.index', ['ref' => 'Bank', 'type' => 'Written']) }}"
+                <li><a href="{{ route('teacher.written.index', ['ref' => 'Bank', 'type' => 'Written']) }}"
                         class="text-info">Bank</a></li>
 
                 <li>
-                    <a href="{{ route('teacher.exam.index', ['ref' => 'Others', 'type' => 'Written', 'child' => '11 to 20 Grade']) }}"
+                    <a href="{{ route('teacher.written.index', ['ref' => 'Others', 'type' => 'Written', 'child' => '11 to 20 Grade']) }}"
                         class="text-info">
                         11 to 20 Grade
                     </a>
                 </li>
 
-                <li><a href="{{ route('teacher.exam.index', ['ref' => 'Others', 'type' => 'Written', 'child' => 'Job Solution']) }}"
+                <li><a href="{{ route('teacher.written.index', ['ref' => 'Others', 'type' => 'Written', 'child' => 'Job Solution']) }}"
                         class="text-info">Job
                         Solution</a></li>
 
-                <li><a href="{{ route('teacher.exam.index', ['ref' => 'Free', 'type' => 'Written', 'child' => 'Weekly']) }}"
+                <li><a href="{{ route('teacher.written.index', ['ref' => 'Free', 'type' => 'Written', 'child' => 'Weekly']) }}"
                         class="text-info">Weekly</a></li>
             </ul>
         </li>

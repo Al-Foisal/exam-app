@@ -110,8 +110,10 @@ Route::middleware('auth:admin')->group(function () {
             Route::get('/show/{id}', 'show')->name('show');
         });
 
-        Route::controller(TeacherExamAssignController::class)->prefix('/exam')->name('exam.')->group(function () {
+        Route::controller(TeacherExamAssignController::class)->prefix('/written')->name('written.')->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('/assign-paper/{written_id}/{category}', 'assignPaper')->name('assignPaper');
+
         });
     });
 

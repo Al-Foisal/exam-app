@@ -24,6 +24,6 @@ class Written extends Model {
     }
 
     public function answer() {
-        return $this->hasMany(WrittenAnswer::class, 'exam_id', 'id');
+        return $this->hasMany(WrittenAnswer::class);
     }
 }

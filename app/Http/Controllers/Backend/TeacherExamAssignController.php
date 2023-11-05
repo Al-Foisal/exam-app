@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Subject;
 use App\Models\TopicSource;
+use App\Models\User;
 use App\Models\Written;
+use App\Models\WrittenAnswer;
 use Illuminate\Http\Request;
 
 class TeacherExamAssignController extends Controller {
@@ -37,6 +39,17 @@ class TeacherExamAssignController extends Controller {
         $data['exam'] = $exam;
 
         return view('backend.teacher.exam.index', $data);
+    }
+
+    public function assignPaper($written_id, $category) {
+        $data            = [];
+        $data['written'] = Written::find($written_id);
+        $data['teacher'] = User::where('permission', 'LIKE', '%' . $category . '%')->get();
+        $data['paper']   = WrittenAnswer::where('written_id', $written_id)
+            ->where('category', $category)
+            ->paginate(100);
+
+        return view('backend.teacher.exam.assign-paper', $data);
     }
 
 }

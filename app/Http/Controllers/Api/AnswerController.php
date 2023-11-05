@@ -238,13 +238,14 @@ class AnswerController extends Controller {
 
         try {
 
-            if (WrittenAnswer::where('user_id', $request->user_id)->where('exam_id', $request->exam_id)->exists()) {
+            if (WrittenAnswer::where('user_id', $request->user_id)->where('written_id', $request->written_id)->exists()) {
                 return $this->errorMessage('This answer has been taken before');
             }
 
             $answer = WrittenAnswer::create([
-                'user_id' => $request->user_id,
-                'exam_id' => $request->exam_id,
+                'user_id'    => $request->user_id,
+                'written_id' => $request->written_id,
+                'category'   => $request->category,
             ]);
 
             foreach (json_decode($request->question_id) as $question) {
