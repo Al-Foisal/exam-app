@@ -47,9 +47,40 @@ class TeacherExamAssignController extends Controller {
         $data['teacher'] = User::where('permission', 'LIKE', '%' . $category . '%')->get();
         $data['paper']   = WrittenAnswer::where('written_id', $written_id)
             ->where('category', $category)
-            ->paginate(100);
+            ->orderBy('teacher_id', 'asc')
+            ->paginate();
 
         return view('backend.teacher.exam.assign-paper', $data);
+    }
+
+    public function storeAssignPaper(Request $request) {
+
+        if (!isset($request->written_answer_id)) {
+            return back()->withToastInfo('No paper selected');
+        }
+
+        if ($request->teacher_id == null) {
+            return back()->withToastInfo('No teacher selected');
+        }
+
+        WrittenAnswer::whereIn('id', $request->written_answer_id)
+            ->update(['teacher_id' => $request->teacher_id]);
+
+        return back()->withToastSuccess('Paper assigned successfully');
+
+    }
+
+    public function removedAssignTeacher($id) {
+        $answer = WrittenAnswer::find($id);
+
+        if ($answer->is_checked == 1) {
+            return back()->withToastError('No Cheating');
+        }
+
+        $answer->teacher_id = null;
+        $answer->save();
+
+        return back()->withToastSuccess('Teacher removed from paper');
     }
 
 }

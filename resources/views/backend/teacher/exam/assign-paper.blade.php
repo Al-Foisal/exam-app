@@ -57,13 +57,15 @@
                         <br>
                     </div>
                     <div class="card-body">
-                        <form action="" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('teacher.written.storeAssignPaper') }}" method="post"
+                            enctype="multipart/form-data">
                             @csrf
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Sl</th>
                                         <th> <input type="checkbox" class="check_all"> All Check</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,10 +73,28 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>
-                                                <input type="checkbox" name="written_answer_id[]"
-                                                    value="{{ $item->id }}" class="custom_name">
-                                                <span>{{ $item->user->registration_id }}</span>
+                                                <div class="form-check">
+                                                    <input type="checkbox"
+                                                        class="form-check-input {{ $item->teacher_id != null ? '' : 'custom_name' }}"
+                                                        name="written_answer_id[]" value="{{ $item->id }}"
+                                                        id="{{ $item->id }}"
+                                                        {{ $item->teacher_id != null ? 'checked disabled' : '' }}>
+                                                    <label class="form-check-label"
+                                                        for="{{ $item->id }}">{{ $item->user->registration_id }} -
+                                                        {{ $item->teacher->name ?? 'Not assigned' }}</label>
+                                                </div>
                                             </td>
+                                            @if ($item->teacher && $item->is_checked == 0)
+                                                <td>
+                                                    <a href="{{ route('teacher.written.removedAssignTeacher', $item->id) }}"
+                                                        class="btn btn-danger btn-sm">Remove Teacher</a>
+                                                </td>
+                                            @elseif ($item->teacher && $item->is_checked == 1)
+                                                <td>
+                                                    <button type="button" class="btn btn-success btn-sm">Paper
+                                                        Checked</button>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -82,7 +102,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="inputAddress">Teacher <span
                                         class="text-danger">*</span></label>
-                                <select name="teacher_id" class="form-control" id="" required>
+                                <select name="teacher_id" class="form-control" id="">
                                     <option value="">Select</option>
                                     @foreach ($teacher as $s_item)
                                         <option value="{{ $s_item->id }}">{{ $s_item->name }}</option>
@@ -91,6 +111,9 @@
                             </div>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form>
+                        <div class="text-right mt-5">
+                            {{ $paper->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

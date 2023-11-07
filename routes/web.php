@@ -113,7 +113,8 @@ Route::middleware('auth:admin')->group(function () {
         Route::controller(TeacherExamAssignController::class)->prefix('/written')->name('written.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/assign-paper/{written_id}/{category}', 'assignPaper')->name('assignPaper');
-
+            Route::post('/store-assign-paper', 'storeAssignPaper')->name('storeAssignPaper');
+            Route::get('/removed-assign-teacher/{id}', 'removedAssignTeacher')->name('removedAssignTeacher');
         });
     });
 
