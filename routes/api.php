@@ -92,6 +92,7 @@ Route::middleware('auth:sanctum')->controller(AnswerController::class)->prefix('
 
 Route::middleware('auth:sanctum')->controller(TeacherPanelController::class)->prefix('/teacher')->group(function () {
     Route::post('/exam-and-paper', 'examAndPaper');
+    Route::post('/store-exam-paper-assessment', 'storeExamPaperAssessment');
 });
 
 Route::get('/category', function () {
