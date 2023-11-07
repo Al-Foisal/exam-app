@@ -15,7 +15,7 @@ class Exam extends Model {
     }
 
     public function userAnswer() {
-        return $this->hasOne(PreliminaryAnswer::class)->withDefault('user_id', Auth::id());
+        return $this->hasOne(PreliminaryAnswer::class);
     }
 
     protected $casts = [

@@ -34,7 +34,12 @@ class ExamManageController extends Controller {
                 $exam = $exam->where('childcategory', $child);
             }
 
-            $exam = $exam->with('questions.questionOptions', 'userAnswer')->first();
+            $exam = $exam->with([
+                'questions.questionOptions',
+                'userAnswer' => function ($q) {
+                    return $q->where('user_id', Auth::id());
+                },
+            ])->first();
 
         } elseif ($sub === 'Written') {
             $exam = Written::whereDate('published_at', '<=', date('Y-m-d'))
@@ -46,7 +51,12 @@ class ExamManageController extends Controller {
                 $exam = $exam->where('childcategory', $child);
             }
 
-            $exam = $exam->with('writtenQuestion', 'userAnswer')->first();
+            $exam = $exam->with([
+                'writtenQuestion',
+                'userAnswer' => function ($q) {
+                    return $q->where('user_id', Auth::id());
+                },
+            ])->first();
 
         }
 
@@ -136,7 +146,11 @@ class ExamManageController extends Controller {
             }
 
             $exam = $exam->orderByDesc('id')
-                ->with('userAnswer')
+                ->with([
+                    'userAnswer' => function ($q) {
+                        return $q->where('user_id', Auth::id());
+                    },
+                ])
                 ->withCount('questions')
                 ->paginate();
 
@@ -159,7 +173,11 @@ class ExamManageController extends Controller {
             }
 
             $exam = $exam->orderByDesc('id')
-                ->with('userAnswer')
+                ->with([
+                    'userAnswer' => function ($q) {
+                        return $q->where('user_id', Auth::id());
+                    },
+                ])
                 ->withCount('writtenQuestion')
                 ->paginate();
 
