@@ -183,6 +183,7 @@ class UserAuthController extends Controller {
                     'status'       => true,
                     'token_type'   => 'Bearer',
                     'access_token' => $tokenResult,
+                    'user'         => $user,
                 ]);
 
             }

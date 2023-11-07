@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AnswerController;
 use App\Http\Controllers\Api\ExamManageController;
+use App\Http\Controllers\Api\TeacherPanelController;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserProfileController;
 use App\Models\Exam;
@@ -87,6 +88,10 @@ Route::middleware('auth:sanctum')->controller(AnswerController::class)->prefix('
     Route::post('/preliminary-answer-merit-list', 'preliminaryAnswerMeritList');
 
     Route::post('/store-written-answer', 'storeWrittenAnswer');
+});
+
+Route::middleware('auth:sanctum')->controller(TeacherPanelController::class)->prefix('/teacher')->group(function () {
+    Route::post('/exam-and-paper', 'examAndPaper');
 });
 
 Route::get('/category', function () {
