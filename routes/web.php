@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\AdminManagementController;
 use App\Http\Controllers\Backend\CompanyInfoController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ExamController;
+use App\Http\Controllers\Backend\MaterialController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\SubjectController;
 use App\Http\Controllers\Backend\TeacherExamAssignController;
@@ -96,6 +97,13 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/syllabus', 'syllabus')->name('syllabus');
         Route::post('/upload-syllabus', 'uploadSyllabus')->name('uploadSyllabus');
 
+        Route::post('/get-topic', 'getTopic')->name('getTopic'); //ajax request
+    });
+
+    Route::controller(MaterialController::class)->prefix('/material')->name('material.')->group(function () {
+        Route::get('/index', 'index')->name('index');
+        Route::get('/create/{material_id?}', 'create')->name('create');
+        Route::any('/store-or-update/{material_id?}', 'storeOrUpdate')->name('storeOrUpdate');
         Route::post('/get-topic', 'getTopic')->name('getTopic'); //ajax request
     });
 

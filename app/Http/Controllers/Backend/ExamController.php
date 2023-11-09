@@ -434,7 +434,7 @@ class ExamController extends Controller {
 
             if ($image_file) {
 
-//remove existing syllabus
+
                 if ($data) {
                     $image_path = public_path($data->syllabus);
 
