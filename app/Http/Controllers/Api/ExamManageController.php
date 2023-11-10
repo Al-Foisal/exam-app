@@ -10,6 +10,7 @@ use App\Models\Subject;
 use App\Models\Syllabus;
 use App\Models\TopicSource;
 use App\Models\Written;
+use App\Models\WrittenAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -330,28 +331,63 @@ class ExamManageController extends Controller {
         $data['subcategory']   = $sub   = $request->subcategory;
         $data['childcategory'] = $child = $request->childcategory;
 
-        $answer = PreliminaryAnswer::where('user_id', Auth::id())
-            ->whereHas('exam', function ($q) use ($category) {
-                return $q->where('category', $category);
-            })
-            ->whereHas('exam', function ($q) use ($sub) {
-                return $q->where('subcategory', $sub);
-            })
-            ->whereHas('exam', function ($q) use ($child) {
-                return $q->where('childcategory', $child);
-            });
+        if ($sub === 'Preliminary') {
+            $answer = PreliminaryAnswer::where('user_id', Auth::id())
+                ->whereHas('exam', function ($q) use ($category) {
+                    return $q->where('category', $category);
+                })
+                ->whereHas('exam', function ($q) use ($sub) {
+                    return $q->where('subcategory', $sub);
+                });
 
-        if ($request->subject_id) {
-            $answer = $answer->whereHas('exam', function ($q) use ($request) {
-                return $q->where('subject_id', 'LIKE', '%' . $request->subject_id . '%');
-            });
-        }
+            if ($child) {
+                $answer = $answer->whereHas('exam', function ($q) use ($child) {
+                    return $q->where('childcategory', $child);
+                });
+            }
 
-        $answer = $answer->latest()->paginate();
+            if ($request->subject_id) {
+                $answer = $answer->whereHas('exam', function ($q) use ($request) {
+                    return $q->where('subject_id', 'LIKE', '%' . $request->subject_id . '%');
+                });
+            }
 
-        foreach ($answer as $item) {
-            $item['subjects'] = Subject::whereIn('id', explode(',', $item->exam->subject_id))->get();
-            $item['sources']  = TopicSource::whereIn('id', explode(',', $item->exam->topic_id))->get();
+            $answer = $answer->latest()->paginate();
+
+            foreach ($answer as $item) {
+                $item['subjects'] = Subject::whereIn('id', explode(',', $item->exam->subject_id))->get();
+                $item['sources']  = TopicSource::whereIn('id', explode(',', $item->exam->topic_id))->get();
+            }
+
+        } else {
+            $answer = WrittenAnswer::where('user_id', Auth::id())
+                ->where('is_checked', 1)
+                ->whereHas('written', function ($q) use ($category) {
+                    return $q->where('category', $category);
+                })
+                ->whereHas('written', function ($q) use ($sub) {
+                    return $q->where('subcategory', $sub);
+                });
+
+            if ($child) {
+                $answer = $answer->whereHas('written', function ($q) use ($child) {
+                    return $q->where('childcategory', $child);
+                });
+            }
+
+            if ($request->subject_id) {
+                $answer = $answer->whereHas('written', function ($q) use ($request) {
+                    return $q->where('subject_id', 'LIKE', '%' . $request->subject_id . '%');
+                });
+            }
+
+            $answer = $answer->latest()->paginate();
+
+            foreach ($answer as $item) {
+                $item['subjects'] = Subject::whereIn('id', explode(',', $item->written->subject_id))->get();
+                $item['sources']  = TopicSource::whereIn('id', explode(',', $item->written->topic_id))->get();
+            }
+
         }
 
         return $this->successMessage('ok', $answer);
@@ -371,29 +407,67 @@ class ExamManageController extends Controller {
         $data['subcategory']   = $sub   = $request->subcategory;
         $data['childcategory'] = $child = $request->childcategory;
 
-        $exam = PreliminaryAnswer::where('user_id', Auth::id())
-            ->latest()
-            ->whereHas('exam', function ($q) use ($category) {
-                return $q->where('category', $category);
-            })
-            ->whereHas('exam', function ($q) use ($sub) {
-                return $q->where('subcategory', $sub);
-            })
-            ->whereHas('exam', function ($q) use ($child) {
-                return $q->where('childcategory', $child);
-            })->first();
+        if ($sub === 'Preliminary') {
+            $exam = PreliminaryAnswer::where('user_id', Auth::id())
+                ->latest()
+                ->whereHas('exam', function ($q) use ($category) {
+                    return $q->where('category', $category);
+                })
+                ->whereHas('exam', function ($q) use ($sub) {
+                    return $q->where('subcategory', $sub);
+                });
 
-        $get_exam_answer = PreliminaryAnswer::where('exam_id', $exam->exam_id)
-            ->select(['id', 'user_id', 'obtained_marks', 'created_at'])
-            ->orderBy('obtained_marks', 'desc');
+            if ($child) {
+                $exam = $exam->whereHas('exam', function ($q) use ($child) {
+                    return $q->where('childcategory', $child);
+                });
+            }
 
-        if ($request->search) {
-            $get_exam_answer = $get_exam_answer->whereHas('user', function ($q) use ($request) {
-                return $q->where('name', 'LIKE', '%' . $request->search . '%');
-            });
+            $exam = $exam->first();
+
+            $get_exam_answer = PreliminaryAnswer::where('exam_id', $exam->exam_id)
+                ->select(['id', 'user_id', 'obtained_marks', 'created_at'])
+                ->orderBy('obtained_marks', 'desc');
+
+            if ($request->search) {
+                $get_exam_answer = $get_exam_answer->whereHas('user', function ($q) use ($request) {
+                    return $q->where('name', 'LIKE', '%' . $request->search . '%');
+                });
+            }
+
+            $get_exam_answer = $get_exam_answer->with('user')->paginate();
+        } else {
+            $written = WrittenAnswer::where('user_id', Auth::id())
+                ->where('is_checked', 1)
+                ->latest()
+                ->whereHas('written', function ($q) use ($category) {
+                    return $q->where('category', $category);
+                })
+                ->whereHas('written', function ($q) use ($sub) {
+                    return $q->where('subcategory', $sub);
+                });
+
+            if ($child) {
+                $written = $written->whereHas('written', function ($q) use ($child) {
+                    return $q->where('childcategory', $child);
+                });
+            }
+
+            $written = $written->first();
+
+            $get_exam_answer = WrittenAnswer::where('written_id', $written->written_id)
+                ->where('is_checked', 1)
+                ->select(['id', 'user_id', 'obtained_mark', 'created_at'])
+                ->orderBy('obtained_mark', 'desc');
+
+            if ($request->search) {
+                $get_exam_answer = $get_exam_answer->whereHas('user', function ($q) use ($request) {
+                    return $q->where('name', 'LIKE', '%' . $request->search . '%');
+                });
+            }
+
+            $get_exam_answer = $get_exam_answer->with('user')->paginate();
         }
-
-        $get_exam_answer = $get_exam_answer->with('user')->paginate();
 
         return $this->successMessage('ok', $get_exam_answer);
     }
