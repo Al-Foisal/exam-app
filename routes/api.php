@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\TeacherPanelController;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserProfileController;
 use App\Models\Exam;
+use App\Models\Material;
 use App\Models\Written;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,21 @@ Route::middleware('auth:sanctum')->get('/logout', function (Request $request) {
     return ['status' => true, 'message' => 'Logout Successful!'];
 });
 
+Route::middleware('auth:sanctum')->post('/get-material', function (Request $request) {
+    $data = Material::where('category', $request->category);
+
+    if ($request->subject_id) {
+        $data = $data->where('subject_id', 'LIKE', '%' . $request->subject_id . '%');
+    }
+
+    $data = $data->latest()->paginate();
+
+    return response()->json([
+        'status' => true,
+        'data'   => $data,
+    ]);
+
+});
 Route::middleware('auth:sanctum')->get('/get-present-live-exam', function (Request $request) {
 
     $data = [];
@@ -125,5 +141,7 @@ Route::get('/category', function () {
                 'Weekly',
             ],
         ],
+        'Recent',
+        'Record Class',
     ];
 });
