@@ -76,6 +76,10 @@ class ExamManageController extends Controller {
         $data['sources']      = $sources;
         $data['is_live_exam'] = $is_live;
 
+        if (isset($exam) && $exam->userAnswer != null) {
+            return $this->errorMessage('Your participation in this live test is completed before.');
+        }
+
         return $this->successMessage('', $data);
     }
 
@@ -160,6 +164,47 @@ class ExamManageController extends Controller {
                 $item['sources']  = TopicSource::whereIn('id', explode(',', $item->topic_id))->get();
             }
 
+            if ($request->search) {
+                $new_data = [];
+                $flag     = false;
+
+                foreach ($exam as $e_item) {
+                    $flag = false;
+
+                    foreach ($e_item->subjects as $sub) {
+
+                        if (str_starts_with($sub->name, $request->search)) {
+                            $flag = true;
+                            break;
+                        }
+
+                    }
+
+                    foreach ($e_item->sources as $src) {
+
+                        if (str_starts_with($src->topic, $request->search) || str_starts_with($src->source, $request->search)) {
+                            $flag = true;
+                            break;
+                        }
+
+                    }
+
+                    if ($flag == true) {
+
+                        $new_data[] = $e_item;
+                    }
+
+                }
+
+                $data['exam'] = $new_data;
+
+                return $this->successMessage('', $data);
+            }
+
+            $data['exam'] = $exam;
+
+            return $this->successMessage('', $data);
+
         } elseif ($sub === 'Written') {
             $exam = Written::whereDate('expired_at', '<', date('Y-m-d'))
                 ->where('category', $category)
@@ -187,9 +232,47 @@ class ExamManageController extends Controller {
                 $item['sources']  = TopicSource::whereIn('id', explode(',', $item->topic_id))->get();
             }
 
-        }
+            if ($request->search) {
+                $new_data = [];
+                $flag     = false;
 
-        $data['exam'] = $exam;
+                foreach ($exam as $e_item) {
+                    $flag = false;
+
+                    foreach ($e_item->subjects as $sub) {
+
+                        if (str_starts_with($sub->name, $request->search)) {
+                            $flag = true;
+                            break;
+                        }
+
+                    }
+
+                    foreach ($e_item->sources as $src) {
+
+                        if (str_starts_with($src->topic, $request->search) || str_starts_with($src->source, $request->search)) {
+                            $flag = true;
+                            break;
+                        }
+
+                    }
+
+                    if ($flag == true) {
+
+                        $new_data[] = $e_item;
+                    }
+
+                }
+
+                $data['exam'] = $new_data;
+
+                return $this->successMessage('', $data);
+            }
+
+            $data['exam'] = $exam;
+
+            return $this->successMessage('', $data);
+        }
 
         return $this->successMessage('', $data);
 
@@ -359,6 +442,41 @@ class ExamManageController extends Controller {
                 $item['sources']  = TopicSource::whereIn('id', explode(',', $item->exam->topic_id))->get();
             }
 
+            if ($request->search) {
+                $new_data = [];
+                $flag     = false;
+
+                foreach ($answer as $e_item) {
+                    $flag = false;
+
+                    foreach ($e_item->subjects as $sub) {
+
+                        if (str_starts_with($sub->name, $request->search)) {
+                            $flag = true;
+                            break;
+                        }
+
+                    }
+
+                    foreach ($e_item->sources as $src) {
+
+                        if (str_starts_with($src->topic, $request->search) || str_starts_with($src->source, $request->search)) {
+                            $flag = true;
+                            break;
+                        }
+
+                    }
+
+                    if ($flag == true) {
+
+                        $new_data[] = $e_item;
+                    }
+
+                }
+
+                $answer = $new_data;
+            }
+
         } else {
             $answer = WrittenAnswer::where('user_id', Auth::id())
                 ->where('is_checked', 1)
@@ -386,6 +504,41 @@ class ExamManageController extends Controller {
             foreach ($answer as $item) {
                 $item['subjects'] = Subject::whereIn('id', explode(',', $item->written->subject_id))->get();
                 $item['sources']  = TopicSource::whereIn('id', explode(',', $item->written->topic_id))->get();
+            }
+
+            if ($request->search) {
+                $new_data = [];
+                $flag     = false;
+
+                foreach ($answer as $e_item) {
+                    $flag = false;
+
+                    foreach ($e_item->subjects as $sub) {
+
+                        if (str_starts_with($sub->name, $request->search)) {
+                            $flag = true;
+                            break;
+                        }
+
+                    }
+
+                    foreach ($e_item->sources as $src) {
+
+                        if (str_starts_with($src->topic, $request->search) || str_starts_with($src->source, $request->search)) {
+                            $flag = true;
+                            break;
+                        }
+
+                    }
+
+                    if ($flag == true) {
+
+                        $new_data[] = $e_item;
+                    }
+
+                }
+
+                $answer = $new_data;
             }
 
         }
@@ -425,17 +578,22 @@ class ExamManageController extends Controller {
 
             $exam = $exam->first();
 
-            $get_exam_answer = PreliminaryAnswer::where('exam_id', $exam->exam_id)
-                ->select(['id', 'user_id', 'obtained_marks', 'created_at'])
-                ->orderBy('obtained_marks', 'desc');
+            $get_exam_answer = [];
 
-            if ($request->search) {
-                $get_exam_answer = $get_exam_answer->whereHas('user', function ($q) use ($request) {
-                    return $q->where('name', 'LIKE', '%' . $request->search . '%');
-                });
+            if ($exam) {
+                $get_exam_answer = PreliminaryAnswer::where('exam_id', $exam->exam_id)
+                    ->select(['id', 'user_id', 'obtained_marks', 'created_at'])
+                    ->orderBy('obtained_marks', 'desc');
+
+                if ($request->search) {
+                    $get_exam_answer = $get_exam_answer->whereHas('user', function ($q) use ($request) {
+                        return $q->where('name', 'LIKE', '%' . $request->search . '%');
+                    });
+                }
+
+                $get_exam_answer = $get_exam_answer->with('user')->paginate();
             }
 
-            $get_exam_answer = $get_exam_answer->with('user')->paginate();
         } else {
             $written = WrittenAnswer::where('user_id', Auth::id())
                 ->where('is_checked', 1)
@@ -455,18 +613,23 @@ class ExamManageController extends Controller {
 
             $written = $written->first();
 
-            $get_exam_answer = WrittenAnswer::where('written_id', $written->written_id)
-                ->where('is_checked', 1)
-                ->select(['id', 'user_id', 'obtained_mark', 'created_at'])
-                ->orderBy('obtained_mark', 'desc');
+            $get_exam_answer = [];
 
-            if ($request->search) {
-                $get_exam_answer = $get_exam_answer->whereHas('user', function ($q) use ($request) {
-                    return $q->where('name', 'LIKE', '%' . $request->search . '%');
-                });
+            if ($written) {
+                $get_exam_answer = WrittenAnswer::where('written_id', $written->written_id)
+                    ->where('is_checked', 1)
+                    ->select(['id', 'user_id', 'obtained_mark', 'created_at'])
+                    ->orderBy('obtained_mark', 'desc');
+
+                if ($request->search) {
+                    $get_exam_answer = $get_exam_answer->whereHas('user', function ($q) use ($request) {
+                        return $q->where('name', 'LIKE', '%' . $request->search . '%');
+                    });
+                }
+
+                $get_exam_answer = $get_exam_answer->with('user')->paginate();
             }
 
-            $get_exam_answer = $get_exam_answer->with('user')->paginate();
         }
 
         return $this->successMessage('ok', $get_exam_answer);

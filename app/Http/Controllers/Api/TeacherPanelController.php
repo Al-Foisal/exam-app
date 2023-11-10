@@ -30,6 +30,7 @@ class TeacherPanelController extends Controller {
         $exam = Written::whereIn('id', $examId)
             ->with([
                 'answer.user',
+                'answer.written',
                 'answer' => function ($q) {
                     return $q->where('teacher_id', Auth::id())
                         ->withCount([
@@ -39,6 +40,7 @@ class TeacherPanelController extends Controller {
                             'writtenAnswerQuestion as total_question',
                         ]);
                 },
+                'answer.writtenAnswerQuestion.writtenAnswerQuestion',
                 'answer.writtenAnswerQuestion.writtenAnswerQuestionScript',
             ])
             ->withCount([
@@ -56,9 +58,45 @@ class TeacherPanelController extends Controller {
             $item['sources']  = TopicSource::whereIn('id', explode(',', $item->topic_id))->get();
         }
 
+        if ($request->search) {
+            $new_data = [];
+            $flag     = false;
+
+            foreach ($exam as $e_item) {
+                $flag = false;
+
+                foreach ($e_item->subjects as $sub) {
+
+                    if (str_starts_with($sub->name, $request->search)) {
+                        $flag = true;
+                        break;
+                    }
+
+                }
+
+                foreach ($e_item->sources as $src) {
+
+                    if (str_starts_with($src->topic, $request->search) || str_starts_with($src->source, $request->search)) {
+                        $flag = true;
+                        break;
+                    }
+
+                }
+
+                if ($flag == true) {
+
+                    $new_data[] = $e_item;
+                }
+
+            }
+
+            $exam = $new_data;
+
+        }
+
         $data['exam'] = $exam;
 
-        return $data;
+        return $this->successMessage('', $data);
     }
 
     public function storeExamPaperAssessment(Request $request) {

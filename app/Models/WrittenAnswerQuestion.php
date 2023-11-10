@@ -13,7 +13,7 @@ class WrittenAnswerQuestion extends Model {
     }
 
     public function writtenAnswerQuestion() {
-        return $this->belongsTo(WrittenQuestion::class);
+        return $this->belongsTo(WrittenQuestion::class, 'written_question_id', 'id');
     }
 
     public function writtenAnswerQuestionScript() {
