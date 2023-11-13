@@ -189,8 +189,8 @@ class TeacherPanelController extends Controller {
 
         if (!$wallet) {
             return $this->errorMessage('Invalid wallet banalce');
-        } elseif ($request->amount < 500) {
-            return $this->errorMessage('Withdrawal amount must be grater than or equal to 500');
+        } elseif ($request->amount < 100) {
+            return $this->errorMessage('Withdrawal amount must be grater than or equal to 100');
         } elseif ($wallet->amount < $request->amount) {
             return $this->errorMessage('Insufficient wallet balance');
         }

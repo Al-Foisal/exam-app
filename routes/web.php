@@ -116,6 +116,10 @@ Route::middleware('auth:admin')->group(function () {
             Route::get('/create-or-edit/{id?}', 'createOrEdit')->name('createOrEdit');
             Route::post('/store-or-update/{id?}', 'storeOrUpdate')->name('storeOrUpdate');
             Route::get('/show/{id}', 'show')->name('show');
+
+            //wallet
+            Route::get('/withdrawal-request', 'withdrawalRequest')->name('withdrawalRequest');
+            Route::post('/update-withdrawal-request/{id}', 'updateWithdrawalRequest')->name('updateWithdrawalRequest');
         });
 
         Route::controller(TeacherExamAssignController::class)->prefix('/written')->name('written.')->group(function () {

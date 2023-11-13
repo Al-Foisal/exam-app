@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\TeacherWallet;
 use App\Models\User;
+use App\Models\WalletHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -146,6 +148,36 @@ class TeacherManagementController extends Controller {
         }
 
         return view('backend.teacher.profile.show', compact('data'));
+    }
+
+    //wallet
+    public function withdrawalRequest() {
+        $data = WalletHistory::where('status', request()->ref)->latest()->paginate();
+
+        return view('backend.withdrawal-request', compact('data'));
+    }
+
+    public function updateWithdrawalRequest(Request $request, $id) {
+        $data = WalletHistory::find($id);
+
+        if ($request->type === 'Paid') {
+            $wallet = TeacherWallet::where('id', $data->wallet->id)->first();
+
+            if (!$wallet) {
+                return back()->withToastError('Something went wrong');
+            } elseif ($wallet->amount < $data->amount) {
+                return back()->withToastError('The user has less wallet than requested amount');
+            }
+
+            $wallet->amount = $wallet->amount - $data->amount;
+            $wallet->save();
+
+        }
+
+        $data->status = $request->type;
+        $data->save();
+
+        return back()->withToastSucces('Request marker as ' . $request->type);
     }
 
 }

@@ -239,6 +239,29 @@
                         Class</a></li>
             </ul>
         </li>
+        <li class>
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="icon_menu">
+                    <img src="{{ asset('backend/img/menu-icon/2.svg') }}" alt>
+                </div>
+                <span>Withdrawal Request</span>
+            </a>
+
+            <ul>
+                <li><a href="{{ route('teacher.withdrawalRequest', ['ref' => 'Pending']) }}"
+                        class="text-success">Pending
+                        ({{ DB::table('wallet_histories')->where('status', 'Pending')->count() }})</a></li>
+                <li><a href="{{ route('teacher.withdrawalRequest', ['ref' => 'Accepted']) }}"
+                        class="text-success">Accepted({{ DB::table('wallet_histories')->where('status', 'Accepted')->count() }})</a>
+                </li>
+                <li><a href="{{ route('teacher.withdrawalRequest', ['ref' => 'Paid']) }}"
+                        class="text-success">Paid({{ DB::table('wallet_histories')->where('status', 'Paid')->count() }})</a>
+                </li>
+                <li><a href="{{ route('teacher.withdrawalRequest', ['ref' => 'Declined']) }}"
+                        class="text-success">Declined({{ DB::table('wallet_histories')->where('status', 'Declined')->count() }})</a>
+                </li>
+            </ul>
+        </li>
 
         <li class>
             <a class="has-arrow" href="#" aria-expanded="false">

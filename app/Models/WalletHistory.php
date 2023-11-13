@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class WalletHistory extends Model {
     use HasFactory;
     protected $guarded = [];
+
+    public function wallet() {
+        return $this->belongsTo(TeacherWallet::class, 'teacher_wallet_id', 'id');
+    }
 }
