@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Subject;
 use App\Models\TeacherWallet;
 use App\Models\TopicSource;
+use App\Models\WalletHistory;
 use App\Models\Written;
 use App\Models\WrittenAnswer;
 use App\Models\WrittenAnswerQuestion;
@@ -173,6 +174,34 @@ class TeacherPanelController extends Controller {
 
             return $this->errorMessage($th->getMessage());
         }
+
+    }
+
+    public function wallet() {
+        $data           = [];
+        $data['wallet'] = TeacherWallet::where('user_id', Auth::id())->first();
+
+        return $this->successMessage('', $data);
+    }
+
+    public function withdrawalRequest(Request $request) {
+        $wallet = TeacherWallet::where('user_id', Auth::id())->first();
+
+        if (!$wallet) {
+            return $this->errorMessage('Invalid wallet banalce');
+        } elseif ($request->amount < 500) {
+            return $this->errorMessage('Withdrawal amount must be grater than or equal to 500');
+        } elseif ($wallet->amount < $request->amount) {
+            return $this->errorMessage('Insufficient wallet balance');
+        }
+
+        WalletHistory::create([
+            'teacher_wallet_id' => $wallet->id,
+            'amount'            => $request->amount,
+            'status'            => 'Pending',
+        ]);
+
+        return $this->successMessage();
 
     }
 

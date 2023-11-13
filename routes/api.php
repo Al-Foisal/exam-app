@@ -109,6 +109,10 @@ Route::middleware('auth:sanctum')->controller(AnswerController::class)->prefix('
 Route::middleware('auth:sanctum')->controller(TeacherPanelController::class)->prefix('/teacher')->group(function () {
     Route::post('/exam-and-paper', 'examAndPaper');
     Route::post('/store-exam-paper-assessment', 'storeExamPaperAssessment');
+
+    //wallet
+    Route::post('/wallet', 'wallet');
+    Route::post('/withdrawal-request', 'withdrawalRequest');
 });
 
 Route::get('/category', function () {
