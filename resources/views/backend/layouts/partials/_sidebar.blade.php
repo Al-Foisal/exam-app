@@ -29,6 +29,18 @@
                 <div class="icon_menu">
                     <img src="{{ asset('backend/img/menu-icon/2.svg') }}" alt>
                 </div>
+                <span>Package Info</span>
+            </a>
+            <ul>
+                <li><a href="{{ route('packages.index') }}">Package List</a></li>
+                <li><a href="">Company Info</a></li>
+            </ul>
+        </li>
+        <li class>
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="icon_menu">
+                    <img src="{{ asset('backend/img/menu-icon/2.svg') }}" alt>
+                </div>
                 <span>Users</span>
             </a>
             <ul>
@@ -262,6 +274,8 @@
                 </li>
             </ul>
         </li>
+
+        
 
         <li class>
             <a class="has-arrow" href="#" aria-expanded="false">

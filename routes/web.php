@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\CompanyInfoController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ExamController;
 use App\Http\Controllers\Backend\MaterialController;
+use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\SubjectController;
 use App\Http\Controllers\Backend\TeacherExamAssignController;
@@ -140,5 +141,11 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/edit/{page}', 'edit')->name('edit');
         Route::put('/update/{page}', 'update')->name('update');
         Route::delete('/delete/{page}', 'delete')->name('delete');
+    });
+
+    Route::controller(PackageController::class)->prefix('/packages')->name('packages.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create-or-edit/{id?}', 'createOrEdit')->name('createOrEdit');
+        Route::post('/store-or-update/{id?}', 'storeOrUpdate')->name('storeOrUpdate');
     });
 });
