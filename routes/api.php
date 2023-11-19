@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserProfileController;
 use App\Models\Exam;
 use App\Models\Material;
+use App\Models\Subject;
+use App\Models\TopicSource;
 use App\Models\Written;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +40,27 @@ Route::middleware('auth:sanctum')->post('/get-material', function (Request $requ
         $data = $data->where('subject_id', 'LIKE', '%' . $request->subject_id . '%');
     }
 
+    if ($request->search) {
+        $subjects = Subject::where('name', 'LIKE', '%' . $request->search . '%')->pluck('id')->toArray();
+
+        if ($subjects) {
+            $data = $data->where('subject_id', 'LIKE', '%' . implode(',', $subjects) . '%');
+        }
+
+        $topic = TopicSource::where('topic', 'LIKE', '%' . $request->search . '%')->where('source', 'LIKE', '%' . $request->search . '%')->pluck('id')->toArray();
+
+        if ($topic) {
+            $data = $data->where('subject_id', 'LIKE', '%' . implode(',', $topic) . '%');
+        }
+
+    }
+
     $data = $data->latest()->paginate();
+
+    foreach ($data as $item) {
+        $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
+        $item['sources']  = TopicSource::whereIn('id', explode(',', $item->topic_id))->get();
+    }
 
     return response()->json([
         'status' => true,
