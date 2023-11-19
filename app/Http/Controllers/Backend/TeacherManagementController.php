@@ -169,7 +169,8 @@ class TeacherManagementController extends Controller {
                 return back()->withToastError('The user has less wallet than requested amount');
             }
 
-            $wallet->amount = $wallet->amount - $data->amount;
+            $wallet->amount   = $wallet->amount - $data->amount;
+            $wallet->withdraw = $wallet->withdraw + $data->amount;
             $wallet->save();
 
         }

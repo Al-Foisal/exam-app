@@ -179,7 +179,7 @@ class TeacherPanelController extends Controller {
 
     public function wallet() {
         $data           = [];
-        $data['wallet'] = TeacherWallet::where('user_id', Auth::id())->first();
+        $data['wallet'] = TeacherWallet::where('user_id', Auth::id())->with('teacherWalletHistory')->first();
 
         return $this->successMessage('', $data);
     }
@@ -203,6 +203,35 @@ class TeacherPanelController extends Controller {
 
         return $this->successMessage();
 
+    }
+
+    public function dashboard() {
+        $data   = [];
+        $script = DB::table('written_answers')
+            ->where('teacher_id', Auth::id())
+            ->groupby('written_id')
+            ->selectRaw('written_id')
+            ->selectRaw("count(id) as total_script")
+            ->selectRaw("count(case when is_checked = 1 then 1 end) as checked_script")
+            ->selectRaw("count(case when is_checked = 0 then 1 end) as left_script")
+            ->get();
+        $current_script = [];
+
+        foreach ($script as $item) {
+
+            if ($item->left_script > 0) {
+                $item->written    = Written::find($item->written_id);
+                $current_script[] = $item;
+            }
+
+        }
+
+        $data['current_script']        = $current_script;
+        $data['total_examined_script'] = WrittenAnswer::where('teacher_id', Auth::id())->where('is_checked', 1)->count();
+
+        $data['wallet'] = TeacherWallet::where('user_id', Auth::id())->first();
+
+        return $data;
     }
 
 }

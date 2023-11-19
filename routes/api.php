@@ -135,6 +135,8 @@ Route::middleware('auth:sanctum')->controller(TeacherPanelController::class)->pr
     //wallet
     Route::post('/wallet', 'wallet');
     Route::post('/withdrawal-request', 'withdrawalRequest');
+
+    Route::post('/dashboard', 'dashboard');
 });
 
 Route::get('/category', function () {

@@ -147,7 +147,7 @@ class ExamManageController extends Controller {
             }
 
             if ($request->subject_id) {
-                $exam = $exam->where('subject_id', 'LIKE', '%' . $request->subject_id . '%');
+                $exam = $exam->where('subject_id', 'LIKE', '%' . $request->subject_id);
             }
 
             $exam = $exam->orderByDesc('id')
