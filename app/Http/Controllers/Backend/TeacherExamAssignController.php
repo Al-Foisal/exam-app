@@ -49,6 +49,7 @@ class TeacherExamAssignController extends Controller {
             ->where('category', $category)
             ->orderBy('teacher_id', 'asc')
             ->paginate();
+        dd($data);
 
         return view('backend.teacher.exam.assign-paper', $data);
     }

@@ -33,7 +33,7 @@
             </a>
             <ul>
                 <li><a href="{{ route('packages.index') }}">Package List</a></li>
-                <li><a href="">Company Info</a></li>
+                <li><a href="">###</a></li>
             </ul>
         </li>
         <li class>

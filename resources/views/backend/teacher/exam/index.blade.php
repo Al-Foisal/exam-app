@@ -39,7 +39,7 @@
                                     <tr>
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td>
-                                            <a href="{{ route('teacher.written.assignPaper', [$item->id, request()->ref]) }}"
+                                            <a href="{{ route('teacher.written.assignPaper', [$item->id, request()->child ? request()->child : request()->ref]) }}"
                                                 class="btn btn-info me-2">
                                                 <i class="fas fa-file-signature"></i>
                                             </a>
