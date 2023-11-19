@@ -25,10 +25,10 @@
                             <img src="{{ asset($item->image) }}" style="height: 54px;">
                         </div>
                     </div>
-                    <div class="widget-numbers">Price: <span>{{ $item->amount }}</span></div>
+                    <div class="widget-numbers">Price: <span>{{ $item->amount }}</span> BDT</div>
                     <div class="widget-subheading">{{ $item->name }}</div> <br>
                     <div class="widget-subheading">Validity: {{ $item->validity }} Days, Status:
-                        {{ $item->status == 1 ? 'Active' : 'Inactive' }}</div>
+                        {{ $item->status == 1 ? 'Active' : 'Inactive' }} <br> Package type: {{ $item->package_type }}</div>
                     <hr>
                     @if ($item->details)
                         <div class="widget-subheading">{!! $item->details !!}</div>

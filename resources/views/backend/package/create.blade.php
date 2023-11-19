@@ -184,28 +184,46 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label class="form-label">Package amount<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" name="amount"
                                         placeholder="Enter package amount" value="{{ $package->amount ?? '1' }}"
                                         required>
                                 </div>
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label class="form-label">Package validity<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" name="validity"
                                         placeholder="Enter package validity" value="{{ $package->validity ?? '1' }}"
                                         required>
                                 </div>
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label class="form-label" for="inputAddress">Status <span
                                             class="text-danger">*</span></label>
                                     <select name="status" class="form-control" required>
                                         <option value="">Select status</option>
-                                        <option value="0">Inactive</option>
-                                        <option value="1" selected>Active</option>
+                                        <option value="0"
+                                            {{ isset($package) && $package->status == 0 ? 'selected' : '' }}>Inactive
+                                        </option>
+                                        <option value="1"
+                                            {{ isset($package) && $package->status == 1 ? 'selected' : '' }}>
+                                            Active</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="inputAddress">Package Type <span
+                                            class="text-danger">*</span></label>
+                                    <select name="type" class="form-control" required>
+                                        <option value="">Select type</option>
+                                        <option value="1"
+                                            {{ isset($package) && $package->type == 1 ? 'selected' : '' }}>Course
+                                            Base(Package without any limited exam)
+                                        </option>
+                                        <option value="2"
+                                            {{ isset($package) && $package->type == 2 ? 'selected' : '' }}>
+                                            Exam Base(Package with limited exam)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
                                     <label class="form-label">Package image</label>
                                     <input type="file" class="form-control" name="image">
                                     @if (isset($package) && $package->image)

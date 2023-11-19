@@ -75,6 +75,7 @@ class PackageController extends Controller {
                 'permission' => $request->permission,
                 'validity'   => $request->validity,
                 'status'     => $request->status,
+                'type'       => $request->type,
             ]);
 
             return to_route('packages.index')->withToastSuccess('Package updated successfully');
@@ -105,6 +106,7 @@ class PackageController extends Controller {
                 'permission' => $request->permission,
                 'validity'   => $request->validity,
                 'status'     => $request->status,
+                'type'       => $request->type,
                 'image'      => $final_name1 ?? null,
             ]);
 
