@@ -231,7 +231,7 @@ class TeacherPanelController extends Controller {
 
         $data['wallet'] = TeacherWallet::where('user_id', Auth::id())->first();
 
-        return $data;
+        return $this->successMessage('', $data);
     }
 
 }

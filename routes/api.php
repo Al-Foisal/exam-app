@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AnswerController;
 use App\Http\Controllers\Api\ExamManageController;
+use App\Http\Controllers\Api\SubscribtionController;
 use App\Http\Controllers\Api\TeacherPanelController;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserProfileController;
@@ -99,6 +100,12 @@ Route::controller(UserAuthController::class)->prefix('/auth')->group(function ()
     Route::post('/store-forgot-password', 'storeForgotPassword');
     Route::post('/reset-password', 'resetPassword');
     Route::post('/resend-otp', 'resendOTP');
+});
+
+Route::controller(SubscribtionController::class)->group(function () {
+    Route::post('/packages', 'packages');
+    Route::post('/purchase-package', 'purchasePackage');
+    Route::post('/package-history', 'packageHistory');
 });
 
 Route::middleware('auth:sanctum')->controller(UserProfileController::class)->prefix('/profile')->group(function () {

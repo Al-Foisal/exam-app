@@ -13,7 +13,7 @@ class PackageController extends Controller {
      */
     public function index() {
         $data            = [];
-        $data['package'] = Package::latest()->get();
+        $data['package'] = Package::latest()->paginate();
 
         return view('backend.package.index', $data);
     }
