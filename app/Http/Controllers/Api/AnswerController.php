@@ -139,27 +139,59 @@ class AnswerController extends Controller {
     public function showPreliminaryAnswer(Request $request) {
         $data = [];
 
-        if (!PreliminaryAnswer::where('user_id', Auth::id())->where('exam_id', $request->exam_id)->exists()) {
-            return $this->errorMessage('Somthing went wrong', '');
+        if ($request->exam_id) {
+
+            if (!PreliminaryAnswer::where('user_id', Auth::id())->where('exam_id', $request->exam_id)->exists()) {
+                return $this->errorMessage('Somthing went wrong', '');
+            }
+
+            $answer = PreliminaryAnswer::where('user_id', Auth::id())
+                ->where('exam_id', $request->exam_id)
+                ->with(
+                    'user',
+                    'exam',
+                )
+                ->first();
+
+            $data['question_count'] = ExamQuestion::where('exam_id', $answer->exam->id)->count();
+
+            $data['total_examinee']        = PreliminaryAnswer::where('exam_id', $request->exam_id)->count();
+            $data['answer']                = $answer;
+            $data['total_passed_examinee'] = PreliminaryAnswer::where('exam_id', $request->exam_id)->where('obtained_marks', '>', $answer->exam->pass_marks)->count();
+
+            $get_exam_answer = PreliminaryAnswer::where('exam_id', $answer->exam_id)->orderBy('obtained_marks', 'desc')->pluck('user_id')->toArray();
+
+            $data['my_position'] = array_search(Auth::id(), $get_exam_answer) + 1;
+        } elseif ($request->written_id) {
+
+            if (!WrittenAnswer::where('user_id', Auth::id())->where('written_id', $request->written_id)->exists()) {
+                return $this->errorMessage('Somthing went wrong', '');
+            }
+
+            $answer = WrittenAnswer::where('user_id', Auth::id())
+                ->where('written_id', $request->written_id)
+                ->with(
+                    'written',
+                    'user',
+                    'teacher',
+                    'writtenAnswerQuestion.writtenAnswerQuestion',
+                    'writtenAnswerQuestion.writtenAnswerQuestionScript',
+                )
+                ->first();
+
+            if ($answer->is_checked == 0) {
+                return $this->errorMessage('Your script is under examine.');
+            }
+
+            $data['total_examinee'] = WrittenAnswer::where('written_id', $request->written_id)->count();
+
+            $data['total_passed_examinee'] = WrittenAnswer::where('written_id', $request->written_id)->where('obtained_mark', '>', $answer->written->pass_marks)->count();
+
+            $get_exam_answer = WrittenAnswer::where('written_id', $answer->written_id)->orderBy('obtained_mark', 'desc')->pluck('user_id')->toArray();
+
+            $data['my_position'] = array_search(Auth::id(), $get_exam_answer) + 1;
+            $data['answer']      = $answer;
         }
-
-        $answer = PreliminaryAnswer::where('user_id', Auth::id())
-            ->where('exam_id', $request->exam_id)
-            ->with(
-                'user',
-                'exam',
-            )
-            ->first();
-
-        $data['question_count'] = ExamQuestion::where('exam_id', $answer->exam->id)->count();
-
-        $data['total_examinee']        = PreliminaryAnswer::where('exam_id', $request->exam_id)->count();
-        $data['answer']                = $answer;
-        $data['total_passed_examinee'] = PreliminaryAnswer::where('exam_id', $request->exam_id)->where('obtained_marks', '>', $answer->exam->pass_marks)->count();
-
-        $get_exam_answer = PreliminaryAnswer::where('exam_id', $answer->exam_id)->orderBy('obtained_marks', 'desc')->pluck('user_id')->toArray();
-
-        $data['my_position'] = array_search(Auth::id(), $get_exam_answer) + 1;
 
         return $this->successMessage('ok', $data);
     }
@@ -167,7 +199,7 @@ class AnswerController extends Controller {
     public function preliminaryAnswerScript(Request $request) {
 
         if (!PreliminaryAnswer::where('user_id', Auth::id())->where('exam_id', $request->exam_id)->exists()) {
-            return $this->errorMessage('Somthing went wrong', '');
+            return $this->errorMessage('Somthing went wrong11', '');
         }
 
         $answer = PreliminaryAnswer::where('user_id', Auth::id())
