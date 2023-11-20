@@ -59,6 +59,7 @@ class ExamController extends Controller {
                 'expired_at'                 => $request->expired_at,
                 'duration'                   => ($request->duration * 60),
                 'late_cut_mark'              => $request->late_cut_mark,
+                'pass_marks'                 => $request->pass_marks,
             ]);
         } else {
             $exam                             = Exam::find($exam_id);
@@ -73,6 +74,7 @@ class ExamController extends Controller {
             $exam->expired_at                 = $request->expired_at;
             $exam->duration                   = ($request->duration * 60);
             $exam->late_cut_mark              = $request->late_cut_mark;
+            $exam->pass_marks                 = $request->pass_marks;
             $exam->save();
         }
 
@@ -268,6 +270,7 @@ class ExamController extends Controller {
                 'published_at'  => $request->published_at,
                 'expired_at'    => $request->expired_at,
                 'late_cut_mark' => $request->late_cut_mark,
+                'pass_marks'    => $request->pass_marks,
                 'duration'      => ($request->duration * 60),
                 'question'      => $question ?? '',
                 'answer'        => $answer ?? '',
@@ -282,6 +285,7 @@ class ExamController extends Controller {
             $exam->published_at  = $request->published_at;
             $exam->expired_at    = $request->expired_at;
             $exam->late_cut_mark = $request->late_cut_mark;
+            $exam->pass_marks    = $request->pass_marks;
             $exam->duration      = ($request->duration * 60);
             $exam->save();
 
