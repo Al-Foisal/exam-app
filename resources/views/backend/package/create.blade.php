@@ -180,6 +180,39 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="card p-3 mb-3">
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" name="permission[Material]" value="true"
+                                                class="form-check-input" id="Material"
+                                                {{ isset($package) && multiKeyExists($package->permission, 'Material') ? 'checked' : '' }}>
+                                            <label class="form-label form-check-label" for="Material">Material</label>
+                                            <div class="form-check">
+                                                <input type="checkbox" name="permission[Material][BCS]" value="true"
+                                                    {{ isset($package) && isset($package->permission['Material']) && multiKeyExists($package->permission['Material'], 'BCS') ? 'checked' : '' }}
+                                                    class="form-check-input" id="Material_BCS">
+                                                <label class="form-label form-check-label"
+                                                    for="Material_BCS">BCS</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" name="permission[Material][Bank]" value="true"
+                                                    {{ isset($package) && isset($package->permission['Material']) && multiKeyExists($package->permission['Material'], 'Bank') ? 'checked' : '' }}
+                                                    class="form-check-input" id="Material_Bank">
+                                                <label class="form-label form-check-label" for="Material_Bank">Bank</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" name="permission[Material][Recent]" value="true"
+                                                    {{ isset($package) && isset($package->permission['Material']) && multiKeyExists($package->permission['Material'], 'Recent') ? 'checked' : '' }}
+                                                    class="form-check-input" id="Material_Recent">
+                                                <label class="form-label form-check-label" for="Material_Recent">Recent</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" name="permission[Material][Record_Class]" value="true"
+                                                    {{ isset($package) && isset($package->permission['Material']) && multiKeyExists($package->permission['Material'], 'Record_Class') ? 'checked' : '' }}
+                                                    class="form-check-input" id="Material_Record_Class">
+                                                <label class="form-label form-check-label" for="Material_Record_Class">Record Class</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
