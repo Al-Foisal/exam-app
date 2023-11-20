@@ -58,6 +58,7 @@ class ExamController extends Controller {
                 'published_at'               => $request->published_at,
                 'expired_at'                 => $request->expired_at,
                 'duration'                   => ($request->duration * 60),
+                'late_cut_mark'              => $request->late_cut_mark,
             ]);
         } else {
             $exam                             = Exam::find($exam_id);
@@ -71,6 +72,7 @@ class ExamController extends Controller {
             $exam->published_at               = $request->published_at;
             $exam->expired_at                 = $request->expired_at;
             $exam->duration                   = ($request->duration * 60);
+            $exam->late_cut_mark              = $request->late_cut_mark;
             $exam->save();
         }
 
@@ -265,6 +267,7 @@ class ExamController extends Controller {
                 'topic_id'      => implode(',', $request->topic_id),
                 'published_at'  => $request->published_at,
                 'expired_at'    => $request->expired_at,
+                'late_cut_mark' => $request->late_cut_mark,
                 'duration'      => ($request->duration * 60),
                 'question'      => $question ?? '',
                 'answer'        => $answer ?? '',
@@ -278,6 +281,7 @@ class ExamController extends Controller {
             $exam->topic_id      = implode(',', $request->topic_id);
             $exam->published_at  = $request->published_at;
             $exam->expired_at    = $request->expired_at;
+            $exam->late_cut_mark = $request->late_cut_mark;
             $exam->duration      = ($request->duration * 60);
             $exam->save();
 
@@ -433,7 +437,6 @@ class ExamController extends Controller {
             $image_file = $request->file('syllabus');
 
             if ($image_file) {
-
 
                 if ($data) {
                     $image_path = public_path($data->syllabus);

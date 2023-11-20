@@ -99,7 +99,13 @@ class AnswerController extends Controller {
 
             $obtained_mark = $positive_count * $exam_details->per_question_positive_mark - $negative_count * $exam_details->per_question_negative_mark;
 
-            $answer->obtained_marks = $obtained_mark;
+            if ($request->late_mark > 0) {
+                $late_cut_mark = ($obtained_mark * $request->late_mark) / 100;
+            } else {
+                $late_cut_mark = 0;
+            }
+
+            $answer->obtained_marks = $obtained_mark - $late_cut_mark;
 
             $answer->positive_count = $positive_count;
             $answer->negative_count = $negative_count;
@@ -108,6 +114,7 @@ class AnswerController extends Controller {
             $answer->positive_marks = $positive_count * $exam_details->per_question_positive_mark;
             $answer->negative_marks = $negative_count * $exam_details->per_question_negative_mark;
             $answer->empty_marks    = $empty_marks;
+            $answer->late_cut_mark  = $late_cut_mark;
 
             $answer->result_status = $obtained_mark > $exam_details->pass_marks ? 1 : 0;
             $answer->save();
