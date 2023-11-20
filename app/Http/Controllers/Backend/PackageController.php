@@ -8,9 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 class PackageController extends Controller {
-    /**
-     * Display a listing of the resource.
-     */
     public function index() {
         $data            = [];
         $data['package'] = Package::latest()->paginate();
@@ -18,9 +15,6 @@ class PackageController extends Controller {
         return view('backend.package.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function createOrEdit($id = null) {
         $data = [];
 
@@ -33,9 +27,6 @@ class PackageController extends Controller {
         return view('backend.package.create', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function storeOrUpdate(Request $request, $id = null) {
 
         if ($id) {
@@ -115,32 +106,11 @@ class PackageController extends Controller {
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id) {
-        //
-    }
+    public function destroy($id) {
+        $package = Package::find($id);
+        $package->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id) {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id) {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id) {
-        //
+        return back()->withToastSuccess('Package deleted successfully');
     }
 
 }

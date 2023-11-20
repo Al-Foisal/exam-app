@@ -147,5 +147,6 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create-or-edit/{id?}', 'createOrEdit')->name('createOrEdit');
         Route::post('/store-or-update/{id?}', 'storeOrUpdate')->name('storeOrUpdate');
+        Route::delete('/delete/{id}', 'destroy')->name('delete');
     });
 });

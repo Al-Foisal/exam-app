@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Package extends Model {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $guarded = [];
     protected $casts   = [
         'permission' => 'array', // Will convarted to (Array)

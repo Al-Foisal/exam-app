@@ -68,8 +68,9 @@
                     <hr>
                     <div class="d-flex justify-content-between">
                         <a href="{{ route('packages.createOrEdit',$item->id) }}" class="btn btn-info btn-sm">Edit</a>
-                        <form action="">
+                        <form action="{{ route('packages.delete',$item->id) }}" method="post">
                             @csrf
+                            @method('delete')
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </form>
                     </div>
