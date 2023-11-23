@@ -35,17 +35,35 @@
                     @endif
 
                     <div class="widget-description text-success" style="text-align: left;">
-                        {{-- {{ json_encode($item->permission) }} --}}
+                        {{ json_encode($item->permission) }}
                         @foreach ($item->permission as $c_key => $cat)
                             @if (is_array($cat))
                                 @foreach ($cat as $s_key => $sub)
                                     @if (is_array($sub))
                                         @foreach ($sub as $ch_key => $child)
-                                            <div>
+                                            @if (is_array($child))
+                                                @foreach ($child as $e_key => $exam)
+                                                    <div>
+                                                        <i class="fas fa-check-circle me-2"></i>{{ $c_key }} <i
+                                                            class="fas fa-arrow-right"></i> {{ $s_key }} <i
+                                                            class="fas fa-arrow-right"></i> {{ $ch_key }} <i
+                                                            class="fas fa-arrow-right"></i>
+                                                        {{ getPreli($e_key)->published_at->format('d F, Y') . ': ' . $exam }}
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <div>
+                                                    <i class="fas fa-check-circle me-2"></i>{{ $c_key }} <i
+                                                        class="fas fa-arrow-right"></i> {{ $s_key }} <i
+                                                        class="fas fa-arrow-right"></i>
+                                                    {{ $ch_key . ': ' . $child }}
+                                                </div>
+                                            @endif
+                                            {{-- <div>
                                                 <i class="fas fa-check-circle me-2"></i>{{ $c_key }} <i
                                                     class="fas fa-arrow-right"></i> {{ $s_key }} <i
                                                     class="fas fa-arrow-right"></i> {{ $ch_key . ': ' . $child }}
-                                            </div>
+                                            </div> --}}
                                         @endforeach
                                     @else
                                         <div>
@@ -67,8 +85,8 @@
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between">
-                        <a href="{{ route('packages.createOrEdit',$item->id) }}" class="btn btn-info btn-sm">Edit</a>
-                        <form action="{{ route('packages.delete',$item->id) }}" method="post">
+                        <a href="{{ route('packages.createOrEdit', $item->id) }}" class="btn btn-info btn-sm">Edit</a>
+                        <form action="{{ route('packages.delete', $item->id) }}" method="post">
                             @csrf
                             @method('delete')
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>

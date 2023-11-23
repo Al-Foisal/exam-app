@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Exam;
 use App\Models\Package;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -20,14 +21,23 @@ class PackageController extends Controller {
 
         if ($id) {
             $data['package'] = Package::find($id);
+            $data['bcs_preliminary'] = Exam::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'BCS')
+                ->where('subcategory', 'Preliminary')
+                ->get();
         } else {
-            $data['package'] = null;
+            $data['package']         = null;
+            $data['bcs_preliminary'] = Exam::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'BCS')
+                ->where('subcategory', 'Preliminary')
+                ->get();
         }
 
         return view('backend.package.create', $data);
     }
 
     public function storeOrUpdate(Request $request, $id = null) {
+        // dd($request->all());
 
         if ($id) {
             $package = Package::find($id);

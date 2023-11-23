@@ -147,7 +147,7 @@ class ExamManageController extends Controller {
             }
 
             if ($request->subject_id) {
-                $exam = $exam->where('subject_id', 'LIKE', '%' . $request->subject_id);
+                $exam = $exam->where('subject_id', 'LIKE', $request->subject_id . '%');
             }
 
             $exam = $exam->orderByDesc('id')
@@ -158,6 +158,25 @@ class ExamManageController extends Controller {
                 ])
                 ->withCount('questions')
                 ->paginate();
+
+            if ($request->search) {
+                $exam = Exam::whereDate('expired_at', '<', date('Y-m-d'))
+                    ->where('category', $category)
+                    ->where('subcategory', $sub);
+
+                if ($child) {
+                    $exam = $exam->where('childcategory', $child);
+                }
+
+                $exam = $exam->orderByDesc('id')
+                    ->with([
+                        'userAnswer' => function ($q) {
+                            return $q->where('user_id', Auth::id());
+                        },
+                    ])
+                    ->withCount('questions')
+                    ->get();
+            }
 
             foreach ($exam as $item) {
                 $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
@@ -215,7 +234,7 @@ class ExamManageController extends Controller {
             }
 
             if ($request->subject_id) {
-                $exam = $exam->where('subject_id', 'LIKE', '%' . $request->subject_id . '%');
+                $exam = $exam->where('subject_id', 'LIKE', $request->subject_id . '%');
             }
 
             $exam = $exam->orderByDesc('id')
@@ -226,6 +245,25 @@ class ExamManageController extends Controller {
                 ])
                 ->withCount('writtenQuestion')
                 ->paginate();
+
+            if ($request->search) {
+                $exam = Written::whereDate('expired_at', '<', date('Y-m-d'))
+                    ->where('category', $category)
+                    ->where('subcategory', $sub);
+
+                if ($child) {
+                    $exam = $exam->where('childcategory', $child);
+                }
+
+                $exam = $exam->orderByDesc('id')
+                    ->with([
+                        'userAnswer' => function ($q) {
+                            return $q->where('user_id', Auth::id());
+                        },
+                    ])
+                    ->withCount('writtenQuestion')
+                    ->get();
+            }
 
             foreach ($exam as $item) {
                 $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
@@ -431,7 +469,7 @@ class ExamManageController extends Controller {
 
             if ($request->subject_id) {
                 $answer = $answer->whereHas('exam', function ($q) use ($request) {
-                    return $q->where('subject_id', 'LIKE', '%' . $request->subject_id . '%');
+                    return $q->where('subject_id', 'LIKE', $request->subject_id . '%');
                 });
             }
 
@@ -495,7 +533,7 @@ class ExamManageController extends Controller {
 
             if ($request->subject_id) {
                 $answer = $answer->whereHas('written', function ($q) use ($request) {
-                    return $q->where('subject_id', 'LIKE', '%' . $request->subject_id . '%');
+                    return $q->where('subject_id', 'LIKE', $request->subject_id . '%');
                 });
             }
 

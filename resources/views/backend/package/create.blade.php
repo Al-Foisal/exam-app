@@ -55,6 +55,18 @@
                                                     class="form-check-input" id="BCS_Preliminary">
                                                 <label class="form-label form-check-label"
                                                     for="BCS_Preliminary">Preliminary</label>
+                                                @foreach ($bcs_preliminary as $bcs_pre)
+                                                    <div class="form-check">
+                                                        <input type="checkbox"
+                                                            name="permission[BCS][Preliminary][{{ $bcs_pre->published_at->format('d F, Y') }}]"
+                                                            value="true"
+                                                            {{ isset($package) && isset($package->permission['BCS']) && multiKeyExists($package->permission['BCS']['Preliminary'], $bcs_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                            class="form-check-input"
+                                                            id="BCS_Preliminary{{ $bcs_pre->published_at->format('d F, Y') }}">
+                                                        <label class="form-label form-check-label"
+                                                            for="BCS_Preliminary{{ $bcs_pre->published_at->format('d F, Y') }}">{{ $bcs_pre->published_at->format('d F, Y') }}</label>
+                                                    </div>
+                                                @endforeach
                                             </div>
                                             <div class="form-check">
                                                 <input type="checkbox" name="permission[BCS][Written]" value="true"
@@ -190,26 +202,29 @@
                                                 <input type="checkbox" name="permission[Material][BCS]" value="true"
                                                     {{ isset($package) && isset($package->permission['Material']) && multiKeyExists($package->permission['Material'], 'BCS') ? 'checked' : '' }}
                                                     class="form-check-input" id="Material_BCS">
-                                                <label class="form-label form-check-label"
-                                                    for="Material_BCS">BCS</label>
+                                                <label class="form-label form-check-label" for="Material_BCS">BCS</label>
                                             </div>
                                             <div class="form-check">
                                                 <input type="checkbox" name="permission[Material][Bank]" value="true"
                                                     {{ isset($package) && isset($package->permission['Material']) && multiKeyExists($package->permission['Material'], 'Bank') ? 'checked' : '' }}
                                                     class="form-check-input" id="Material_Bank">
-                                                <label class="form-label form-check-label" for="Material_Bank">Bank</label>
+                                                <label class="form-label form-check-label"
+                                                    for="Material_Bank">Bank</label>
                                             </div>
                                             <div class="form-check">
                                                 <input type="checkbox" name="permission[Material][Recent]" value="true"
                                                     {{ isset($package) && isset($package->permission['Material']) && multiKeyExists($package->permission['Material'], 'Recent') ? 'checked' : '' }}
                                                     class="form-check-input" id="Material_Recent">
-                                                <label class="form-label form-check-label" for="Material_Recent">Recent</label>
+                                                <label class="form-label form-check-label"
+                                                    for="Material_Recent">Recent</label>
                                             </div>
                                             <div class="form-check">
-                                                <input type="checkbox" name="permission[Material][Record_Class]" value="true"
+                                                <input type="checkbox" name="permission[Material][Record_Class]"
+                                                    value="true"
                                                     {{ isset($package) && isset($package->permission['Material']) && multiKeyExists($package->permission['Material'], 'Record_Class') ? 'checked' : '' }}
                                                     class="form-check-input" id="Material_Record_Class">
-                                                <label class="form-label form-check-label" for="Material_Record_Class">Record Class</label>
+                                                <label class="form-label form-check-label"
+                                                    for="Material_Record_Class">Record Class</label>
                                             </div>
                                         </div>
                                     </div>

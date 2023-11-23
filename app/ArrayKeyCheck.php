@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Exam;
+use Illuminate\Support\Facades\DB;
+
 function multiKeyExists($arr, $key) {
 
     if (!is_array($arr)) {
@@ -10,19 +13,11 @@ function multiKeyExists($arr, $key) {
         return true;
     }
 
-// foreach ($arr as $element) {
-
-//     if (is_array($element)) {
-
-//         if (multiKeyExists($element, $key)) {
-
-//             return true;
-
-//         }
-
-//     }
-
-    // }
-
     return false;
+}
+
+function getPreli($id) {
+    $data = Exam::find($id) ?? [];
+
+    return $data;
 }
