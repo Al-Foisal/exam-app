@@ -48,7 +48,7 @@
                                                             class="fas fa-arrow-right"></i> {{ $s_key }} <i
                                                             class="fas fa-arrow-right"></i> {{ $ch_key }} <i
                                                             class="fas fa-arrow-right"></i>
-                                                        {{ getPreli($e_key)->published_at->format('d F, Y') . ': ' . $exam }}
+                                                        {{ $e_key . ': ' . $exam }}
                                                     </div>
                                                 @endforeach
                                             @else
@@ -59,11 +59,6 @@
                                                     {{ $ch_key . ': ' . $child }}
                                                 </div>
                                             @endif
-                                            {{-- <div>
-                                                <i class="fas fa-check-circle me-2"></i>{{ $c_key }} <i
-                                                    class="fas fa-arrow-right"></i> {{ $s_key }} <i
-                                                    class="fas fa-arrow-right"></i> {{ $ch_key . ': ' . $child }}
-                                            </div> --}}
                                         @endforeach
                                     @else
                                         <div>

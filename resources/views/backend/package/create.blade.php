@@ -60,7 +60,7 @@
                                                         <input type="checkbox"
                                                             name="permission[BCS][Preliminary][{{ $bcs_pre->published_at->format('d F, Y') }}]"
                                                             value="true"
-                                                            {{ isset($package) && isset($package->permission['BCS']) && multiKeyExists($package->permission['BCS']['Preliminary'], $bcs_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                            {{ isset($package) && isset($package->permission['BCS']['Preliminary']) && multiKeyExists($package->permission['BCS']['Preliminary'], $bcs_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
                                                             class="form-check-input"
                                                             id="BCS_Preliminary{{ $bcs_pre->published_at->format('d F, Y') }}">
                                                         <label class="form-label form-check-label"
@@ -73,6 +73,18 @@
                                                     {{ isset($package) && isset($package->permission['BCS']) && multiKeyExists($package->permission['BCS'], 'Written') ? 'checked' : '' }}
                                                     class="form-check-input" id="BCS_Written">
                                                 <label class="form-label form-check-label" for="BCS_Written">Written</label>
+                                                @foreach ($bcs_written as $bcs_pre)
+                                                    <div class="form-check">
+                                                        <input type="checkbox"
+                                                            name="permission[BCS][Written][{{ $bcs_pre->published_at->format('d F, Y') }}]"
+                                                            value="true"
+                                                            {{ isset($package) && isset($package->permission['BCS']['Written']) && multiKeyExists($package->permission['BCS']['Written'], $bcs_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                            class="form-check-input"
+                                                            id="BCS_Written{{ $bcs_pre->published_at->format('d F, Y') }}">
+                                                        <label class="form-label form-check-label"
+                                                            for="BCS_Written{{ $bcs_pre->published_at->format('d F, Y') }}">{{ $bcs_pre->published_at->format('d F, Y') }}</label>
+                                                    </div>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
@@ -88,6 +100,18 @@
                                                     class="form-check-input" id="Bank_Preliminary">
                                                 <label class="form-label form-check-label"
                                                     for="Bank_Preliminary">Preliminary</label>
+                                                @foreach ($bank_preliminary as $bank_pre)
+                                                    <div class="form-check">
+                                                        <input type="checkbox"
+                                                            name="permission[Bank][Preliminary][{{ $bank_pre->published_at->format('d F, Y') }}]"
+                                                            value="true"
+                                                            {{ isset($package) && isset($package->permission['Bank']['Preliminary']) && multiKeyExists($package->permission['Bank']['Preliminary'], $bank_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                            class="form-check-input"
+                                                            id="Bank_Preliminary{{ $bank_pre->published_at->format('d F, Y') }}">
+                                                        <label class="form-label form-check-label"
+                                                            for="Bank_Preliminary{{ $bank_pre->published_at->format('d F, Y') }}">{{ $bank_pre->published_at->format('d F, Y') }}</label>
+                                                    </div>
+                                                @endforeach
                                             </div>
                                             <div class="form-check">
                                                 <input type="checkbox" name="permission[Bank][Written]" value="true"
@@ -95,6 +119,18 @@
                                                     class="form-check-input" id="Bank_Written">
                                                 <label class="form-label form-check-label"
                                                     for="Bank_Written">Written</label>
+                                                @foreach ($bank_written as $bank_pre)
+                                                    <div class="form-check">
+                                                        <input type="checkbox"
+                                                            name="permission[Bank][Written][{{ $bank_pre->published_at->format('d F, Y') }}]"
+                                                            value="true"
+                                                            {{ isset($package) && isset($package->permission['Bank']['Written']) && multiKeyExists($package->permission['Bank']['Written'], $bank_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                            class="form-check-input"
+                                                            id="Bank_Written{{ $bank_pre->published_at->format('d F, Y') }}">
+                                                        <label class="form-label form-check-label"
+                                                            for="Bank_Written{{ $bank_pre->published_at->format('d F, Y') }}">{{ $bank_pre->published_at->format('d F, Y') }}</label>
+                                                    </div>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
@@ -118,6 +154,18 @@
                                                         id="Others_primary_Preliminary">
                                                     <label class="form-label form-check-label"
                                                         for="Others_primary_Preliminary">Preliminary</label>
+                                                    @foreach ($primary_preliminary as $primary_pre)
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                name="permission[Others][Primary][Preliminary][{{ $primary_pre->published_at->format('d F, Y') }}]"
+                                                                value="true"
+                                                                {{ isset($package) && isset($package->permission['Others']['Primary']['Preliminary']) && multiKeyExists($package->permission['Others']['Primary']['Preliminary'], $primary_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                                class="form-check-input"
+                                                                id="Others_primary_Preliminary{{ $primary_pre->published_at->format('d F, Y') }}">
+                                                            <label class="form-label form-check-label"
+                                                                for="Others_primary_Preliminary{{ $primary_pre->published_at->format('d F, Y') }}">{{ $primary_pre->published_at->format('d F, Y') }}</label>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                             <hr>
@@ -137,6 +185,19 @@
                                                         {{ isset($package) && isset($package->permission['Others']['11_20_Grade']) && multiKeyExists($package->permission['Others']['11_20_Grade'], 'Preliminary') ? 'checked' : '' }}>
                                                     <label class="form-label form-check-label"
                                                         for="Others_Others_11 to 20 Grade_Preliminary">Preliminary</label>
+
+                                                    @foreach ($grade_preliminary as $grade_pre)
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                name="permission[Others][11_20_Grade][Preliminary][{{ $grade_pre->published_at->format('d F, Y') }}]"
+                                                                value="true"
+                                                                {{ isset($package) && isset($package->permission['Others']['11_20_Grade']['Preliminary']) && multiKeyExists($package->permission['Others']['11_20_Grade']['Preliminary'], $grade_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                                class="form-check-input"
+                                                                id="Others_11_20_Grade_Preliminary{{ $grade_pre->published_at->format('d F, Y') }}">
+                                                            <label class="form-label form-check-label"
+                                                                for="Others_11_20_Grade_Preliminary{{ $grade_pre->published_at->format('d F, Y') }}">{{ $grade_pre->published_at->format('d F, Y') }}</label>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
                                                 <div class="form-check">
                                                     <input type="checkbox" name="permission[Others][11_20_Grade][Written]"
@@ -145,6 +206,19 @@
                                                         {{ isset($package) && isset($package->permission['Others']['11_20_Grade']) && multiKeyExists($package->permission['Others']['11_20_Grade'], 'Written') ? 'checked' : '' }}>
                                                     <label class="form-label form-check-label"
                                                         for="Others_Others_11 to 20 Grade_Written">Written</label>
+
+                                                    @foreach ($grade_written as $grade_pre)
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                name="permission[Others][11_20_Grade][Written][{{ $grade_pre->published_at->format('d F, Y') }}]"
+                                                                value="true"
+                                                                {{ isset($package) && isset($package->permission['Others']['11_20_Grade']['Written']) && multiKeyExists($package->permission['Others']['11_20_Grade']['Written'], $grade_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                                class="form-check-input"
+                                                                id="Others_11_20_Grade_Written{{ $grade_pre->published_at->format('d F, Y') }}">
+                                                            <label class="form-label form-check-label"
+                                                                for="Others_11_20_Grade_Written{{ $grade_pre->published_at->format('d F, Y') }}">{{ $grade_pre->published_at->format('d F, Y') }}</label>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                             <hr>
@@ -162,6 +236,19 @@
                                                         {{ isset($package) && isset($package->permission['Others']['Non_Cadre']) && multiKeyExists($package->permission['Others']['Non_Cadre'], 'Preliminary') ? 'checked' : '' }}>
                                                     <label class="form-label form-check-label"
                                                         for="Others_Non-Cadre_Preliminary">Preliminary</label>
+
+                                                    @foreach ($non_cader_preliminary as $non_cader_pre)
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                name="permission[Others][Non_Cadre][Preliminary][{{ $non_cader_pre->published_at->format('d F, Y') }}]"
+                                                                value="true"
+                                                                {{ isset($package) && isset($package->permission['Others']['Non_Cadre']['Preliminary']) && multiKeyExists($package->permission['Others']['Non_Cadre']['Preliminary'], $non_cader_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                                class="form-check-input"
+                                                                id="Others_Non_Cadre_Preliminary{{ $non_cader_pre->published_at->format('d F, Y') }}">
+                                                            <label class="form-label form-check-label"
+                                                                for="Others_Non_Cadre_Preliminary{{ $non_cader_pre->published_at->format('d F, Y') }}">{{ $non_cader_pre->published_at->format('d F, Y') }}</label>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                             <hr>
@@ -180,6 +267,18 @@
                                                         {{ isset($package) && isset($package->permission['Others']['Job_Solution']) && multiKeyExists($package->permission['Others']['Job_Solution'], 'Preliminary') ? 'checked' : '' }}>
                                                     <label class="form-label form-check-label"
                                                         for="Others_Job Solution_Preliminary">Preliminary</label>
+                                                    @foreach ($job_preliminary as $job_pre)
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                name="permission[Others][Job_Solution][Preliminary][{{ $job_pre->published_at->format('d F, Y') }}]"
+                                                                value="true"
+                                                                {{ isset($package) && isset($package->permission['Others']['Job_Solution']['Preliminary']) && multiKeyExists($package->permission['Others']['Job_Solution']['Preliminary'], $job_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                                class="form-check-input"
+                                                                id="Others_Job_Solution_Preliminary{{ $job_pre->published_at->format('d F, Y') }}">
+                                                            <label class="form-label form-check-label"
+                                                                for="Others_Job_Solution_Preliminary{{ $job_pre->published_at->format('d F, Y') }}">{{ $job_pre->published_at->format('d F, Y') }}</label>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
                                                 <div class="form-check">
                                                     <input type="checkbox"
@@ -188,6 +287,18 @@
                                                         {{ isset($package) && isset($package->permission['Others']['Job_Solution']) && multiKeyExists($package->permission['Others']['Job_Solution'], 'Written') ? 'checked' : '' }}>
                                                     <label class="form-label form-check-label"
                                                         for="Others_Job Solution_Written">Written</label>
+                                                    @foreach ($job_written as $job_pre)
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                name="permission[Others][Job_Solution][Written][{{ $job_pre->published_at->format('d F, Y') }}]"
+                                                                value="true"
+                                                                {{ isset($package) && isset($package->permission['Others']['Job_Solution']['Written']) && multiKeyExists($package->permission['Others']['Job_Solution']['Written'], $job_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                                class="form-check-input"
+                                                                id="Others_Job_Solution_Written{{ $job_pre->published_at->format('d F, Y') }}">
+                                                            <label class="form-label form-check-label"
+                                                                for="Others_Job_Solution_Written{{ $job_pre->published_at->format('d F, Y') }}">{{ $job_pre->published_at->format('d F, Y') }}</label>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>

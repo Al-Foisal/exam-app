@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
 use App\Models\Package;
+use App\Models\Written;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -20,10 +21,57 @@ class PackageController extends Controller {
         $data = [];
 
         if ($id) {
-            $data['package'] = Package::find($id);
+            $data['package']         = Package::find($id);
             $data['bcs_preliminary'] = Exam::whereDate('published_at', '>', date('Y-m-d'))
                 ->where('category', 'BCS')
                 ->where('subcategory', 'Preliminary')
+                ->get();
+            $data['bcs_written'] = Written::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'BCS')
+                ->where('subcategory', 'Written')
+                ->get();
+
+            $data['bank_preliminary'] = Exam::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Bank')
+                ->where('subcategory', 'Preliminary')
+                ->get();
+            $data['bank_written'] = Written::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Bank')
+                ->where('subcategory', 'Written')
+                ->get();
+
+            $data['primary_preliminary'] = Exam::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Others')
+                ->where('subcategory', 'Preliminary')
+                ->where('childcategory', 'Primary')
+                ->get();
+
+            $data['grade_preliminary'] = Exam::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Others')
+                ->where('subcategory', 'Preliminary')
+                ->where('childcategory', '11 to 20 Grade')
+                ->get();
+            $data['grade_written'] = Written::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Others')
+                ->where('subcategory', 'Written')
+                ->where('childcategory', '11 to 20 Grade')
+                ->get();
+
+            $data['non_cader_preliminary'] = Exam::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Others')
+                ->where('subcategory', 'Preliminary')
+                ->where('childcategory', 'Non-Cadre')
+                ->get();
+
+            $data['job_preliminary'] = Exam::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Others')
+                ->where('subcategory', 'Preliminary')
+                ->where('childcategory', 'Job Solution')
+                ->get();
+            $data['job_written'] = Written::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Others')
+                ->where('subcategory', 'Written')
+                ->where('childcategory', 'Job Solution')
                 ->get();
         } else {
             $data['package']         = null;
@@ -31,13 +79,61 @@ class PackageController extends Controller {
                 ->where('category', 'BCS')
                 ->where('subcategory', 'Preliminary')
                 ->get();
+            $data['bcs_written'] = Written::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'BCS')
+                ->where('subcategory', 'Written')
+                ->get();
+
+            $data['bank_preliminary'] = Exam::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Bank')
+                ->where('subcategory', 'Preliminary')
+                ->get();
+            $data['bank_written'] = Written::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Bank')
+                ->where('subcategory', 'Written')
+                ->get();
+
+            $data['primary_preliminary'] = Exam::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Others')
+                ->where('subcategory', 'Preliminary')
+                ->where('childcategory', 'Primary')
+                ->get();
+
+            $data['grade_preliminary'] = Exam::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Others')
+                ->where('subcategory', 'Preliminary')
+                ->where('childcategory', '11 to 20 Grade')
+                ->get();
+            $data['grade_written'] = Written::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Others')
+                ->where('subcategory', 'Written')
+                ->where('childcategory', '11 to 20 Grade')
+                ->get();
+
+            $data['non_cader_preliminary'] = Exam::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Others')
+                ->where('subcategory', 'Preliminary')
+                ->where('childcategory', 'Non-Cadre')
+                ->get();
+
+            $data['job_preliminary'] = Exam::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Others')
+                ->where('subcategory', 'Preliminary')
+                ->where('childcategory', 'Job Solution')
+                ->get();
+            $data['job_written'] = Written::whereDate('published_at', '>', date('Y-m-d'))
+                ->where('category', 'Others')
+                ->where('subcategory', 'Written')
+                ->where('childcategory', 'Job Solution')
+                ->get();
         }
 
         return view('backend.package.create', $data);
     }
 
     public function storeOrUpdate(Request $request, $id = null) {
-        // dd($request->all());
+
+// dd($request->all());
 
         if ($id) {
             $package = Package::find($id);
