@@ -44,11 +44,11 @@
                                     <tr>
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td class="d-flex justify-content-around">
-                                            <a href="{{ route('exam.writtenQuestion', [$item->id, 'ref' => 'BCS', 'type' => 'Written']) }}"
+                                            <a href="{{ route('exam.writtenQuestion', [$item->id, 'ref' => request()->ref, 'type' => 'Written', 'child' => $item->childcategory]) }}"
                                                 class="btn btn-info me-2">
                                                 <i class="fas fa-file-signature"></i>
                                             </a>
-                                            <a href="{{ route('exam.writtenCreate', [$item->id, 'ref' => 'BCS', 'type' => 'Written']) }}"
+                                            <a href="{{ route('exam.writtenCreate', [$item->id, 'ref' => request()->ref, 'type' => 'Written', 'child' => $item->childcategory]) }}"
                                                 class="btn btn-info me-2">
                                                 <i class="far fa-edit"></i>
                                             </a>
@@ -89,14 +89,16 @@
                                         <td>{{ $item->duration / 60 }}</td>
                                         <td>
                                             @if ($item->question)
-                                                <a target="_blank" class="btn btn-sm btn-outline-info" href="{{ asset($item->question) }}">View Question</a>
+                                                <a target="_blank" class="btn btn-sm btn-outline-info"
+                                                    href="{{ asset($item->question) }}">View Question</a>
                                             @else
                                                 No question set yet
                                             @endif
                                             <br>
                                             <br>
                                             @if ($item->answer)
-                                                <a target="_blank" class="btn btn-sm btn-outline-info" href="{{ asset($item->answer) }}">View Answer</a>
+                                                <a target="_blank" class="btn btn-sm btn-outline-info"
+                                                    href="{{ asset($item->answer) }}">View Answer</a>
                                             @else
                                                 No answer set yet
                                             @endif

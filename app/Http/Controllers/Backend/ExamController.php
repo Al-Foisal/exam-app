@@ -18,7 +18,15 @@ use Illuminate\Support\Facades\File;
 class ExamController extends Controller {
     public function index() {
         $data = [];
-        $exam = Exam::where('category', request()->ref)->where('subcategory', request()->type)->latest('published_at')->paginate(20);
+        $exam = Exam::where('category', request()->ref)
+            ->where('subcategory', request()->type);
+
+        if (request()->child) {
+            $exam = $exam->where('childcategory', request()->child);
+        }
+
+        $exam = $exam->latest('published_at')
+            ->paginate(20);
         $list = [];
 
         foreach ($exam as $item) {
