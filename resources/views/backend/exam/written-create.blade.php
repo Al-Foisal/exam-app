@@ -69,18 +69,13 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class=" col-md-4 mb-3">
+                                <div class=" col-md-6 mb-3">
                                     <label class="form-label" for="inputZip">Duration (minutes)<span
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="inputZip" name="duration"
                                         placeholder="30" value="{{ isset($exam) ? $exam->duration / 60 : '' }}">
                                 </div>
-                                <div class=" col-md-4 mb-3">
-                                    <label class="form-label" for="inputZip">Late cut marks for every 2 minutes (%)</label>
-                                    <input type="number" class="form-control" id="inputZip" name="late_cut_mark"
-                                        placeholder="1" value="{{ isset($exam) ? $exam->late_cut_mark : '' }}">
-                                </div>
-                                <div class=" col-md-4 mb-3">
+                                <div class=" col-md-6 mb-3">
                                     <label class="form-label" for="inputZip">Pass Marks<span
                                         class="text-danger">*</span></label>
                                     <input type="number" step="0.01" class="form-control" id="inputZip" name="pass_marks"

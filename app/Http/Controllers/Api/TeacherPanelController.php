@@ -144,14 +144,7 @@ class TeacherPanelController extends Controller {
                 $written_answer             = WrittenAnswer::find($question->written_answer_id);
                 $written_answer->is_checked = $request->is_checked;
 
-                if ($request->late_mark > 0 && $written_answer->late_cut_mark == null) {
-                    $late_cut_mark = ($request->obtained_mark * $request->late_mark) / 100;
-                } else {
-                    $late_cut_mark = 0;
-                }
-
-                $written_answer->obtained_mark = $request->obtained_mark - $late_cut_mark;
-                $written_answer->late_cut_mark = $late_cut_mark;
+                $written_answer->obtained_mark = $request->obtained_mark;
                 $written_answer->save();
 
                 if (!$is_checked_before) {
