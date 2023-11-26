@@ -58,13 +58,13 @@
                                                 @foreach ($bcs_preliminary as $bcs_pre)
                                                     <div class="form-check">
                                                         <input type="checkbox"
-                                                            name="permission[BCS][Preliminary][{{ $bcs_pre->published_at->format('d F, Y') }}]"
+                                                            name="permission[BCS][Preliminary][{{ $bcs_pre->published_at->format('d-m-Y') }}]"
                                                             value="true"
-                                                            {{ isset($package) && isset($package->permission['BCS']['Preliminary']) && multiKeyExists($package->permission['BCS']['Preliminary'], $bcs_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                            {{ isset($package) && isset($package->permission['BCS']['Preliminary']) && multiKeyExists($package->permission['BCS']['Preliminary'], $bcs_pre->published_at->format('d-m-Y')) ? 'checked' : '' }}
                                                             class="form-check-input"
-                                                            id="BCS_Preliminary{{ $bcs_pre->published_at->format('d F, Y') }}">
+                                                            id="BCS_Preliminary{{ $bcs_pre->published_at->format('d-m-Y') }}">
                                                         <label class="form-label form-check-label"
-                                                            for="BCS_Preliminary{{ $bcs_pre->published_at->format('d F, Y') }}">{{ $bcs_pre->published_at->format('d F, Y') }}</label>
+                                                            for="BCS_Preliminary{{ $bcs_pre->published_at->format('d-m-Y') }}">{{ $bcs_pre->published_at->format('d-m-Y') }}</label>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -76,13 +76,13 @@
                                                 @foreach ($bcs_written as $bcs_pre)
                                                     <div class="form-check">
                                                         <input type="checkbox"
-                                                            name="permission[BCS][Written][{{ $bcs_pre->published_at->format('d F, Y') }}]"
+                                                            name="permission[BCS][Written][{{ $bcs_pre->published_at->format('d-m-Y') }}]"
                                                             value="true"
-                                                            {{ isset($package) && isset($package->permission['BCS']['Written']) && multiKeyExists($package->permission['BCS']['Written'], $bcs_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                            {{ isset($package) && isset($package->permission['BCS']['Written']) && multiKeyExists($package->permission['BCS']['Written'], $bcs_pre->published_at->format('d-m-Y')) ? 'checked' : '' }}
                                                             class="form-check-input"
-                                                            id="BCS_Written{{ $bcs_pre->published_at->format('d F, Y') }}">
+                                                            id="BCS_Written{{ $bcs_pre->published_at->format('d-m-Y') }}">
                                                         <label class="form-label form-check-label"
-                                                            for="BCS_Written{{ $bcs_pre->published_at->format('d F, Y') }}">{{ $bcs_pre->published_at->format('d F, Y') }}</label>
+                                                            for="BCS_Written{{ $bcs_pre->published_at->format('d-m-Y') }}">{{ $bcs_pre->published_at->format('d-m-Y') }}</label>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -103,13 +103,13 @@
                                                 @foreach ($bank_preliminary as $bank_pre)
                                                     <div class="form-check">
                                                         <input type="checkbox"
-                                                            name="permission[Bank][Preliminary][{{ $bank_pre->published_at->format('d F, Y') }}]"
+                                                            name="permission[Bank][Preliminary][{{ $bank_pre->published_at->format('d-m-Y') }}]"
                                                             value="true"
-                                                            {{ isset($package) && isset($package->permission['Bank']['Preliminary']) && multiKeyExists($package->permission['Bank']['Preliminary'], $bank_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                            {{ isset($package) && isset($package->permission['Bank']['Preliminary']) && multiKeyExists($package->permission['Bank']['Preliminary'], $bank_pre->published_at->format('d-m-Y')) ? 'checked' : '' }}
                                                             class="form-check-input"
-                                                            id="Bank_Preliminary{{ $bank_pre->published_at->format('d F, Y') }}">
+                                                            id="Bank_Preliminary{{ $bank_pre->published_at->format('d-m-Y') }}">
                                                         <label class="form-label form-check-label"
-                                                            for="Bank_Preliminary{{ $bank_pre->published_at->format('d F, Y') }}">{{ $bank_pre->published_at->format('d F, Y') }}</label>
+                                                            for="Bank_Preliminary{{ $bank_pre->published_at->format('d-m-Y') }}">{{ $bank_pre->published_at->format('d-m-Y') }}</label>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -122,13 +122,13 @@
                                                 @foreach ($bank_written as $bank_pre)
                                                     <div class="form-check">
                                                         <input type="checkbox"
-                                                            name="permission[Bank][Written][{{ $bank_pre->published_at->format('d F, Y') }}]"
+                                                            name="permission[Bank][Written][{{ $bank_pre->published_at->format('d-m-Y') }}]"
                                                             value="true"
-                                                            {{ isset($package) && isset($package->permission['Bank']['Written']) && multiKeyExists($package->permission['Bank']['Written'], $bank_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                            {{ isset($package) && isset($package->permission['Bank']['Written']) && multiKeyExists($package->permission['Bank']['Written'], $bank_pre->published_at->format('d-m-Y')) ? 'checked' : '' }}
                                                             class="form-check-input"
-                                                            id="Bank_Written{{ $bank_pre->published_at->format('d F, Y') }}">
+                                                            id="Bank_Written{{ $bank_pre->published_at->format('d-m-Y') }}">
                                                         <label class="form-label form-check-label"
-                                                            for="Bank_Written{{ $bank_pre->published_at->format('d F, Y') }}">{{ $bank_pre->published_at->format('d F, Y') }}</label>
+                                                            for="Bank_Written{{ $bank_pre->published_at->format('d-m-Y') }}">{{ $bank_pre->published_at->format('d-m-Y') }}</label>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -157,13 +157,13 @@
                                                     @foreach ($primary_preliminary as $primary_pre)
                                                         <div class="form-check">
                                                             <input type="checkbox"
-                                                                name="permission[Others][Primary][Preliminary][{{ $primary_pre->published_at->format('d F, Y') }}]"
+                                                                name="permission[Others][Primary][Preliminary][{{ $primary_pre->published_at->format('d-m-Y') }}]"
                                                                 value="true"
-                                                                {{ isset($package) && isset($package->permission['Others']['Primary']['Preliminary']) && multiKeyExists($package->permission['Others']['Primary']['Preliminary'], $primary_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                                {{ isset($package) && isset($package->permission['Others']['Primary']['Preliminary']) && multiKeyExists($package->permission['Others']['Primary']['Preliminary'], $primary_pre->published_at->format('d-m-Y')) ? 'checked' : '' }}
                                                                 class="form-check-input"
-                                                                id="Others_primary_Preliminary{{ $primary_pre->published_at->format('d F, Y') }}">
+                                                                id="Others_primary_Preliminary{{ $primary_pre->published_at->format('d-m-Y') }}">
                                                             <label class="form-label form-check-label"
-                                                                for="Others_primary_Preliminary{{ $primary_pre->published_at->format('d F, Y') }}">{{ $primary_pre->published_at->format('d F, Y') }}</label>
+                                                                for="Others_primary_Preliminary{{ $primary_pre->published_at->format('d-m-Y') }}">{{ $primary_pre->published_at->format('d-m-Y') }}</label>
                                                         </div>
                                                     @endforeach
                                                 </div>
@@ -189,13 +189,13 @@
                                                     @foreach ($grade_preliminary as $grade_pre)
                                                         <div class="form-check">
                                                             <input type="checkbox"
-                                                                name="permission[Others][11_20_Grade][Preliminary][{{ $grade_pre->published_at->format('d F, Y') }}]"
+                                                                name="permission[Others][11_20_Grade][Preliminary][{{ $grade_pre->published_at->format('d-m-Y') }}]"
                                                                 value="true"
-                                                                {{ isset($package) && isset($package->permission['Others']['11_20_Grade']['Preliminary']) && multiKeyExists($package->permission['Others']['11_20_Grade']['Preliminary'], $grade_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                                {{ isset($package) && isset($package->permission['Others']['11_20_Grade']['Preliminary']) && multiKeyExists($package->permission['Others']['11_20_Grade']['Preliminary'], $grade_pre->published_at->format('d-m-Y')) ? 'checked' : '' }}
                                                                 class="form-check-input"
-                                                                id="Others_11_20_Grade_Preliminary{{ $grade_pre->published_at->format('d F, Y') }}">
+                                                                id="Others_11_20_Grade_Preliminary{{ $grade_pre->published_at->format('d-m-Y') }}">
                                                             <label class="form-label form-check-label"
-                                                                for="Others_11_20_Grade_Preliminary{{ $grade_pre->published_at->format('d F, Y') }}">{{ $grade_pre->published_at->format('d F, Y') }}</label>
+                                                                for="Others_11_20_Grade_Preliminary{{ $grade_pre->published_at->format('d-m-Y') }}">{{ $grade_pre->published_at->format('d-m-Y') }}</label>
                                                         </div>
                                                     @endforeach
                                                 </div>
@@ -210,13 +210,13 @@
                                                     @foreach ($grade_written as $grade_pre)
                                                         <div class="form-check">
                                                             <input type="checkbox"
-                                                                name="permission[Others][11_20_Grade][Written][{{ $grade_pre->published_at->format('d F, Y') }}]"
+                                                                name="permission[Others][11_20_Grade][Written][{{ $grade_pre->published_at->format('d-m-Y') }}]"
                                                                 value="true"
-                                                                {{ isset($package) && isset($package->permission['Others']['11_20_Grade']['Written']) && multiKeyExists($package->permission['Others']['11_20_Grade']['Written'], $grade_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                                {{ isset($package) && isset($package->permission['Others']['11_20_Grade']['Written']) && multiKeyExists($package->permission['Others']['11_20_Grade']['Written'], $grade_pre->published_at->format('d-m-Y')) ? 'checked' : '' }}
                                                                 class="form-check-input"
-                                                                id="Others_11_20_Grade_Written{{ $grade_pre->published_at->format('d F, Y') }}">
+                                                                id="Others_11_20_Grade_Written{{ $grade_pre->published_at->format('d-m-Y') }}">
                                                             <label class="form-label form-check-label"
-                                                                for="Others_11_20_Grade_Written{{ $grade_pre->published_at->format('d F, Y') }}">{{ $grade_pre->published_at->format('d F, Y') }}</label>
+                                                                for="Others_11_20_Grade_Written{{ $grade_pre->published_at->format('d-m-Y') }}">{{ $grade_pre->published_at->format('d-m-Y') }}</label>
                                                         </div>
                                                     @endforeach
                                                 </div>
@@ -240,13 +240,13 @@
                                                     @foreach ($non_cader_preliminary as $non_cader_pre)
                                                         <div class="form-check">
                                                             <input type="checkbox"
-                                                                name="permission[Others][Non_Cadre][Preliminary][{{ $non_cader_pre->published_at->format('d F, Y') }}]"
+                                                                name="permission[Others][Non_Cadre][Preliminary][{{ $non_cader_pre->published_at->format('d-m-Y') }}]"
                                                                 value="true"
-                                                                {{ isset($package) && isset($package->permission['Others']['Non_Cadre']['Preliminary']) && multiKeyExists($package->permission['Others']['Non_Cadre']['Preliminary'], $non_cader_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                                {{ isset($package) && isset($package->permission['Others']['Non_Cadre']['Preliminary']) && multiKeyExists($package->permission['Others']['Non_Cadre']['Preliminary'], $non_cader_pre->published_at->format('d-m-Y')) ? 'checked' : '' }}
                                                                 class="form-check-input"
-                                                                id="Others_Non_Cadre_Preliminary{{ $non_cader_pre->published_at->format('d F, Y') }}">
+                                                                id="Others_Non_Cadre_Preliminary{{ $non_cader_pre->published_at->format('d-m-Y') }}">
                                                             <label class="form-label form-check-label"
-                                                                for="Others_Non_Cadre_Preliminary{{ $non_cader_pre->published_at->format('d F, Y') }}">{{ $non_cader_pre->published_at->format('d F, Y') }}</label>
+                                                                for="Others_Non_Cadre_Preliminary{{ $non_cader_pre->published_at->format('d-m-Y') }}">{{ $non_cader_pre->published_at->format('d-m-Y') }}</label>
                                                         </div>
                                                     @endforeach
                                                 </div>
@@ -270,13 +270,13 @@
                                                     @foreach ($job_preliminary as $job_pre)
                                                         <div class="form-check">
                                                             <input type="checkbox"
-                                                                name="permission[Others][Job_Solution][Preliminary][{{ $job_pre->published_at->format('d F, Y') }}]"
+                                                                name="permission[Others][Job_Solution][Preliminary][{{ $job_pre->published_at->format('d-m-Y') }}]"
                                                                 value="true"
-                                                                {{ isset($package) && isset($package->permission['Others']['Job_Solution']['Preliminary']) && multiKeyExists($package->permission['Others']['Job_Solution']['Preliminary'], $job_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                                {{ isset($package) && isset($package->permission['Others']['Job_Solution']['Preliminary']) && multiKeyExists($package->permission['Others']['Job_Solution']['Preliminary'], $job_pre->published_at->format('d-m-Y')) ? 'checked' : '' }}
                                                                 class="form-check-input"
-                                                                id="Others_Job_Solution_Preliminary{{ $job_pre->published_at->format('d F, Y') }}">
+                                                                id="Others_Job_Solution_Preliminary{{ $job_pre->published_at->format('d-m-Y') }}">
                                                             <label class="form-label form-check-label"
-                                                                for="Others_Job_Solution_Preliminary{{ $job_pre->published_at->format('d F, Y') }}">{{ $job_pre->published_at->format('d F, Y') }}</label>
+                                                                for="Others_Job_Solution_Preliminary{{ $job_pre->published_at->format('d-m-Y') }}">{{ $job_pre->published_at->format('d-m-Y') }}</label>
                                                         </div>
                                                     @endforeach
                                                 </div>
@@ -290,13 +290,13 @@
                                                     @foreach ($job_written as $job_pre)
                                                         <div class="form-check">
                                                             <input type="checkbox"
-                                                                name="permission[Others][Job_Solution][Written][{{ $job_pre->published_at->format('d F, Y') }}]"
+                                                                name="permission[Others][Job_Solution][Written][{{ $job_pre->published_at->format('d-m-Y') }}]"
                                                                 value="true"
-                                                                {{ isset($package) && isset($package->permission['Others']['Job_Solution']['Written']) && multiKeyExists($package->permission['Others']['Job_Solution']['Written'], $job_pre->published_at->format('d F, Y')) ? 'checked' : '' }}
+                                                                {{ isset($package) && isset($package->permission['Others']['Job_Solution']['Written']) && multiKeyExists($package->permission['Others']['Job_Solution']['Written'], $job_pre->published_at->format('d-m-Y')) ? 'checked' : '' }}
                                                                 class="form-check-input"
-                                                                id="Others_Job_Solution_Written{{ $job_pre->published_at->format('d F, Y') }}">
+                                                                id="Others_Job_Solution_Written{{ $job_pre->published_at->format('d-m-Y') }}">
                                                             <label class="form-label form-check-label"
-                                                                for="Others_Job_Solution_Written{{ $job_pre->published_at->format('d F, Y') }}">{{ $job_pre->published_at->format('d F, Y') }}</label>
+                                                                for="Others_Job_Solution_Written{{ $job_pre->published_at->format('d-m-Y') }}">{{ $job_pre->published_at->format('d-m-Y') }}</label>
                                                         </div>
                                                     @endforeach
                                                 </div>
