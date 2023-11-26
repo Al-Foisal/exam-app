@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Exam;
 use App\Models\ExamQuestion;
 use App\Models\PreliminaryAnswer;
+use App\Models\Subject;
+use App\Models\TopicSource;
 use App\Models\WrittenAnswer;
 use App\Models\WrittenAnswerQuestion;
 use App\Models\WrittenAnswerQuestionScript;
@@ -155,6 +157,8 @@ class AnswerController extends Controller {
             $get_exam_answer = PreliminaryAnswer::where('exam_id', $answer->exam_id)->orderBy('obtained_marks', 'desc')->pluck('user_id')->toArray();
 
             $data['my_position'] = array_search(Auth::id(), $get_exam_answer) + 1;
+            $data['subjects']    = Subject::whereIn('id', explode(',', $answer->exam->subject_id))->get();
+            $data['sources']     = TopicSource::whereIn('id', explode(',', $answer->exam->topic_id))->get();
         } elseif ($request->written_id) {
 
             if (!WrittenAnswer::where('user_id', Auth::id())->where('written_id', $request->written_id)->exists()) {
@@ -184,6 +188,8 @@ class AnswerController extends Controller {
 
             $data['my_position'] = array_search(Auth::id(), $get_exam_answer) + 1;
             $data['answer']      = $answer;
+            $data['subjects']    = Subject::whereIn('id', explode(',', $answer->written->subject_id))->get();
+            $data['sources']     = TopicSource::whereIn('id', explode(',', $answer->written->topic_id))->get();
         }
 
         return $this->successMessage('ok', $data);

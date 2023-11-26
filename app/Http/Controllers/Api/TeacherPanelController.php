@@ -145,6 +145,7 @@ class TeacherPanelController extends Controller {
                 $written_answer->is_checked = $request->is_checked;
 
                 $written_answer->obtained_mark = $request->obtained_mark;
+                $written_answer->result_status = $request->obtained_mark > $written_answer->written->pass_marks ? 1 : 0;
                 $written_answer->save();
 
                 if (!$is_checked_before) {

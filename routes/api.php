@@ -45,14 +45,16 @@ Route::middleware('auth:sanctum')->post('/get-material', function (Request $requ
         $subjects = Subject::where('name', 'LIKE', '%' . $request->search . '%')->pluck('id')->toArray();
 
         if ($subjects) {
-            $data = $data->where('subject_id', 'LIKE', '%' . implode(',', $subjects) . '%');
+            $data = $data->orWhere('subject_id', 'LIKE', '%' . implode(',', $subjects) . '%');
         }
 
         $topic = TopicSource::where('topic', 'LIKE', '%' . $request->search . '%')->where('source', 'LIKE', '%' . $request->search . '%')->pluck('id')->toArray();
 
         if ($topic) {
-            $data = $data->where('subject_id', 'LIKE', '%' . implode(',', $topic) . '%');
+            $data = $data->orWhere('subject_id', 'LIKE', '%' . implode(',', $topic) . '%');
         }
+
+        $data = $data->orWhere('name', 'LIKE', $request->search . '%');
 
     }
 
