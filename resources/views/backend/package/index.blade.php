@@ -48,15 +48,22 @@
                                                             class="fas fa-arrow-right"></i> {{ $s_key }} <i
                                                             class="fas fa-arrow-right"></i> {{ $ch_key }} <i
                                                             class="fas fa-arrow-right"></i>
-                                                        {{ $e_key . ': ' . $exam }}
+                                                        {{ $ch_key == 'Preliminary' ? \App\Models\Exam::find($e_key)->published_at->format('d-m-Y') : \App\Models\Written::find($e_key)->published_at->format('d-m-Y') }}{{ ': ' . $exam }}
                                                     </div>
                                                 @endforeach
                                             @else
                                                 <div>
                                                     <i class="fas fa-check-circle me-2"></i>{{ $c_key }} <i
-                                                        class="fas fa-arrow-right"></i> {{ $s_key }} <i
+                                                        class="fas fa-arrow-right"></i> {{ 'pp' . $s_key }} <i
                                                         class="fas fa-arrow-right"></i>
-                                                    {{ $ch_key . ': ' . $child }}
+                                                    @if ($s_key == 'Preliminary')
+                                                        {{ \App\Models\Exam::find($ch_key)->published_at->format('d-m-Y') }}
+                                                    @elseif($s_key == 'Written')
+                                                        {{ \App\Models\Written::find($ch_key)->published_at->format('d-m-Y') }}
+                                                    @else
+                                                        {{ $ch_key }}
+                                                    @endif
+                                                    {{ ': ' . $child }}
                                                 </div>
                                             @endif
                                         @endforeach
