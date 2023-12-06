@@ -53,8 +53,14 @@ class TeacherPanelController extends Controller {
                 'answer as total_examined' => function ($q) {
                     return $q->where('teacher_id', Auth::id())->where('is_checked', 1);
                 },
-            ])
-            ->paginate();
+            ]);
+
+        if ($request->published_date) {
+            // return $request->published_date;
+            $exam = $exam->whereDate('published_at', $request->published_date);
+        }
+
+        $exam = $exam->paginate(200);
 
         foreach ($exam as $item) {
             $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
@@ -181,7 +187,10 @@ class TeacherPanelController extends Controller {
 
     public function wallet() {
         $data           = [];
-        $data['wallet'] = TeacherWallet::where('user_id', Auth::id())->with('teacherWalletHistory')->first();
+        $data['wallet'] = TeacherWallet::where('user_id', Auth::id())->with(['teacherWalletHistory' => function ($q) {
+            return $q->latest();
+        },
+        ])->first();
 
         return $this->successMessage('', $data);
     }

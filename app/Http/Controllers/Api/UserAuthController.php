@@ -19,7 +19,7 @@ class UserAuthController extends Controller {
             $validator = Validator::make($request->all(), [
                 'name'     => 'required',
                 'email'    => 'required|unique:users|email',
-                'phone'    => 'nullable|unique:users',
+                'phone'    => 'required|unique:users',
                 'password' => 'required|min:8',
             ]);
 
@@ -45,10 +45,16 @@ class UserAuthController extends Controller {
                 'password'        => bcrypt($request->password),
                 'registration_id' => date("Y") . $register_number,
                 'register_number' => $registration_number,
-                'status'          => 1,
+                'status'          => 0,
                 'otp'             => $otp,
             ]);
 
+            DB::table('forgot_password_otps')->insert([
+                'phone' => $user->phone,
+                'otp'   => $user->otp,
+            ]);
+
+            sendSMS($user->phone, $user->otp);
             DB::commit();
 
             return $this->successMessage('Your account created');
@@ -82,6 +88,8 @@ class UserAuthController extends Controller {
             if (!$otp) {
                 return $this->errorMessage('Invalid phone or OTP!!', $request->otp);
             }
+
+            DB::table('forgot_password_otps')->where('phone', $request->phone)->delete();
 
             $user                    = User::where('phone', $request->phone)->first();
             $user->email_verified_at = now();
@@ -124,7 +132,9 @@ class UserAuthController extends Controller {
             'phone' => $request->phone,
         ]);
 
-        return $this->successMessage('An 6 digit code has been sent to your email!', $otp);
+        sendSMS($request->phone, $otp);
+
+        return $this->successMessage('An 6 digit code has been sent to your email!');
 
     }
 
@@ -140,6 +150,14 @@ class UserAuthController extends Controller {
             }
 
             if (!filter_var($request->email_or_phone, FILTER_VALIDATE_EMAIL)) {
+                $unverified = User::where('phone', $request->email_or_phone)->whereNull('email_verified_at')->first();
+
+                if ($unverified) {
+                    return $this->errorMessage('Unverified account', [
+                        'is_verified' => false,
+                        'user'        => $unverified,
+                    ]);
+                }
 
                 if (!Auth::attempt([
                     'phone'    => $request->email_or_phone,
@@ -148,7 +166,7 @@ class UserAuthController extends Controller {
                 ])) {
                     return response()->json([
                         'status'  => false,
-                        'message' => 'Invalid phone number or unauthorized account!!',
+                        'message' => 'Invalid phone number or unauthorized or inactive account!!',
                     ]);
                 }
 
@@ -163,6 +181,14 @@ class UserAuthController extends Controller {
                 ]);
 
             } else {
+                $unverified = User::where('email', $request->email_or_phone)->whereNull('email_verified_at')->first();
+
+                if ($unverified) {
+                    return $this->errorMessage('Unverified account', [
+                        'is_verified' => false,
+                        'user'        => $unverified,
+                    ]);
+                }
 
                 if (!Auth::attempt([
                     'email'    => $request->email_or_phone,
@@ -171,7 +197,7 @@ class UserAuthController extends Controller {
                 ])) {
                     return response()->json([
                         'status'  => false,
-                        'message' => 'Invalid email or unauthorized account!!',
+                        'message' => 'Invalid email or unauthorized or inactive account!!',
                     ]);
                 }
 
@@ -221,7 +247,9 @@ class UserAuthController extends Controller {
             'phone' => $request->phone,
         ]);
 
-        return $this->successMessage('An 6 digit code has been sent to your phone!', $otp);
+        sendSMS($request->phone, $otp);
+
+        return $this->successMessage('An 6 digit code has been sent to your phone!');
 
     }
 

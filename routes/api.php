@@ -46,6 +46,8 @@ Route::middleware('auth:sanctum')->post('/contact-us', function (Request $reques
 
 });
 Route::middleware('auth:sanctum')->post('/privacy-policy', function (Request $request) {
+    
+    
     $data = Page::where('slug', 'privacy-policy')->first();
 
     return response()->json([
@@ -62,17 +64,23 @@ Route::middleware('auth:sanctum')->post('/get-material', function (Request $requ
     }
 
     if ($request->search) {
-        $subjects = Subject::where('name', 'LIKE', '%' . $request->search . '%')->pluck('id')->toArray();
 
-        if ($subjects) {
-            $data = $data->where('subject_id', 'LIKE', '%' . implode(',', $subjects) . '%');
-        }
+// $subjects = Subject::where('name', 'LIKE', '%' . $request->search . '%')->pluck('id')->toArray();
 
-        $topic = TopicSource::where('topic', 'LIKE', '%' . $request->search . '%')->where('source', 'LIKE', '%' . $request->search . '%')->pluck('id')->toArray();
+// if ($subjects) {
 
-        if ($topic) {
-            $data = $data->where('subject_id', 'LIKE', '%' . implode(',', $topic) . '%');
-        }
+//     $data = $data->orWhere('subject_id', 'LIKE', '%' . implode(',', $subjects) . '%');
+
+// }
+
+// $topic = TopicSource::where('topic', 'LIKE', '%' . $request->search . '%')->where('source', 'LIKE', '%' . $request->search . '%')->pluck('id')->toArray();
+
+// if ($topic) {
+
+//     return $topic;
+
+//     $data = $data->orWhere('topic_id', 'LIKE', '%' . implode(',', $topic) . '%');
+        // }
 
         $data = $data->where('name', 'LIKE', $request->search . '%');
 
