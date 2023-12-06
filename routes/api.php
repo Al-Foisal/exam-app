@@ -6,8 +6,10 @@ use App\Http\Controllers\Api\SubscribtionController;
 use App\Http\Controllers\Api\TeacherPanelController;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserProfileController;
+use App\Models\CompanyInfo;
 use App\Models\Exam;
 use App\Models\Material;
+use App\Models\Page;
 use App\Models\Subject;
 use App\Models\TopicSource;
 use App\Models\Written;
@@ -34,6 +36,24 @@ Route::middleware('auth:sanctum')->get('/logout', function (Request $request) {
     return ['status' => true, 'message' => 'Logout Successful!'];
 });
 
+Route::middleware('auth:sanctum')->post('/contact-us', function (Request $request) {
+    $data = CompanyInfo::find(1);
+
+    return response()->json([
+        'status' => true,
+        'data'   => $data,
+    ]);
+
+});
+Route::middleware('auth:sanctum')->post('/privacy-policy', function (Request $request) {
+    $data = Page::where('slug', 'privacy-policy')->first();
+
+    return response()->json([
+        'status' => true,
+        'data'   => $data,
+    ]);
+
+});
 Route::middleware('auth:sanctum')->post('/get-material', function (Request $request) {
     $data = Material::where('category', $request->category);
 
@@ -45,16 +65,16 @@ Route::middleware('auth:sanctum')->post('/get-material', function (Request $requ
         $subjects = Subject::where('name', 'LIKE', '%' . $request->search . '%')->pluck('id')->toArray();
 
         if ($subjects) {
-            $data = $data->orWhere('subject_id', 'LIKE', '%' . implode(',', $subjects) . '%');
+            $data = $data->where('subject_id', 'LIKE', '%' . implode(',', $subjects) . '%');
         }
 
         $topic = TopicSource::where('topic', 'LIKE', '%' . $request->search . '%')->where('source', 'LIKE', '%' . $request->search . '%')->pluck('id')->toArray();
 
         if ($topic) {
-            $data = $data->orWhere('subject_id', 'LIKE', '%' . implode(',', $topic) . '%');
+            $data = $data->where('subject_id', 'LIKE', '%' . implode(',', $topic) . '%');
         }
 
-        $data = $data->orWhere('name', 'LIKE', $request->search . '%');
+        $data = $data->where('name', 'LIKE', $request->search . '%');
 
     }
 
@@ -113,6 +133,7 @@ Route::controller(SubscribtionController::class)->group(function () {
 Route::middleware('auth:sanctum')->controller(UserProfileController::class)->prefix('/profile')->group(function () {
     Route::get('/user', 'user');
     Route::post('/update', 'update');
+    Route::post('/asking-query', 'askingQuery');
 });
 
 Route::middleware('auth:sanctum')->controller(ExamManageController::class)->prefix('/exam')->group(function () {

@@ -670,7 +670,12 @@ class ExamManageController extends Controller {
 
         }
 
-        return $this->successMessage('ok', $get_exam_answer);
+        if (count($get_exam_answer) > 0) {
+            return $this->successMessage('ok', $get_exam_answer);
+        } else {
+            return $this->errorMessage('You do not have any perticipation for this categorised section.');
+        }
+
     }
 
 }

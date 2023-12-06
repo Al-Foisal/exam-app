@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\FAQ;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -56,6 +57,15 @@ class UserProfileController extends Controller {
 
         return $this->successMessage();
 
+    }
+
+    public function askingQuery(Request $request) {
+        FAQ::create([
+            'user_id'  => Auth::id(),
+            'question' => $request->question,
+        ]);
+
+        return $this->successMessage('Your query submitted successfully');
     }
 
 }
