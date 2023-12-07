@@ -12,7 +12,7 @@ use App\Models\Written;
 use App\Models\WrittenAnswer;
 use App\Models\WrittenAnswerQuestion;
 use App\Models\WrittenAnswerQuestionScript;
-use App\Services\FCMService;
+use App\Service\FCMService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
