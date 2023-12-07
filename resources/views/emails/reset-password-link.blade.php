@@ -8,6 +8,5 @@ Click below to change your password.
 Reset password
 </x-mail::button>
 
-Thanks,<br>
-{{-- {{ $company->name }} --}}
+Thank you<br>
 </x-mail::message>

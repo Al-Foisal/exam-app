@@ -61,15 +61,14 @@ class AdminAuthenticationController extends Controller {
             return redirect()->back()->withToastError('This email is no longer with our records!!');
         }
 
-        $url = route('resetPassword', [$request->_token, 'email' => $request->email]);
-
-        Mail::to($request->email)->send(new ResetPasswordLink($url));
-
         DB::table('password_reset_tokens')->insert([
             'token'      => $request->_token,
             'email'      => $request->email,
             'created_at' => now(),
         ]);
+        $url = route('resetPassword', [$request->_token, 'email' => $request->email]);
+
+        Mail::to($request->email)->send(new ResetPasswordLink($url));
 
         return redirect()->back()->withToastSuccess('We have sent a fresh reset password link to your email!!');
     }

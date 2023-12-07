@@ -47,7 +47,7 @@
                                 <div class=" col-md-6">
                                     <label class="form-label" for="inputPassword4">Password<span
                                             class="text-danger">*</span> </label>
-                                    <input type="password" class="form-control" id="inputPassword4"
+                                    <input type="text" class="form-control" id="inputPassword4"
                                         placeholder="Enter password" name="password">
                                 </div>
                             </div>

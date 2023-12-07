@@ -25,7 +25,6 @@ class AdminManagementController extends Controller {
             'phone'    => 'required|numeric',
             'email'    => 'required|email|unique:admins',
             'password' => 'required|min:8',
-            'address'  => 'required',
             'image'    => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
@@ -80,7 +79,6 @@ class AdminManagementController extends Controller {
             'name'     => 'required',
             'phone'    => 'required',
             'email'    => 'required|email|unique:admins,email,' . $admin->id,
-            'address'  => 'required',
             'password' => 'nullable|min:8',
             'image'    => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
