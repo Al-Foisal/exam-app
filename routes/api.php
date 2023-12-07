@@ -9,9 +9,11 @@ use App\Http\Controllers\Api\UserProfileController;
 use App\Models\CompanyInfo;
 use App\Models\Exam;
 use App\Models\Material;
+use App\Models\Notification;
 use App\Models\Page;
 use App\Models\Subject;
 use App\Models\TopicSource;
+use App\Models\User;
 use App\Models\Written;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,8 +48,7 @@ Route::middleware('auth:sanctum')->post('/contact-us', function (Request $reques
 
 });
 Route::middleware('auth:sanctum')->post('/privacy-policy', function (Request $request) {
-    
-    
+
     $data = Page::where('slug', 'privacy-policy')->first();
 
     return response()->json([
@@ -56,6 +57,39 @@ Route::middleware('auth:sanctum')->post('/privacy-policy', function (Request $re
     ]);
 
 });
+Route::middleware('auth:sanctum')->post('/store-fcm-token', function (Request $request) {
+
+    $data            = User::find(Auth::id());
+    $data->fcm_token = $request->fcm_token;
+    $data->save();
+
+    return response()->json([
+        'status' => true,
+        'data'   => $data,
+    ]);
+
+});
+Route::middleware('auth:sanctum')->post('/notification', function (Request $request) {
+
+    $data = Notification::where('user_id', Auth::id())->with('user', 'written')->orderBy('id', 'desc')->paginate();
+
+    return response()->json([
+        'status' => true,
+        'data'   => $data,
+    ]);
+
+});
+Route::middleware('auth:sanctum')->post('/make-notification-seen', function (Request $request) {
+
+    $data = Notification::where('user_id', Auth::id())->with('user', 'written')->orderBy('id', 'desc')->paginate();
+
+    return response()->json([
+        'status' => true,
+        'data'   => $data,
+    ]);
+
+});
+
 Route::middleware('auth:sanctum')->post('/get-material', function (Request $request) {
     $data = Material::where('category', $request->category);
 

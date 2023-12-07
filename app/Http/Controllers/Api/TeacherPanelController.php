@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\Subject;
 use App\Models\TeacherWallet;
 use App\Models\TopicSource;
@@ -11,6 +12,7 @@ use App\Models\Written;
 use App\Models\WrittenAnswer;
 use App\Models\WrittenAnswerQuestion;
 use App\Models\WrittenAnswerQuestionScript;
+use App\Services\FCMService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -153,6 +155,25 @@ class TeacherPanelController extends Controller {
                 $written_answer->obtained_mark = $request->obtained_mark;
                 $written_answer->result_status = $request->obtained_mark > $written_answer->written->pass_marks ? 1 : 0;
                 $written_answer->save();
+
+                if (isset($written_answer->user->fcm_token)) {
+
+                    FCMService::send(
+                        $written_answer->user->fcm_token,
+                        [
+                            'title' => "Exam assesment completed",
+                            'body'  => "Your exam assesment is completed result is published",
+                        ]
+                    );
+
+                    Notification::create([
+                        'name'       => 'Exam assesment completed',
+                        'details'    => "Your exam assesment is completed result is published",
+                        'user_id'    => $written_answer->user->id,
+                        'written_id' => $written_answer->written_id,
+                        'to'         => 'user',
+                    ]);
+                }
 
                 if (!$is_checked_before) {
 
