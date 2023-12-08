@@ -349,7 +349,7 @@
                                         required>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label class="form-label">Package validity<span class="text-danger">*</span></label>
+                                    <label class="form-label">Package validity (days)<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" name="validity"
                                         placeholder="Enter package validity" value="{{ $package->validity ?? '1' }}"
                                         required>

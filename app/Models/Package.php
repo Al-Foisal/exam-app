@@ -23,4 +23,8 @@ class Package extends Model {
 
     }
 
+    public function packageHistory() {
+        return $this->hasMany(PackageHistory::class);
+    }
+
 }

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\File;
 class PackageController extends Controller {
     public function index() {
         $data            = [];
-        $data['package'] = Package::latest()->paginate();
+        $data['package'] = Package::withCount('packageHistory')->latest()->paginate();
 
         return view('backend.package.index', $data);
     }

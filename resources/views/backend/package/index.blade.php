@@ -28,14 +28,14 @@
                     <div class="widget-numbers">Price: <span>{{ $item->amount }}</span> BDT</div>
                     <div class="widget-subheading">{{ $item->name }}</div> <br>
                     <div class="widget-subheading">Validity: {{ $item->validity }} Days, Status:
-                        {{ $item->status == 1 ? 'Active' : 'Inactive' }} <br> Package type: {{ $item->package_type }}</div>
+                        {{ $item->status == 1 ? 'Active' : 'Inactive' }} <br> Package type: {{ $item->package_type }}
+                        <br>Total Purchased: {{ $item->package_history_count }} Students, Total sell amount: {{ $item->packageHistory->sum('amount') }} BDT</div>
                     <hr>
                     @if ($item->details)
                         <div class="widget-subheading">{!! $item->details !!}</div>
                     @endif
 
                     <div class="widget-description text-success" style="text-align: left;">
-                        {{ json_encode($item->permission) }}
                         @foreach ($item->permission as $c_key => $cat)
                             @if (is_array($cat))
                                 @foreach ($cat as $s_key => $sub)
@@ -48,7 +48,7 @@
                                                             class="fas fa-arrow-right"></i> {{ $s_key }} <i
                                                             class="fas fa-arrow-right"></i> {{ $ch_key }} <i
                                                             class="fas fa-arrow-right"></i>
-                                                        {{ $ch_key == 'Preliminary' ? \App\Models\Exam::find($e_key)->published_at->format('d-m-Y') : \App\Models\Written::find($e_key)->published_at->format('d-m-Y') }}{{ ': ' . $exam }}
+                                                        {{ $ch_key == 'Preliminary' ? \App\Models\Exam::find($e_key)->published_at->format('d-m-Y') : \App\Models\Written::find($e_key)->published_at->format('d-m-Y') }}{{ ': ' . $exam == true ? 'Permitted' : '' }}
                                                     </div>
                                                 @endforeach
                                             @else
@@ -63,7 +63,7 @@
                                                     @else
                                                         {{ $ch_key }}
                                                     @endif
-                                                    {{ ': ' . $child }}
+                                                    {{ ': ' . $child == true ? ': Permitted' : ''}}
                                                 </div>
                                             @endif
                                         @endforeach
@@ -71,7 +71,7 @@
                                         <div>
                                             <i class="fas fa-check-circle me-1"></i>
                                             {{ $c_key }} <i class="fas fa-arrow-right"></i>
-                                            {{ $s_key . ': ' . $sub }}
+                                            {{ $s_key . ': ' . $sub  == true ? 'Permitted' : ''}}
 
                                         </div>
                                     @endif
@@ -79,7 +79,7 @@
                             @else
                                 <div>
                                     <i class="fas fa-check-circle me-1"></i>{{ $c_key }} <i
-                                        class="fas fa-arrow-right"></i> {{ $cat }}
+                                        class="fas fa-arrow-right"></i> {{ $cat == true ? 'Permitted' : '' }}
 
                                 </div>
                             @endif
