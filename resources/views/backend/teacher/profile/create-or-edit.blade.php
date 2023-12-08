@@ -48,26 +48,27 @@
                                         name="email" value="{{ $data->email ?? '' }}">
                                 </div>
                                 <div class=" col-md-6">
-                                    <label class="form-label" for="inputPassword4">Password (if need to change)</label>
-                                    <input type="password" class="form-control" id="inputPassword4"
+                                    <label class="form-label" for="inputPassword4">Password
+                                        {{ request()->id ? '(if need to change)' : '' }}</label>
+                                    <input type="text" class="form-control" id="inputPassword4"
                                         placeholder="Enter password" name="password">
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="inputAddress">Address <span class="text-danger">*</span>
+                                <label class="form-label" for="inputAddress">Address
                                 </label>
                                 <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"
                                     name="address" value="{{ $data->address ?? '' }}">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="inputAddress">About <span class="text-danger">*</span>
+                                <label class="form-label" for="inputAddress">About
                                 </label>
                                 <textarea name="about" class="form-control" rows="5">{{ $data->about ?? '' }}</textarea>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label" for="inputZip">Image <span class="text-danger">*</span>
+                                        <label class="form-label" for="inputZip">Image
                                         </label>
                                         <input type="file" class="form-control" id="inputZip" name="image">
                                         @if ($data)

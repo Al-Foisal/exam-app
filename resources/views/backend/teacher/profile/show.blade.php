@@ -63,6 +63,22 @@
                                 <p>{{ $data->created_at->format('d F, Y') }}</p>
                             </div>
                             <div class="col-md-6 mt-3">
+                                <h6>Total Withdrawal</h6>
+                                <p>{{ !is_null($data->wallet) ? number_format($data->wallet->withdraw, 2) : 0 }} BDT</p>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <h6>Total Earning</h6>
+                                <p>{{ !is_null($data->wallet) ? number_format($data->wallet->amount + $data->wallet->withdraw, 2) : 0 }} BDT</p>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <h6>Pending Withdrawal</h6>
+                                <p>{{ !is_null($data->wallet) && !is_null($data->wallet->teacherWalletHistory) ? $data->wallet->teacherWalletHistory->where('status', 'Pending')->sum('amount') : 0 }} BDT</p>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <h6>Total Assesment</h6>
+                                <p>{{ number_format($data->assesment_count, 0) }} Student Exam Papers</p>
+                            </div>
+                            <div class="col-md-6 mt-3">
                                 <h6>Image</h6>
                                 <img src="{{ asset($data->image) }}" style="height:150px;">
                             </div>

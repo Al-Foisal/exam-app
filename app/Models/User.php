@@ -37,4 +37,12 @@ class User extends Authenticatable {
         'email_verified_at' => 'datetime',
         'password'          => 'hashed',
     ];
+
+    public function wallet() {
+        return $this->hasOne(TeacherWallet::class, 'user_id', 'id');
+    }
+
+    public function assesment() {
+        return $this->hasMany(WrittenAnswer::class, 'teacher_id', 'id');
+    }
 }

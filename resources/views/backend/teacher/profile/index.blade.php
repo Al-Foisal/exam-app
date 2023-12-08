@@ -27,9 +27,11 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Phone</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Address</th>
-                                    <th scope="col">Image</th>
+                                    <th scope="col">Permission</th>
+                                    <th scope="col">Total Withdrawal</th>
+                                    <th scope="col">Total Earning</th>
+                                    <th scope="col">Pending Withdrawal</th>
+                                    <th scope="col">Total Assesment</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -39,19 +41,21 @@
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->phone }}</td>
-                                        <td>{{ $item->email }}</td>
-                                        <td>{{ $item->address }}</td>
-                                        <td>
-                                            <img src="{{ asset($item->image) }}" style="height:40px;border-radius:45%;">
+                                        <td>{{ $item->permission ?? '' }}</td>
+                                        <td>{{ !is_null($item->wallet) ? number_format($item->wallet->withdraw, 2) : 0 }}
                                         </td>
+                                        <td>{{ !is_null($item->wallet) ? number_format($item->wallet->amount + $item->wallet->withdraw, 2) : 0 }}
+                                        </td>
+                                        <td>{{ !is_null($item->wallet) && !is_null($item->wallet->teacherWalletHistory) ? $item->wallet->teacherWalletHistory->where('status', 'Pending')->sum('amount') : 0 }}
+                                        </td>
+                                        <td>{{ number_format($item->assesment_count, 0) }}</td>
                                         <td class="d-flex justify-content-around">
                                             <a href="{{ route('teacher.createOrEdit', $item->id) }}"
                                                 class="btn btn-info me-2">
                                                 <i class="far fa-edit"></i>
                                             </a>
 
-                                            <a href="{{ route('teacher.show', $item->id) }}"
-                                                class="btn btn-success me-2">
+                                            <a href="{{ route('teacher.show', $item->id) }}" class="btn btn-success me-2">
                                                 <i class="far fa-eye"></i>
                                             </a>
                                         </td>

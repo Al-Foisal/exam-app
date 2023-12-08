@@ -12,7 +12,11 @@ use Illuminate\Support\Facades\Validator;
 
 class TeacherManagementController extends Controller {
     public function index() {
-        $data = User::where('type', 'teacher')->get();
+        $data = User::where('type', 'teacher')->with('wallet.teacherWalletHistory')->withCount(['assesment' => function ($q) {
+            $q->where('is_checked', 1);
+        },
+        ])->get();
+        // dd($data);
 
         return view('backend.teacher.profile.index', compact('data'));
     }
@@ -35,7 +39,6 @@ class TeacherManagementController extends Controller {
             'phone'      => 'required|numeric',
             'email'      => 'required|email|unique:users,email,' . $id,
             'password'   => 'nullable|min:8',
-            'address'    => 'required',
             'image'      => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'amount'     => 'required|numeric',
             'permission' => 'required',
@@ -86,6 +89,7 @@ class TeacherManagementController extends Controller {
             $user->address    = $request->address;
             $user->about      = $request->about;
             $user->amount     = $request->amount;
+            $user->status     = $request->status;
             $user->permission = implode(',', $request->permission);
             $user->save();
 
