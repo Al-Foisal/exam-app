@@ -48,6 +48,9 @@
                 <li>
                     <a href="{{ route('teacher.index') }}">Teacher</a>
                 </li>
+                <li>
+                    <a href="{{ route('students') }}">Students</a>
+                </li>
             </ul>
         </li>
         <li class>

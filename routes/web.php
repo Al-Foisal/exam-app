@@ -40,6 +40,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::controller(DashboardController::class)->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard');
         Route::post('/logout', 'logout')->name('logout');
+        Route::get('/students', 'students')->name('students');
+        Route::get('/change-student-status/{id}', 'changeStudentStatus')->name('changeStudentStatus');
+        Route::get('/show-student-details/{id}', 'showStudentDetails')->name('showStudentDetails');
     });
 
     Route::controller(AdminManagementController::class)->prefix('/admin')->name('admin.')->group(function () {

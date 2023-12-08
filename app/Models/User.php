@@ -45,4 +45,8 @@ class User extends Authenticatable {
     public function assesment() {
         return $this->hasMany(WrittenAnswer::class, 'teacher_id', 'id');
     }
+
+    public function packageHistory() {
+        return $this->hasMany(PackageHistory::class);
+    }
 }

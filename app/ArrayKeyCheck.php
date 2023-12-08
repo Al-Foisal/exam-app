@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Exam;
+use App\Models\PreliminaryAnswer;
+use App\Models\WrittenAnswer;
 use Illuminate\Support\Facades\DB;
 
 function multiKeyExists($arr, $key) {
@@ -18,6 +20,22 @@ function multiKeyExists($arr, $key) {
 
 function getPreli($id) {
     $data = Exam::find($id) ?? [];
+
+    return $data;
+}
+
+function liveExamCount($user_id) {
+    $data    = [];
+    $p_count = PreliminaryAnswer::where('user_id', $user_id)
+        ->join('exams', 'exams.id', 'preliminary_answers.exam_id')
+        ->whereDate('exams.expired_at', '>=', 'preliminary_answers.created_at')
+        ->count();
+    $w_count = WrittenAnswer::where('user_id', $user_id)
+        ->join('writtens', 'writtens.id', 'written_answers.written_id')
+        ->whereDate('writtens.expired_at', '>=', 'written_answers.created_at')
+        ->count();
+    $data['p_count'] = $p_count;
+    $data['w_count'] = $w_count;
 
     return $data;
 }
