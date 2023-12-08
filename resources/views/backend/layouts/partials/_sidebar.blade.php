@@ -33,7 +33,7 @@
             </a>
             <ul>
                 <li><a href="{{ route('packages.index') }}">Package List</a></li>
-                <li><a href="">###</a></li>
+                {{-- <li><a href="">###</a></li> --}}
             </ul>
         </li>
         <li class>
@@ -58,7 +58,7 @@
                 <div class="icon_menu">
                     <img src="{{ asset('backend/img/menu-icon/2.svg') }}" alt>
                 </div>
-                <span>Teacher</span>
+                <span>Written Permission</span>
             </a>
             <ul>
                 <li><a href="{{ route('teacher.written.index', ['ref' => 'BCS', 'type' => 'Written']) }}"
