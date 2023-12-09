@@ -156,7 +156,13 @@ class TeacherManagementController extends Controller {
 
     //wallet
     public function withdrawalRequest() {
-        $data = WalletHistory::where('status', request()->ref)->latest()->paginate();
+        $data = WalletHistory::where('status', request()->ref);
+
+        if (request()->ref == 'Paid') {
+            $data = $data->orderBy('id', 'desc');
+        }
+
+        $data = $data->paginate();
 
         return view('backend.withdrawal-request', compact('data'));
     }
@@ -177,6 +183,8 @@ class TeacherManagementController extends Controller {
             $wallet->withdraw = $wallet->withdraw + $data->amount;
             $wallet->save();
 
+            $data->payment_method = $request->payment_method;
+            $data->note           = $request->note;
         }
 
         $data->status = $request->type;

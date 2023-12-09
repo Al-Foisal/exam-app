@@ -43,6 +43,10 @@
                                                 class="btn btn-info me-2">
                                                 <i class="fas fa-file-signature"></i>
                                             </a>
+                                            <a href="{{ route('teacher.written.writtenMeritlist', $item->id) }}"
+                                                class="btn btn-info me-2">
+                                                <i class="fas fa-users"></i>
+                                            </a>
                                         </td>
                                         <td>{{ $item->published_at->format('d F Y') }}</td>
                                         <td>
@@ -59,10 +63,10 @@
                                         </td>
                                         <td>{{ $item->duration / 60 }} M.</td>
                                         <td>
-                                            <span title="Total assigned paper">5</span>/ <span
+                                            <span title="Total assigned paper" class="text-success fw-bolder">{{ getPaperTeacher($item->id)['assigned'] }}</span>/ <span
                                                 class="text-primary fw-bolder"
                                                 title="Total submitted paper">{{ $item->answer_count }}</span> / <span
-                                                title="Total assigned teacher">5</span>
+                                                title="Total assigned teacher" class="text-warning fw-bolder">{{ getPaperTeacher($item->id)['assigned_teacher'] }}</span>
                                         </td>
                                     </tr>
                                 @endforeach

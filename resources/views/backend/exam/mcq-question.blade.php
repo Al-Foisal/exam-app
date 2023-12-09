@@ -206,8 +206,7 @@
 
                                                 <button class="btn btn-primary" type="button"
                                                     onclick="addAnotherQuestion(this, '{{ $q_subject->id }}')"
-                                                    data-serial_number="{{ count($present_question) > 0 ? 1 + $present_serial : 1 }}">Create
-                                                    Another Question</button>
+                                                    data-serial_number="{{ count($present_question) > 0 ? 1 + $present_serial : 1 }}">{{ count($present_question) > 0 ? 'Add Another Question' : 'Add Question' }}</button>
                                                 <div class="add-more-question" style="display: none;">
 
                                                     {{-- below html div will add --}}
@@ -241,7 +240,7 @@
 
                                                             <div class="col-md-12">
                                                                 <label for="">Question Name</label>
-                                                                <textarea class="question_name summernote11" placeholder="Enter question name here" name=""></textarea>
+                                                                <textarea class="question_name summernote11" placeholder="Enter question name here" name="" required></textarea>
                                                             </div>
 
                                                             <div class="col-md-12 mt-2">
@@ -270,7 +269,7 @@
                                                                                             for="is_answer_{{ $q_subject->id }}_{{ $i }}">
                                                                                         </label>
                                                                                     </div>
-                                                                                    <textarea class="question_option_name summernote111"></textarea>
+                                                                                    <textarea class="question_option_name summernote11"></textarea>
                                                                                 </div>
                                                                                 <br>
                                                                                 <br>
@@ -326,7 +325,7 @@
             // $(e).parent().find(".question_name").addClass('summernote');
 
             $(e).data('serial_number', ++serial_number);
-            // $('.summernote11').summernote();
+            // $('.summernote11').summernote({focus:true});
             $('.summernote11').summernote({
                 height: 100,
                 toolbar: [
@@ -337,17 +336,17 @@
                     ['misc', ['codeview']]
                 ],
             });
-            $('.summernote111').summernote({
-                height: 100,
-                width: 1000,
-                toolbar: [
-                    ['fontsize', ['10', '25']],
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ['insert', ['picture', 'link', 'math']],
-                    ['para', ['paragraph']],
-                    ['misc', ['codeview']]
-                ],
-            });
+            // $('.').summernote({
+            //     height: 100,
+            //     width: 1000,
+            //     toolbar: [
+            //         ['fontsize', ['10', '25']],
+            //         ['style', ['bold', 'italic', 'underline', 'clear']],
+            //         ['insert', ['picture', 'link', 'math']],
+            //         ['para', ['paragraph']],
+            //         ['misc', ['codeview']]
+            //     ],
+            // });
 
         }
 
@@ -402,66 +401,4 @@
             });
         }
     </script>
-
-    {{-- <script>
-        $('.summernote11').summernote({
-            height: 100,
-            toolbar: [
-                ['fontsize', ['10', '25']],
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['insert', ['picture', 'link', 'math']],
-                ['para', ['paragraph']],
-                ['misc', ['codeview']]
-            ],
-        });
-        $('.summernote22').summernote({
-            height: 200,
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['insert', ['picture', 'link', 'math']],
-                ['para', ['paragraph']],
-                ['misc', ['codeview']]
-            ],
-        });
-        $('.summernote0').summernote({
-            height: 50,
-            width: 1000,
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['insert', ['picture', 'link', 'math']],
-                ['para', ['paragraph']],
-                ['misc', ['codeview']]
-            ],
-        });
-        $('.summernote1').summernote({
-            height: 50,
-            width: 1000,
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['insert', ['picture', 'link', 'math']],
-                ['para', ['paragraph']],
-                ['misc', ['codeview']]
-            ],
-        });
-        $('.summernote2').summernote({
-            height: 50,
-            width: 1000,
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['insert', ['picture', 'link', 'math']],
-                ['para', ['paragraph']],
-                ['misc', ['codeview']]
-            ],
-        });
-        $('.summernote3').summernote({
-            height: 50,
-            width: 1000,
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['insert', ['picture', 'link', 'math']],
-                ['para', ['paragraph']],
-                ['misc', ['codeview']]
-            ],
-        });
-    </script> --}}
 @endsection

@@ -266,9 +266,6 @@
                 <li><a href="{{ route('teacher.withdrawalRequest', ['ref' => 'Pending']) }}"
                         class="text-success">Pending
                         ({{ DB::table('wallet_histories')->where('status', 'Pending')->count() }})</a></li>
-                <li><a href="{{ route('teacher.withdrawalRequest', ['ref' => 'Accepted']) }}"
-                        class="text-success">Accepted({{ DB::table('wallet_histories')->where('status', 'Accepted')->count() }})</a>
-                </li>
                 <li><a href="{{ route('teacher.withdrawalRequest', ['ref' => 'Paid']) }}"
                         class="text-success">Paid({{ DB::table('wallet_histories')->where('status', 'Paid')->count() }})</a>
                 </li>

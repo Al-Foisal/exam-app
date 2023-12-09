@@ -61,3 +61,11 @@ function sendSMS($phone, $otp) {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_exec($ch);
 }
+
+function getPaperTeacher($written_id) {
+    $data                     = [];
+    $data['assigned']         = WrittenAnswer::where('written_id', $written_id)->whereNotNull('teacher_id')->count();
+    $data['assigned_teacher'] = WrittenAnswer::where('written_id', $written_id)->whereNotNull('teacher_id')->groupBy('teacher_id')->count();
+
+    return $data;
+}

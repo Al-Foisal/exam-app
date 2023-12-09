@@ -4,12 +4,77 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Package;
+use App\Models\PackageHistory;
 use App\Models\User;
+use App\Models\WalletHistory;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller {
     public function dashboard() {
+
+        $date          = Carbon::parse(today());
+        $previousMonth = $date->subMonth()->format('m');
+        $year          = $date->subMonth()->format('Y');
+
         $data = [];
+
+        $data['total_user']                = User::where('type', 'user')->count();
+        $data['previous_month_total_user'] = User::where('type', 'user')->whereYear('created_at', $year)->whereMonth('created_at', $previousMonth)->count();
+        $data['total_teacher']             = User::where('type', 'teacher')->count();
+        $data['total_pending_amount']      = WalletHistory::where('status', 'Pending')->sum('amount');
+        $data['total_package_sell']        = PackageHistory::count();
+        $data['total_package_sell_amount'] = PackageHistory::sum('amount');
+
+        /**
+         * get this month and previous 5 month data form user, package sell and amount
+         *
+         * the chart apex abr chart
+         */
+        $currentDate         = new DateTime();
+        $last6Months         = [];
+        $month_name          = [];
+        $user_count          = [];
+        $package_sell_count  = [];
+        $package_sell_amount = [];
+
+        // Get the current month and year
+        $currentMonthYear      = $currentDate->format('Y-m');
+        $month_name[]          = $currentDate->format('F');
+        $user_count[]          = User::where('type', 'user')->whereYear('created_at', $currentDate->format('Y'))->whereMonth('created_at', $currentDate->format('m'))->count();
+        $package_sell_count[]  = PackageHistory::whereYear('created_at', $currentDate->format('Y'))->whereMonth('created_at', $currentDate->format('m'))->count();
+        $package_sell_amount[] = PackageHistory::whereYear('created_at', $currentDate->format('Y'))->whereMonth('created_at', $currentDate->format('m'))->sum('amount');
+        $last6Months[]         = $currentMonthYear;
+
+// Loop to get the last 5 months
+
+        for ($i = 1; $i <= 5; $i++) {
+            // Modify the date to go back one month at a time
+            $currentDate->modify('-1 month');
+
+            // Get the updated month and year
+            $previousMonthYear = $currentDate->format('Y-m');
+
+            $last6Months[] = $previousMonthYear;
+
+            $month_name[]          = $currentDate->format('F');
+            $user_count[]          = User::where('type', 'user')->whereYear('created_at', $currentDate->format('Y'))->whereMonth('created_at', $currentDate->format('m'))->count();
+            $package_sell_count[]  = PackageHistory::whereYear('created_at', $currentDate->format('Y'))->whereMonth('created_at', $currentDate->format('m'))->count();
+            $package_sell_amount[] = PackageHistory::whereYear('created_at', $currentDate->format('Y'))->whereMonth('created_at', $currentDate->format('m'))->sum('amount');
+        }
+
+        $modified_amount = [];
+
+        foreach ($package_sell_amount as $key => $amount) {
+            $modified_amount[] = $amount > 0 ? $amount / 1000 : 0;
+        }
+
+        $data['month_name']          = implode(',', $month_name);
+        $data['user_count']          = implode(',', $user_count);
+        $data['package_sell_count']  = implode(',', $package_sell_count);
+        $data['package_sell_amount'] = implode(',', $modified_amount);
+        // dd($month_name);
 
         return view('backend.dashboard', $data);
     }

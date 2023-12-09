@@ -11,6 +11,24 @@ use App\Models\WrittenAnswer;
 use Illuminate\Http\Request;
 
 class TeacherExamAssignController extends Controller {
+    public function writtenMeritlist($written_id) {
+        $data = [];
+
+        $exam = WrittenAnswer::where('written_id', $written_id)->where('is_checked', 1)->orderBy('obtained_mark', 'desc');
+
+        if (request()->registration_id) {
+            $exam = $exam->whereHas('user', function ($q) {
+                $q->where('registration_id', request()->registration_id);
+            });
+        }
+
+        $exam = $exam->paginate()->withQueryString();
+
+        $data['exam'] = $exam;
+
+        return view('backend.teacher.exam.meritlist', $data);
+    }
+
     public function index(Request $request) {
         $data                  = [];
         $data['category']      = $category      = $request->ref;

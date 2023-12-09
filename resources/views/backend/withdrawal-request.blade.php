@@ -1,6 +1,8 @@
 @extends('backend.layouts.master')
 @section('title', 'All ' . request()->ref . ' withdrawal request list')
 @section('content')
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <div class="row">
         <div class="col-12">
             <div class="page_title_box d-flex align-items-center justify-content-between">
@@ -26,10 +28,14 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     @if (request()->ref === 'Paid' || request()->ref === 'Declined')
-                                        @else
-                                    <th scope="col">Action</th>
+                                    @else
+                                        <th scope="col">Action</th>
                                     @endif
                                     <th scope="col">Teacher Name</th>
+                                    @if (request()->ref === 'Paid')
+                                        <th>Payment Method</th>
+                                        <th>Others Note</th>
+                                    @endif
                                     <th scope="col">Amount</th>
                                     <th scope="col">Requested</th>
                                 </tr>
@@ -43,39 +49,57 @@
                                             <td>
                                                 <div class="d-flex justify-content-around">
                                                     @if (request()->ref === 'Pending')
-                                                        <form
-                                                            action="{{ route('teacher.updateWithdrawalRequest', $item->id) }}"
-                                                            method="post">
-                                                            @csrf
-                                                            <input type="hidden" name="type" value="Accepted">
-                                                            <button type="submit"
+                                                        <!-- Button trigger modal -->
+                                                        <div class="w3-container">
+                                                            <button type="button"
                                                                 class="btn btn-outline-primary btn-sm mr-2"
-                                                                onclick="return confirm('Are you sure?')">
-                                                                Accept
-                                                            </button>
-                                                        </form>
-                                                        <form
-                                                            action="{{ route('teacher.updateWithdrawalRequest', $item->id) }}"
-                                                            method="post">
-                                                            @csrf
-                                                            <input type="hidden" name="type" value="Declined">
-                                                            <button type="submit" class="btn btn-outline-danger btn-sm"
-                                                                onclick="return confirm('Are you sure?')">
-                                                                Decline
-                                                            </button>
-                                                        </form>
-                                                    @elseif (request()->ref === 'Accepted')
-                                                        <form
-                                                            action="{{ route('teacher.updateWithdrawalRequest', $item->id) }}"
-                                                            method="post">
-                                                            @csrf
-                                                            <input type="hidden" name="type" value="Paid">
-                                                            <button type="submit"
-                                                                class="btn btn-outline-primary btn-sm mr-2"
-                                                                onclick="return confirm('Are you sure?')">
+                                                                onclick="document.getElementById('{{ $loop->iteration }}').style.display='block'">
                                                                 Paid
                                                             </button>
-                                                        </form>
+
+                                                            <div id="{{ $loop->iteration }}" class="w3-modal">
+                                                                <div class="w3-modal-content">
+                                                                    <div class="w3-container">
+                                                                        <span
+                                                                            onclick="document.getElementById('{{ $loop->iteration }}').style.display='none'"
+                                                                            class="w3-button w3-display-topright">&times;</span>
+                                                                        <div class="p-5">
+                                                                            <div class="text-centar p-3">
+                                                                                <h4>Kepp some manual transaction record</h4>
+                                                                            </div>
+                                                                            <form
+                                                                                action="{{ route('teacher.updateWithdrawalRequest', $item->id) }}"
+                                                                                method="post">
+                                                                                @csrf
+                                                                                <input type="hidden" name="type"
+                                                                                    value="Paid">
+                                                                                <div class="form-group mb-2">
+                                                                                    <label for="">Payment
+                                                                                        method</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        name="payment_method"
+                                                                                        placeholder="Bkash..">
+                                                                                </div>
+                                                                                <div class="form-group mb-2">
+                                                                                    <label for="">Note</label>
+
+                                                                                    <input type="text"
+                                                                                        class="form-control" name="note"
+                                                                                        placeholder="some other note">
+                                                                                </div>
+                                                                                <button type="submit"
+                                                                                    class="btn btn-outline-primary btn-sm mr-2"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#exampleModal">
+                                                                                    Save & Paid
+                                                                                </button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <form
                                                             action="{{ route('teacher.updateWithdrawalRequest', $item->id) }}"
                                                             method="post">
@@ -91,6 +115,10 @@
                                             </td>
                                         @endif
                                         <td>{{ $item->wallet->user->name . ' - ' . $item->wallet->user->phone ?? '' }}</td>
+                                        @if (request()->ref === 'Paid')
+                                            <td>{{ $item->payment_method ?? 'Not set yet' }}</td>
+                                            <td>{{ $item->note ?? 'Not set yet' }}</td>
+                                        @endif
                                         <td>{{ $item->amount }}</td>
                                         @if (request()->ref !== 'Pending')
                                             <td>{{ $item->updated_at->format('d F, Y h:i A') }}</td>

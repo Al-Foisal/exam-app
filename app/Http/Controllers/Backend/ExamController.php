@@ -116,17 +116,21 @@ class ExamController extends Controller {
 
                     foreach ($update_option as $u_key => $option) {
 
-                        if ($request->input('question_option_' . $question_id) == $u_key) {
-                            $answer = 1;
-                        } else {
-                            $answer = 0;
+                        if ($option) {
+
+                            if ($request->input('question_option_' . $question_id) == $u_key) {
+                                $answer = 1;
+                            } else {
+                                $answer = 0;
+                            }
+
+                            ExamQuestionOption::create([
+                                'exam_question_id' => $update_question->id,
+                                'option'           => $option,
+                                'is_answer'        => $answer,
+                            ]);
                         }
 
-                        ExamQuestionOption::create([
-                            'exam_question_id' => $update_question->id,
-                            'option'           => $option,
-                            'is_answer'        => $answer,
-                        ]);
                     }
 
                 }
@@ -149,17 +153,21 @@ class ExamController extends Controller {
 
                         foreach ($postfix as $o_key => $option) {
 
-                            if ($request->input('question_option_' . $subject_id . $serial_number) == $o_key) {
-                                $answer = 1;
-                            } else {
-                                $answer = 0;
+                            if ($option) {
+
+                                if ($request->input('question_option_' . $subject_id . $serial_number) == $o_key) {
+                                    $answer = 1;
+                                } else {
+                                    $answer = 0;
+                                }
+
+                                ExamQuestionOption::create([
+                                    'exam_question_id' => $question->id,
+                                    'option'           => $option,
+                                    'is_answer'        => $answer,
+                                ]);
                             }
 
-                            ExamQuestionOption::create([
-                                'exam_question_id' => $question->id,
-                                'option'           => $option,
-                                'is_answer'        => $answer,
-                            ]);
                         }
 
                     }

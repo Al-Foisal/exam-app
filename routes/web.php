@@ -131,6 +131,7 @@ Route::middleware('auth:admin')->group(function () {
             Route::get('/assign-paper/{written_id}/{category}', 'assignPaper')->name('assignPaper');
             Route::post('/store-assign-paper', 'storeAssignPaper')->name('storeAssignPaper');
             Route::get('/removed-assign-teacher/{id}', 'removedAssignTeacher')->name('removedAssignTeacher');
+            Route::get('/written-meritlist/{id}', 'writtenMeritlist')->name('writtenMeritlist');
         });
     });
 
