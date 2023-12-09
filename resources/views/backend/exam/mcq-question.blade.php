@@ -167,7 +167,7 @@
                                                                                             <label for="is_answer">
                                                                                             </label>
                                                                                         </div>
-                                                                                        <textarea class="summernote" name="question_option_name_{{ $question->id }}[]">
+                                                                                        <textarea class="summernote11" name="question_option_name_{{ $question->id }}[]">
                                                                                         {!! $option->option !!}
                                                                                         </textarea>
                                                                                     </div>
@@ -182,7 +182,7 @@
 
                                                                 <div class="col-md-12">
                                                                     <label for="">Question Explanation</label>
-                                                                    <textarea class="summernote22" name="question_explanation_{{ $question->id }}"
+                                                                    <textarea class="summernote11" name="question_explanation_{{ $question->id }}"
                                                                         placeholder="Enter question explanation here">{!! $question->question_explanation !!}</textarea>
                                                                 </div>
                                                                 <hr>
@@ -240,7 +240,7 @@
 
                                                             <div class="col-md-12">
                                                                 <label for="">Question Name</label>
-                                                                <textarea class="question_name summernote11" placeholder="Enter question name here" name="" required></textarea>
+                                                                <textarea class="question_name " placeholder="Enter question name here" name="" rows="5" style="width: 100%;"></textarea>
                                                             </div>
 
                                                             <div class="col-md-12 mt-2">
@@ -269,7 +269,7 @@
                                                                                             for="is_answer_{{ $q_subject->id }}_{{ $i }}">
                                                                                         </label>
                                                                                     </div>
-                                                                                    <textarea class="question_option_name summernote11"></textarea>
+                                                                                    <textarea class="question_option_name " rows="2" style="width: 100%;"></textarea>
                                                                                 </div>
                                                                                 <br>
                                                                                 <br>
@@ -281,8 +281,8 @@
                                                             </div>
 
                                                             <div class="col-md-12">
-                                                                <label for="">Question Explanation</label>
-                                                                <textarea class="question_explanation summernote11" placeholder="Enter question explanation here"></textarea>
+                                                                <label for="">Question Explanation</label> <br>
+                                                                <textarea rows="5" style="width: 100%;" class="question_explanation " placeholder="Enter question explanation here"></textarea>
                                                             </div>
                                                             <hr>
                                                         </div>
@@ -326,16 +326,16 @@
 
             $(e).data('serial_number', ++serial_number);
             // $('.summernote11').summernote({focus:true});
-            $('.summernote11').summernote({
-                height: 100,
-                toolbar: [
-                    ['fontsize', ['10', '25']],
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ['insert', ['picture', 'link', 'math']],
-                    ['para', ['paragraph']],
-                    ['misc', ['codeview']]
-                ],
-            });
+            // $('.summernote11').summernote({
+            //     height: 100,
+            //     toolbar: [
+            //         ['fontsize', ['10', '25']],
+            //         ['style', ['bold', 'italic', 'underline', 'clear']],
+            //         ['insert', ['picture', 'link', 'math']],
+            //         ['para', ['paragraph']],
+            //         ['misc', ['codeview']]
+            //     ],
+            // });
             // $('.').summernote({
             //     height: 100,
             //     width: 1000,
@@ -347,6 +347,8 @@
             //         ['misc', ['codeview']]
             //     ],
             // });
+
+
 
         }
 
@@ -400,5 +402,16 @@
                 }
             });
         }
+
+        $('.summernote11').summernote({
+            height: 100,
+            toolbar: [
+                ['fontsize', ['10', '25']],
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['insert', ['picture', 'link', 'math']],
+                ['para', ['paragraph']],
+                ['misc', ['codeview']]
+            ],
+        });
     </script>
 @endsection
