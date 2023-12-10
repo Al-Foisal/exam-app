@@ -1,11 +1,17 @@
 @extends('backend.layouts.master')
 @section('title', 'Manage question for ' . $exam->name)
 @section('css')
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <style>
         .note-editor.note-frame {
             border: none;
         }
+        .note-modal-backdrop{
+            z-index: 1;
+        }
     </style>
+
+    
 @endsection
 @section('content')
     <div class="row">
@@ -210,7 +216,7 @@
                                                 <div class="add-more-question" style="display: none;">
 
                                                     {{-- below html div will add --}}
-                                                    <div class="mb-2">
+                                                    {{-- <div class="mb-2">
                                                         <div class="alert alert-success" style="margin-bottom: 1px;">
                                                             <div class="d-flex justify-content-between">
                                                                 <h4>Question Number # <span
@@ -240,7 +246,8 @@
 
                                                             <div class="col-md-12">
                                                                 <label for="">Question Name</label>
-                                                                <textarea class="question_name " placeholder="Enter question name here" name="" rows="5" style="width: 100%;"></textarea>
+                                                                <textarea class="question_name summernote11" placeholder="Enter question name here" name="" rows="5"
+                                                                    style="width: 100%;"></textarea>
                                                             </div>
 
                                                             <div class="col-md-12 mt-2">
@@ -282,11 +289,12 @@
 
                                                             <div class="col-md-12">
                                                                 <label for="">Question Explanation</label> <br>
-                                                                <textarea rows="5" style="width: 100%;" class="question_explanation " placeholder="Enter question explanation here"></textarea>
+                                                                <textarea rows="5" style="width: 100%;" class="question_explanation "
+                                                                    placeholder="Enter question explanation here"></textarea>
                                                             </div>
                                                             <hr>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -302,6 +310,13 @@
 @endsection
 
 @section('js')
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script> --}}
+    <!-- Summernote JS -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
     <script src="{{ asset('summernote-math.js') }}"></script>
 
@@ -309,33 +324,37 @@
         function addAnotherQuestion(e, subject_id) {
             var serial_number = parseInt($(e).data("serial_number"));
 
-            $(e).parent().find(".serial_number_" + subject_id).html(serial_number);
 
-            $(e).parent().find(".question_name").attr("name", "question_name[]");
-            $(e).parent().find(".question_option").attr("name", "question_option_" + subject_id + serial_number);
-            $(e).parent().find(".question_option_name").attr("name", "question_option_name_" + subject_id + serial_number +
-                "[]");
-            $(e).parent().find(".question_explanation").attr("name", "question_explanation[]");
-            $(e).parent().find(".serial_number").attr("name", "serial_number[]");
-            $(e).parent().find(".serial_number").val(serial_number);
-
-            var data = $(e).parent().find('.add-more-question').html();
-            $("#subject_" + subject_id).before(data);
+            var data = '';
+            data +=
+                '<div class="mb-2"><div class="alert alert-success" style="margin-bottom: 1px;"><div class="d-flex justify-content-between"><h4>Question Number # <span>' +
+                serial_number +
+                '</span> </h4> <div class="d-flex justify-content-end"> <i class="fas fa-minus-circle fa-lg" style="padding-top: 8px;display: none;cursor: pointer;" onclick="closeQuestion(this)" title="Collapse"></i> <i class="fas fa-plus-circle fa-lg" style="padding-top: 8px;cursor: pointer;" onclick="openQuestion(this)" title="Expand"></i> <i class="fas fa-times-circle fa-lg ms-2 text-danger" style="padding-top: 8px;cursor: pointer;" onclick="removeQuestion(this)" title="Remove"></i> </div> </div> </div> <div class="card-body collaps-question bg-warning" style="display: none;"> <input type="hidden" name="subject_id" value="' +
+                subject_id + '"> <input type="hidden" class="serial_number" name="serial_number[]" value="' +
+                serial_number +
+                '"> <input type="hidden" name="exam_id" value="{{ request()->exam_id }}"> <div class="col-md-12"> <label for="">Question Name</label> <textarea class="question_name summernote11" placeholder="Enter question name here" name="question_name[]" rows="5" style="width: 100%;"></textarea> </div> <div class="col-md-12 mt-2"> <div class="card card-outline card-info" style="border-radius: 5px;"> <div class="card-header"> <div class="row"> <div class="col-md-6"> <h3 class="card-title"> Options with Answer </h3> </div> </div> </div> <div class="p-5"> <div class="form-group"> @for ($i = 0; $i < 4; $i++) <div class="d-flex justify-content-start"> <div class="icheck-success d-inline"> <input type="radio" class="question_option" name="question_option_' +
+                subject_id +
+                serial_number +
+                '" value="{{ $i }}" @if ($i == 0) {{ 'checked' }} @endif> <label for="is_answer_{{ $q_subject->id }}_{{ $i }}"> </label> </div> <textarea class="question_option_name summernote11" name="question_option_name_' +
+                subject_id +
+                serial_number +
+                '[]" rows="2" style="width: 100%;"></textarea> </div> <br> <br> @endfor </div> </div> </div> </div> <div class="col-md-12"> <label for="">Question Explanation</label> <br> <textarea rows="5" style="width: 100%;" class="question_explanation summernote11" placeholder="Enter question explanation here" name="question_explanation[]"></textarea> </div> <hr> </div> </div>';
+            $("#subject_" + subject_id).append(data);
             $("#question-submit-button-" + subject_id).show();
             // $(e).parent().find(".question_name").addClass('summernote');
 
             $(e).data('serial_number', ++serial_number);
             // $('.summernote11').summernote({focus:true});
-            // $('.summernote11').summernote({
-            //     height: 100,
-            //     toolbar: [
-            //         ['fontsize', ['10', '25']],
-            //         ['style', ['bold', 'italic', 'underline', 'clear']],
-            //         ['insert', ['picture', 'link', 'math']],
-            //         ['para', ['paragraph']],
-            //         ['misc', ['codeview']]
-            //     ],
-            // });
+            $('.summernote11').summernote({
+                height: 100,
+                toolbar: [
+                    ['fontsize', ['10', '25']],
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['insert', ['picture', 'link', 'math']],
+                    ['para', ['paragraph']],
+                    ['misc', ['codeview']]
+                ],
+            });
             // $('.').summernote({
             //     height: 100,
             //     width: 1000,
@@ -347,7 +366,6 @@
             //         ['misc', ['codeview']]
             //     ],
             // });
-
 
 
         }

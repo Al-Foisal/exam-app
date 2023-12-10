@@ -111,24 +111,27 @@ class ExamController extends Controller {
                     $update_question->save();
 
                     $update_option = $request->input('question_option_name_' . $question_id);
-
                     DB::table('exam_question_options')->where('exam_question_id', $question_id)->delete();
 
-                    foreach ($update_option as $u_key => $option) {
+                    if ($update_option) {
 
-                        if ($option) {
+                        foreach ($update_option as $u_key => $option) {
 
-                            if ($request->input('question_option_' . $question_id) == $u_key) {
-                                $answer = 1;
-                            } else {
-                                $answer = 0;
+                            if ($option) {
+
+                                if ($request->input('question_option_' . $question_id) == $u_key) {
+                                    $answer = 1;
+                                } else {
+                                    $answer = 0;
+                                }
+
+                                ExamQuestionOption::create([
+                                    'exam_question_id' => $update_question->id,
+                                    'option'           => $option,
+                                    'is_answer'        => $answer,
+                                ]);
                             }
 
-                            ExamQuestionOption::create([
-                                'exam_question_id' => $update_question->id,
-                                'option'           => $option,
-                                'is_answer'        => $answer,
-                            ]);
                         }
 
                     }
