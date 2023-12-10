@@ -47,7 +47,7 @@ Route::middleware('auth:sanctum')->post('/contact-us', function (Request $reques
     ]);
 
 });
-Route::middleware('auth:sanctum')->post('/privacy-policy', function (Request $request) {
+Route::post('/privacy-policy', function (Request $request) {
 
     $data = Page::where('slug', 'privacy-policy')->first();
 
