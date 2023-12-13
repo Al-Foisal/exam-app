@@ -8,7 +8,7 @@
                     <h3 class="f_s_30 f_w_700 text_white">List of
                         {{ request()->child ?? request()->ref }}{{ ' ' . request()->type }} Exam</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a
                                 href="javascript:void(0);">{{ request()->ref . ' ' . request()->type }}</a></li>
                         <li class="breadcrumb-item active">Index</li>
@@ -31,6 +31,7 @@
                                     <th scope="col">Subjects Name</th>
                                     <th scope="col">Exam Timeline</th>
                                     <th scope="col">Duration</th>
+                                    <th scope="col">Examnee</th>
                                     <th scope="col">Strategi</th>
                                 </tr>
                             </thead>
@@ -62,11 +63,14 @@
                                             {{ $item->expired_at->format('Y-m-d') }}
                                         </td>
                                         <td>{{ $item->duration / 60 }} M.</td>
+                                        <td>{{ $item->answer_count }}</td>
                                         <td>
-                                            <span title="Total assigned paper" class="text-success fw-bolder">{{ getPaperTeacher($item->id)['assigned'] }}</span>/ <span
-                                                class="text-primary fw-bolder"
+                                            <span title="Total assigned paper"
+                                                class="text-success fw-bolder">{{ getPaperTeacher($item->id)['assigned'] }}</span>/
+                                            <span class="text-primary fw-bolder"
                                                 title="Total submitted paper">{{ $item->answer_count }}</span> / <span
-                                                title="Total assigned teacher" class="text-warning fw-bolder">{{ getPaperTeacher($item->id)['assigned_teacher'] }}</span>
+                                                title="Total assigned teacher"
+                                                class="text-warning fw-bolder">{{ getPaperTeacher($item->id)['assigned_teacher'] }}</span>
                                         </td>
                                     </tr>
                                 @endforeach

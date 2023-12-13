@@ -7,7 +7,7 @@
                 <div class="page_title_left">
                     <h3 class="f_s_30 f_w_700 text_white">List of Package</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Package</a></li>
                         <li class="breadcrumb-item active">Index</li>
                     </ol>
@@ -29,7 +29,9 @@
                     <div class="widget-subheading">{{ $item->name }}</div> <br>
                     <div class="widget-subheading">Validity: {{ $item->validity }} Days, Status:
                         {{ $item->status == 1 ? 'Active' : 'Inactive' }} <br> Package type: {{ $item->package_type }}
-                        <br>Total Purchased: {{ $item->package_history_count }} Students, Total sell amount: {{ $item->packageHistory->sum('amount') }} BDT</div>
+                        <br>Total Purchased: {{ $item->package_history_count }} Students, Total sell amount:
+                        {{ $item->packageHistory->sum('amount') }} BDT
+                    </div>
                     <hr>
                     @if ($item->details)
                         <div class="widget-subheading">{!! $item->details !!}</div>
@@ -63,7 +65,7 @@
                                                     @else
                                                         {{ $ch_key }}
                                                     @endif
-                                                    {{ ': ' . $child == true ? ': Permitted' : ''}}
+                                                    {{ ': ' . $child == true ? ': Permitted' : '' }}
                                                 </div>
                                             @endif
                                         @endforeach
@@ -71,7 +73,7 @@
                                         <div>
                                             <i class="fas fa-check-circle me-1"></i>
                                             {{ $c_key }} <i class="fas fa-arrow-right"></i>
-                                            {{ $s_key . ': ' . $sub  == true ? 'Permitted' : ''}}
+                                            {{ $s_key . ': ' . $sub == true ? 'Permitted' : '' }}
 
                                         </div>
                                     @endif

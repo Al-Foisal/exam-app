@@ -7,8 +7,8 @@
                 <div class="page_title_left">
                     <h3 class="f_s_30 f_w_700 text_white">Teacher Profile</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Teacher</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('teacher.index') }}">Teacher</a></li>
                         <li class="breadcrumb-item active">Profile</li>
                     </ol>
                 </div>
@@ -68,11 +68,13 @@
                             </div>
                             <div class="col-md-6 mt-3">
                                 <h6>Total Earning</h6>
-                                <p>{{ !is_null($data->wallet) ? number_format($data->wallet->amount + $data->wallet->withdraw, 2) : 0 }} BDT</p>
+                                <p>{{ !is_null($data->wallet) ? number_format($data->wallet->amount + $data->wallet->withdraw, 2) : 0 }}
+                                    BDT</p>
                             </div>
                             <div class="col-md-6 mt-3">
                                 <h6>Pending Withdrawal</h6>
-                                <p>{{ !is_null($data->wallet) && !is_null($data->wallet->teacherWalletHistory) ? $data->wallet->teacherWalletHistory->where('status', 'Pending')->sum('amount') : 0 }} BDT</p>
+                                <p>{{ !is_null($data->wallet) && !is_null($data->wallet->teacherWalletHistory) ? $data->wallet->teacherWalletHistory->where('status', 'Pending')->sum('amount') : 0 }}
+                                    BDT</p>
                             </div>
                             <div class="col-md-6 mt-3">
                                 <h6>Total Assesment</h6>

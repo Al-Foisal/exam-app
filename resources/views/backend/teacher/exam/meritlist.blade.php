@@ -7,7 +7,7 @@
                 <div class="page_title_left">
                     <h3 class="f_s_30 f_w_700 text_white">Merit List</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
                     </ol>
                 </div>
             </div>
@@ -22,7 +22,8 @@
                             <div class="col-md-5"></div>
                             <div class="col-md-5">
                                 <input type="text" name="registration_id" class="form-control" required
-                                    value="{{ request()->registration_id ?? '' }}" placeholder="Enter student registration Id">
+                                    value="{{ request()->registration_id ?? '' }}"
+                                    placeholder="Enter student registration Id">
                             </div>
                             <div class="col-md-1">
                                 <button class="btn btn-primary" type="submit">Search</button>

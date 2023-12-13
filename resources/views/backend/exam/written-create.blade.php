@@ -17,7 +17,7 @@
                     <h3 class="f_s_30 f_w_700 text_white">{{ request()->written_id ? 'Update' : 'Create' }} new
                         {{ request()->child ?? request()->ref }}{{ ' ' . request()->type }} exam</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">{{ request()->ref . ' ' . request()->type }}
                                 exam</a></li>
                         <li class="breadcrumb-item active">{{ request()->written_id ? 'Update' : 'Create' }}</li>
@@ -77,9 +77,10 @@
                                 </div>
                                 <div class=" col-md-6 mb-3">
                                     <label class="form-label" for="inputZip">Pass Marks<span
-                                        class="text-danger">*</span></label>
-                                    <input type="number" step="0.01" class="form-control" id="inputZip" name="pass_marks"
-                                        placeholder="1" value="{{ isset($exam) ? $exam->pass_marks : '' }}" required>
+                                            class="text-danger">*</span></label>
+                                    <input type="number" step="0.01" class="form-control" id="inputZip"
+                                        name="pass_marks" placeholder="1"
+                                        value="{{ isset($exam) ? $exam->pass_marks : '' }}" required>
                                 </div>
                                 <div class=" col-md-6 mb-3">
                                     <label class="form-label" for="inputCity">Published date & time<span
@@ -110,7 +111,8 @@
                                 </div>
                                 <div class=" col-md-6">
                                     <label class="form-label" for="inputZip">Question Answer (PDF)</label>
-                                    <input type="file" class="form-control" id="" name="answer" accept=".pdf">
+                                    <input type="file" class="form-control" id="" name="answer"
+                                        accept=".pdf">
                                     @if (isset($exam) && $exam->answer)
                                         <a target="_blank" href="{{ asset($exam->answer) }}">View Answer</a>
                                     @else

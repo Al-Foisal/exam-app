@@ -7,7 +7,7 @@
                 <div class="page_title_left">
                     <h3 class="f_s_30 f_w_700 text_white">List of pages</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Pages</a></li>
                         <li class="breadcrumb-item active">Index</li>
                     </ol>
@@ -41,7 +41,7 @@
                                                 <i class="far fa-edit"></i>
                                             </a>
 
-                                            <form action="{{ route('page.delete',$page) }}" method="post">
+                                            <form action="{{ route('page.delete', $page) }}" method="post">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-danger">

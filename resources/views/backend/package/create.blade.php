@@ -7,7 +7,7 @@
                 <div class="page_title_left">
                     <h3 class="f_s_30 f_w_700 text_white">{{ request()->id ? 'Update ' : 'Create new' }} package</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Package</a></li>
                         <li class="breadcrumb-item active">{{ request()->id ? 'Update' : 'Create' }}</li>
                     </ol>
@@ -349,7 +349,8 @@
                                         required>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label class="form-label">Package validity (days)<span class="text-danger">*</span></label>
+                                    <label class="form-label">Package validity (days)<span
+                                            class="text-danger">*</span></label>
                                     <input type="number" class="form-control" name="validity"
                                         placeholder="Enter package validity" value="{{ $package->validity ?? '1' }}"
                                         required>

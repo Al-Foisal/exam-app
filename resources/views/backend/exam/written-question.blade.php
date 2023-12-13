@@ -14,7 +14,7 @@
                 <div class="page_title_left">
                     <h3 class="f_s_30 f_w_700 text_white">Manage question for "{{ $exam->name }}"</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Manage Question</a></li>
                         <li class="breadcrumb-item active">{{ request()->written_id ? 'Update' : 'Create' }}</li>
                     </ol>
@@ -40,7 +40,7 @@
                                 $subjects = DB::table('subjects')
                                     ->whereIn('id', explode(',', $exam->subject_id))
                                     ->get();
-                                
+
                                 $topic = DB::table('topic_sources')
                                     ->whereIn('id', explode(',', $exam->topic_id))
                                     ->get();
@@ -134,11 +134,15 @@
 
                                                                 <div class="col-md-12">
                                                                     <label for="">Question Name</label>
-                                                                    <textarea class="form-control" rows="3" placeholder="Enter question name here" name="question_name_{{ $question->id }}">{!! $question->name !!}</textarea>
+                                                                    <textarea class="form-control" rows="3" placeholder="Enter question name here"
+                                                                        name="question_name_{{ $question->id }}">{!! $question->name !!}</textarea>
                                                                 </div>
                                                                 <div class="col-md-12">
                                                                     <label for="">Question Marks</label>
-                                                                    <input class="form-control" placeholder="Enter question mark here" name="question_mark_{{ $question->id }}" value="{{ $question->mark }}">
+                                                                    <input class="form-control"
+                                                                        placeholder="Enter question mark here"
+                                                                        name="question_mark_{{ $question->id }}"
+                                                                        value="{{ $question->mark }}">
                                                                 </div>
 
 
@@ -197,14 +201,15 @@
 
                                                             <div class="col-md-12">
                                                                 <label for="">Question Name</label>
-                                                                <textarea class="question_name form-control" rows="3"  placeholder="Enter question name here" name=""></textarea>
+                                                                <textarea class="question_name form-control" rows="3" placeholder="Enter question name here" name=""></textarea>
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <label for="">Question Marks</label>
-                                                                <input class="question_mark form-control" type="number"  placeholder="Enter question mark here" name="">
+                                                                <input class="question_mark form-control" type="number"
+                                                                    placeholder="Enter question mark here" name="">
                                                             </div>
 
-                                                            
+
                                                             <hr>
                                                         </div>
                                                     </div>
@@ -296,5 +301,5 @@
             });
         }
     </script>
-    
+
 @endsection

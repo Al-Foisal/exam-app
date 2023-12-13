@@ -25,7 +25,7 @@ class ExamController extends Controller {
             $exam = $exam->where('childcategory', request()->child);
         }
 
-        $exam = $exam->latest('published_at')
+        $exam = $exam->withCount('questions')->latest('published_at')
             ->paginate(20);
         $list = [];
 

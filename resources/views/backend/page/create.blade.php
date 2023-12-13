@@ -7,7 +7,7 @@
                 <div class="page_title_left">
                     <h3 class="f_s_30 f_w_700 text_white">Create new page</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Page</a></li>
                         <li class="breadcrumb-item active">Create</li>
                     </ol>

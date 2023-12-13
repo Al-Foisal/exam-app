@@ -11,6 +11,7 @@ use App\Models\Syllabus;
 use App\Models\TopicSource;
 use App\Models\Written;
 use App\Models\WrittenAnswer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,8 +27,8 @@ class ExamManageController extends Controller {
         $exam = [];
 
         if ($sub === 'Preliminary') {
-            $exam = Exam::whereDate('published_at', '<=', date('Y-m-d'))
-                ->whereDate('expired_at', '>=', date('Y-m-d'))
+            $exam = Exam::where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
+                ->where('expired_at', '>=', Carbon::now('Asia/Dhaka')->toDateTimeString())
                 ->where('category', $category)
                 ->where('subcategory', $sub);
 
@@ -43,8 +44,8 @@ class ExamManageController extends Controller {
             ])->first();
 
         } elseif ($sub === 'Written') {
-            $exam = Written::whereDate('published_at', '<=', date('Y-m-d'))
-                ->whereDate('expired_at', '>=', date('Y-m-d'))
+            $exam = Written::where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
+                ->where('expired_at', '>=', Carbon::now('Asia/Dhaka')->toDateTimeString())
                 ->where('category', $category)
                 ->where('subcategory', $sub);
 
@@ -114,6 +115,41 @@ class ExamManageController extends Controller {
             if ($child) {
                 $exam = $exam->where('childcategory', $child);
             }
+
+            $exam = $exam->orderByDesc('id')->paginate();
+
+            foreach ($exam as $item) {
+                $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
+                $item['sources']  = TopicSource::whereIn('id', explode(',', $item->topic_id))->get();
+            }
+
+        }
+
+        $data['exam'] = $exam;
+
+        return $this->successMessage('', $data);
+
+    }
+
+    public function allRoutine(Request $request) {
+        $data = [];
+
+        $data['category']      = $category      = $request->category;
+        $data['subcategory']   = $sub   = $request->subcategory;
+        $data['childcategory'] = $child = $request->childcategory;
+
+        if ($sub === 'Preliminary') {
+            $exam = Exam::where('published_at', '>', date('Y-m-d'));
+
+            $exam = $exam->orderByDesc('id')->paginate();
+
+            foreach ($exam as $item) {
+                $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
+                $item['sources']  = TopicSource::whereIn('id', explode(',', $item->topic_id))->get();
+            }
+
+        } elseif ($sub === 'Written') {
+            $exam = Written::whereDate('published_at', '>', date('Y-m-d'));
 
             $exam = $exam->orderByDesc('id')->paginate();
 

@@ -6,21 +6,22 @@
         .note-editor.note-frame {
             border: none;
         }
-        .note-modal-backdrop{
+
+        .note-modal-backdrop {
             z-index: 1;
         }
     </style>
 
-    
+
 @endsection
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="page_title_box d-flex align-items-center justify-content-between">
                 <div class="page_title_left">
-                    <h3 class="f_s_30 f_w_700 text_white">Manage question for "{{ $exam->name }}"</h3>
+                    <h3 class="f_s_30 f_w_700 text_white">Manage question</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Manage Question</a></li>
                         <li class="breadcrumb-item active">{{ request()->exam_id ? 'Update' : 'Create' }}</li>
                     </ol>
@@ -73,7 +74,9 @@
                             </div>
                             <br>
                             <b>Per question positive mark: </b>{{ $exam->per_question_positive_mark }} <br>
-                            <b>Per question negative mark: </b>{{ $exam->per_question_negative_mark }}
+                            <b>Per question negative mark: </b>{{ $exam->per_question_negative_mark }} <br>
+                            <b>Published Date: </b>{{ $exam->published_at->format('d-m-Y h:i A') }} <br>
+                            <b>Expired Date: </b>{{ $exam->expired_at->format('d-m-Y H:i A') }}
                         </div>
                         @csrf
                         <h2 class="text-center"><u>Manage question according to subject</u></h2>

@@ -1,13 +1,18 @@
 @extends('backend.layouts.master')
 @section('title', 'Create new topic and source')
 @section('content')
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
     <div class="row">
         <div class="col-12">
             <div class="page_title_box d-flex align-items-center justify-content-between">
                 <div class="page_title_left">
                     <h3 class="f_s_30 f_w_700 text_white">Create new topic and source</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Topic & Source</a></li>
                         <li class="breadcrumb-item active">Create</li>
                     </ol>
@@ -33,18 +38,37 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="inputAddress">Topic <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="inputAddress" placeholder="Enter topic here"
-                                    name="topic">
+                            <div class="hdtuto control-group lst increment">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="inputAddress">Topic <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control w-100" id="inputAddress"
+                                                placeholder="Enter topic here" name="topic[]" required>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="inputAddress">Source <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="inputAddress"
+                                                placeholder="Enter source here" name="source[]" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-success" style="margin-top: 1.7rem;" type="button"><i
+                                                    class="far fa-plus-square"></i>
+                                                Add</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="inputAddress">Source <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="inputAddress" placeholder="Enter source here"
-                                    name="source">
-                            </div>
+
+
+
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form>
                     </div>
@@ -52,4 +76,52 @@
             </div>
         </div>
     </div>
+    <div class="clone hide">
+        <div class="hdtuto control-group lst" style="margin-top:10px">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="inputAddress">Topic <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control w-100" id="inputAddress" placeholder="Enter topic here"
+                            name="topic[]" required>
+                    </div>
+
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="inputAddress">Source <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="Enter source here"
+                            name="source[]" required>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group-btn">
+                        <button class="btn btn-danger" type="button" style="margin-top: 1.7rem"> <i
+                                class="far fa-minus-square"></i>
+                            Remove </button>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+@endsection
+
+@section('js')
+    {{-- for multiple file insertion --}}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".btn-success").click(function() {
+                var lsthmtl = $(".clone").html();
+                $(".increment").after(lsthmtl);
+            });
+            $("body").on("click", ".btn-danger", function() {
+                $(this).parents(".hdtuto").remove();
+            });
+            $('#images').on('change', function() {
+                multiImgPreview(this, 'div.imgPreview');
+            });
+        });
+    </script>
 @endsection

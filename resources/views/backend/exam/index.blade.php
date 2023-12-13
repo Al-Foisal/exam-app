@@ -8,7 +8,7 @@
                     <h3 class="f_s_30 f_w_700 text_white">List of
                         {{ request()->child ?? request()->ref }}{{ ' ' . request()->type }}</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a
                                 href="javascript:void(0);">{{ request()->ref . ' ' . request()->type }}</a></li>
                         @if (request()->child)
@@ -41,6 +41,7 @@
                                     <th scope="col">Marking System</th>
                                     <th scope="col">Exam Timeline</th>
                                     <th scope="col">Duration(Minutes)</th>
+                                    <th scope="col">Total Question</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -92,6 +93,7 @@
                                             Expired Date: {{ $item->expired_at->format('Y-m-d H:i:s A') }}
                                         </td>
                                         <td>{{ $item->duration / 60 }}</td>
+                                        <td>{{ isset($item->questions) ? $item->questions_count : 0 }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

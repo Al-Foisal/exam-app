@@ -22,20 +22,26 @@ class TopicSourceController extends Controller {
     }
 
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'topic'  => 'required',
-            'source' => 'required',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'topic'  => 'required',
+        //     'source' => 'required',
+        // ]);
 
-        if ($validator->fails()) {
-            return back()->with('toast_error', $validator->messages()->all()[0])->withInput();
+        // if ($validator->fails()) {
+        //     return back()->with('toast_error', $validator->messages()->all()[0])->withInput();
+        // }
+
+        foreach ($request->topic as $key => $topic) {
+
+            if ($topic && $request->source[$key]) {
+                TopicSource::create([
+                    'subject_id' => $request->subject_id,
+                    'topic'      => $topic,
+                    'source'     => $request->source[$key],
+                ]);
+            }
+
         }
-
-        TopicSource::create([
-            'subject_id' => $request->subject_id,
-            'topic'      => $request->topic,
-            'source'     => $request->source,
-        ]);
 
         return to_route('topic.source.index')->withToastSuccess('New topic & source added successfully');
     }

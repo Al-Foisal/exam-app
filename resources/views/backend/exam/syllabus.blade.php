@@ -17,7 +17,7 @@
                     <h3 class="f_s_30 f_w_700 text_white">{{ request()->child ?? request()->ref }}{{ ' ' . request()->type }}
                         exam syllabus</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ $company->name }} </a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">{{ request()->ref . ' ' . request()->type }}
                                 exam syllabus</a></li>
                         @if (request()->child)
