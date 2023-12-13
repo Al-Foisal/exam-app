@@ -15,6 +15,7 @@ use App\Models\Subject;
 use App\Models\TopicSource;
 use App\Models\User;
 use App\Models\Written;
+use App\Service\FCMService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,14 @@ Route::middleware('auth:sanctum')->get('/logout', function (Request $request) {
 
 Route::middleware('auth:sanctum')->post('/contact-us', function (Request $request) {
     $data = CompanyInfo::find(1);
+    $user = User::find(1);
+    FCMService::send(
+        $user->fcm_token,
+        [
+            'title' => "Course enroll notice",
+            'body'  => "Your course  is approved by admin",
+        ]
+    );
 
     return response()->json([
         'status' => true,
