@@ -15,7 +15,7 @@ use App\Models\Subject;
 use App\Models\TopicSource;
 use App\Models\User;
 use App\Models\Written;
-use App\Service\FCMService;
+use App\Services\FCMService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
