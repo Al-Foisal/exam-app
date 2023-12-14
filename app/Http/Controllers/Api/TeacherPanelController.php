@@ -63,7 +63,6 @@ class TeacherPanelController extends Controller {
         }
 
         $exam = $exam->paginate(200);
-        return $exam;
 
         foreach ($exam as $item) {
             $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
