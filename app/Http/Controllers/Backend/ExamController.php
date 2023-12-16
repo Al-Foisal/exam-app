@@ -99,9 +99,23 @@ class ExamController extends Controller {
     }
 
     public function mcqQuestion($exam_id) {
-        $data         = [];
-        $data['exam'] = $exam = Exam::where('id', $exam_id)->first();
+        $data             = [];
+        $data['exam']     = $exam     = Exam::where('id', $exam_id)->first();
+        $data['subjects'] = Subject::whereIn('id', explode(',', $exam->subject_id))
+            ->with([
+                'exams' => function ($q) use ($exam) {
+                    return $q->where('exam_id', $exam->id)->with('questionOptions');
+                },
 
+            ])
+            ->get();
+            
+
+        $data['topic'] = DB::table('topic_sources')
+            ->whereIn('id', explode(',', $exam->topic_id))
+            ->get();
+
+            // dd($data);
         return view('backend.exam.mcq-question', $data);
     }
 
@@ -222,7 +236,24 @@ class ExamController extends Controller {
     //written question from here
     public function written() {
         $data = [];
-        $exam = Written::where('category', request()->ref)->where('subcategory', request()->type)->latest('published_at')->paginate(20);
+        $exam = Written::where('category', request()->ref)
+            ->where('subcategory', request()->type);
+
+        if (request()->child) {
+            $exam = $exam->where('childcategory', request()->child);
+        }
+
+        if (request()->exam_type == 'archive') {
+            $exam = $exam->whereDate('published_at', '<=', date('Y-m-d'));
+        } elseif (request()->exam_type == 'upcoming') {
+            $exam = $exam->whereDate('published_at', '>=', date('Y-m-d'));
+        } elseif (request()->exam_type == 'live') {
+            $exam = $exam->where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
+                ->where('expired_at', '>=', Carbon::now('Asia/Dhaka')->toDateTimeString());
+        }
+
+        $exam = $exam->latest('published_at')
+            ->paginate(20);
         $list = [];
 
         foreach ($exam as $item) {

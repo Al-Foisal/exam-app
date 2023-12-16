@@ -33,7 +33,7 @@
                         <input type="hidden" name="ref" value="{{ request()->ref }}">
                         <input type="hidden" name="type" value="{{ request()->type }}">
                         @if (isset(request()->child))
-                            <input type="hidden" name="child" value="{{ request()->type }}">
+                            <input type="hidden" name="child" value="{{ request()->child }}">
                         @endif
                         <div class="row">
                             <div class="col-md-6"></div>

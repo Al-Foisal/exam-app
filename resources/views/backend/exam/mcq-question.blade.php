@@ -43,15 +43,7 @@
                                 @endif
                             </b>
                             <br>
-                            @php
-                                $subjects = DB::table('subjects')
-                                    ->whereIn('id', explode(',', $exam->subject_id))
-                                    ->get();
 
-                                $topic = DB::table('topic_sources')
-                                    ->whereIn('id', explode(',', $exam->topic_id))
-                                    ->get();
-                            @endphp
                             <b>Subjects:</b>
                             <div class="ms-5">
                                 <ul>
@@ -86,9 +78,7 @@
                         @if (isset($subjects))
                             @foreach ($subjects as $q_subject)
                                 @php
-                                    $present_question = App\Models\ExamQuestion::where('exam_id', request()->exam_id)
-                                        ->where('subject_id', $q_subject->id)
-                                        ->get();
+                                    $present_question = $q_subject->exams;
                                 @endphp
                                 <div class="row justify-content-center mb-5">
                                     <div class="col-lg-10">
