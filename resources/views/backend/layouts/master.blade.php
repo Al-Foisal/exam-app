@@ -39,6 +39,42 @@
 
     <link rel="stylesheet" href="{{ asset('backend/css/metisMenu.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        /* public/css/loader.css */
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .loader::after {
+            content: '';
+            width: 50px;
+            height: 50px;
+            border: 6px solid #3498db;
+            border-radius: 50%;
+            border-top: 6px solid #fff;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
     <link rel="stylesheet" href="{{ asset('backend/css/style1.css') }}" />
     <link rel="stylesheet" href="{{ asset('backend/css/colors/default.css') }}" id="colorSkinCSS">
 
@@ -46,7 +82,7 @@
 </head>
 
 <body class="crm_body_bg">
-
+    <div id="loader" class="loader"></div>
 
     @include('backend.layouts.partials._sidebar')
 
@@ -129,6 +165,16 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @include('sweetalert::alert')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        // public/js/loader.js
+
+        document.onreadystatechange = function() {
+            if (document.readyState === 'complete') {
+                // Hide the loader when the page is fully loaded
+                document.getElementById('loader').style.display = 'none';
+            }
+        };
+    </script>
     <script src="{{ asset('backend/js/dashboard_init.js') }}"></script>
     <script src="{{ asset('backend/js/custom.js') }}"></script>
 
