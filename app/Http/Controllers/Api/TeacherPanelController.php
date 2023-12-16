@@ -168,7 +168,7 @@ class TeacherPanelController extends Controller {
 
                     Notification::create([
                         'name'       => 'Exam assesment completed',
-                        'details'    => "Your exam assesment is completed result is published",
+                        'details'    => "Your exam paper assesment is completed result is published",
                         'user_id'    => $written_answer->user->id,
                         'written_id' => $written_answer->written_id,
                         'to'         => 'user',

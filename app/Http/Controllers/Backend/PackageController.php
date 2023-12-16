@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
+use App\Models\Notification;
 use App\Models\Package;
+use App\Models\User;
 use App\Models\Written;
+use App\Services\FCMService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -206,6 +209,30 @@ class PackageController extends Controller {
                 'type'       => $request->type,
                 'image'      => $final_name1 ?? null,
             ]);
+
+            User::where('type', 'user')->chunk(200, function ($users) {
+                foreach ($users as $user) {
+                    if (isset($user->fcm_token)) {
+
+                        FCMService::send(
+                            $user->fcm_token,
+                            [
+                                'title' => "New Package",
+                                'body'  => "New exam paper assign to you for assesment",
+                            ]
+                        );
+
+                        Notification::create([
+                            'name'    => 'Exam paper assign',
+                            'details' => "Hello talented! we have created a batch. you may check to judge your knowledge",
+                            'user_id' => $user->id,
+                            'to'      => 'user',
+                        ]);
+                    }
+
+                }
+
+            });
 
             return back()->withToastSuccess('Package created successfully');
         }

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\Subject;
 use App\Models\TopicSource;
 use App\Models\User;
 use App\Models\Written;
 use App\Models\WrittenAnswer;
+use App\Services\FCMService;
 use Illuminate\Http\Request;
 
 class TeacherExamAssignController extends Controller {
@@ -62,11 +64,29 @@ class TeacherExamAssignController extends Controller {
     public function assignPaper($written_id, $category) {
         $data            = [];
         $data['written'] = Written::find($written_id);
-        $data['teacher'] = User::where('permission', 'LIKE', '%' . $category . '%')->get();
+        $data['teacher'] = $t = User::where('permission', 'LIKE', '%' . $category . '%')->get();
         $data['paper']   = WrittenAnswer::where('written_id', $written_id)
             ->where('category', $category)
             ->orderBy('teacher_id', 'asc')
             ->paginate();
+
+        if (isset($t->fcm_token)) {
+
+            FCMService::send(
+                $t->fcm_token,
+                [
+                    'title' => "Exam paper assign",
+                    'body'  => "New exam paper assign to you for assesment",
+                ]
+            );
+
+            Notification::create([
+                'name'    => 'Exam paper assign',
+                'details' => "New exam paper assign to you for assesment",
+                'user_id' => $t->id,
+                'to'      => 'teacher',
+            ]);
+        }
 
         return view('backend.teacher.exam.assign-paper', $data);
     }
