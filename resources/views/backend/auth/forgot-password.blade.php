@@ -9,18 +9,11 @@
     <title>Forgot password - {{ $company->name }}</title>
 
 
+
     <link rel="stylesheet" href="{{ asset('backend/css/bootstrap1.min.css') }}" />
 
-    <link rel="stylesheet" href="{{ asset('backend/vendors/themefy_icon/themify-icons.css') }}" />
     <link rel="stylesheet" href="{{ asset('backend/vendors/font_awesome/css/all.min.css') }}" />
 
-
-    <link rel="stylesheet" href="{{ asset('backend/vendors/scroll/scrollable.css') }}" />
-
-    <link rel="stylesheet" href="{{ asset('backend/css/metisMenu.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('backend/css/style1.css') }}" />
-    <link rel="stylesheet" href="{{ asset('backend/css/colors/default.css') }}" id="colorSkinCSS">
 
     <style>
         .add-position {
@@ -31,57 +24,142 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: url(https://i.ibb.co/VQmtgjh/6845078.png) no-repeat;
+            height: 100vh;
+            font-family: sans-serif;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            overflow: hidden
+        }
+
+        @media screen and (max-width: 600px; ) {
+            body {
+                background-size: cover;
+                : fixed
+            }
+        }
+
+        #particles-js {
+            height: 100%
+        }
+
+        .loginBox {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            min-height: 200px;
+            background: #000000;
+            border-radius: 10px;
+            padding: 40px;
+            box-sizing: border-box
+        }
+
+        .user {
+            margin: 0 auto;
+            display: block;
+            margin-bottom: 20px
+        }
+
+        h3 {
+            margin: 0;
+            padding: 0 0 20px;
+            color: #59238F;
+            text-align: center
+        }
+
+        .loginBox input {
+            width: 100%;
+            margin-bottom: 20px
+        }
+
+        .loginBox input[type="text"],
+        .loginBox input[type="password"] {
+            border: none;
+            border-bottom: 2px solid #262626;
+            outline: none;
+            height: 40px;
+            color: #fff;
+            background: transparent;
+            font-size: 16px;
+            padding-left: 20px;
+            box-sizing: border-box
+        }
+
+        .loginBox input[type="text"]:hover,
+        .loginBox input[type="password"]:hover {
+            color: #42F3FA;
+            border: 1px solid #42F3FA;
+            box-shadow: 0 0 5px rgba(0, 255, 0, .3), 0 0 10px rgba(0, 255, 0, .2), 0 0 15px rgba(0, 255, 0, .1), 0 2px 0 black
+        }
+
+        .loginBox input[type="text"]:focus,
+        .loginBox input[type="password"]:focus {
+            border-bottom: 2px solid #42F3FA
+        }
+
+        .inputBox {
+            position: relative
+        }
+
+        .inputBox span {
+            position: absolute;
+            top: 10px;
+            color: #262626
+        }
+
+        .loginBox input[type="submit"] {
+            border: none;
+            outline: none;
+            height: 40px;
+            font-size: 16px;
+            background: #59238F;
+            color: #fff;
+            border-radius: 20px;
+            cursor: pointer
+        }
+
+        .loginBox a {
+            color: #262626;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            display: block
+        }
+
+        a:hover {
+            color: #00ffff
+        }
+
+        p {
+            color: #0000ff
+        }
     </style>
 </head>
 
 <body>
     @include('sweetalert::alert', ['cdn' => 'https://cdn.jsdelivr.net/npm/sweetalert2@9'])
-    <div class="main_content_iner add-position">
-        <div class="container-fluid p-0">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="white_box mb_30">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-6">
-
-                                <div class="modal-content cs_modal">
-                                    <div class="modal-header justify-content-center theme_bg_1">
-                                        <h5 class="modal-title text_white">Forgot password</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ route('storeForgotPassword') }}" method="post">
-                                            @csrf
-                                            <div class>
-                                                <input type="text" class="form-control"
-                                                    placeholder="Enter your email" name="email">
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary text-center">Send Reset Password Link</button>
-                                                </div>
-                                                <div class="col-md-6" style="text-align: right;">
-                                                    <a href="{{ route('login') }}" class="pass_forget_btn"
-                                                        style="margin-top: 7px;">Login with your account?</a>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="loginBox"> <img class="user" src="{{ asset($company->logo) }}" height="100px" width="100px">
+        <h3>Forgot Password!</h3>
+        <form action="{{ route('storeForgotPassword') }}" method="post">
+            @csrf
+            <div class="inputBox">
+                <input id="uname" type="text" name="email" placeholder="Email">
             </div>
-        </div>
+            <input type="submit" name="" value="Send Reset Password Link">
+        </form>
+        <a href="{{ route('login') }}">Login with your account?<br> </a>
+
+
     </div>
 
-    <script src="{{ asset('backend/js/jquery1-3.4.1.min.js') }}"></script>
-    <script src="{{ asset('backend/js/popper1.min.js') }}"></script>
-    <script src="{{ asset('backend/js/bootstrap.min.html') }}"></script>
-    <script src="{{ asset('backend/js/metisMenu.js') }}"></script>
-    <script src="{{ asset('backend/vendors/scroll/perfect-scrollbar.min.js') }}"></script>
-    <script src="{{ asset('backend/vendors/scroll/scrollable-custom.js') }}"></script>
-    <script src="{{ asset('backend/js/custom.js') }}"></script>
 </body>
 
 
