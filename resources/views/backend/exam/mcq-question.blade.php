@@ -203,7 +203,7 @@
                                                     <div id="subject_{{ $q_subject->id }}">
                                                     </div>
 
-                                                    <button type="submit" class="btn btn-primary "
+                                                    <button type="submit" class="btn btn-primary question"
                                                         id="question-submit-button-{{ $q_subject->id }}"
                                                         @if (count($present_question) > 0) style="display: block;" @else style="display: none;" @endif>Update
                                                         or Create</button>
@@ -213,91 +213,11 @@
 
                                             <div class="card-footer" style="text-align: right;">
 
-                                                <button class="btn btn-primary" type="button"
+                                                <button class="btn btn-primary subject" type="button"
                                                     onclick="addAnotherQuestion(this, '{{ $q_subject->id }}')"
                                                     data-serial_number="{{ count($present_question) > 0 ? 1 + $present_serial : 1 }}">{{ count($present_question) > 0 ? 'Add Another Question' : 'Add Question' }}</button>
                                                 <div class="add-more-question" style="display: none;">
 
-                                                    {{-- below html div will add --}}
-                                                    {{-- <div class="mb-2">
-                                                        <div class="alert alert-success" style="margin-bottom: 1px;">
-                                                            <div class="d-flex justify-content-between">
-                                                                <h4>Question Number # <span
-                                                                        class="serial_number_{{ $q_subject->id }}"></span>
-                                                                </h4>
-                                                                <div class="d-flex justify-content-end">
-                                                                    <i class="fas fa-minus-circle fa-lg"
-                                                                        style="padding-top: 8px;display: none;cursor: pointer;"
-                                                                        onclick="closeQuestion(this)"
-                                                                        title="Collapse"></i>
-                                                                    <i class="fas fa-plus-circle fa-lg"
-                                                                        style="padding-top: 8px;cursor: pointer;"
-                                                                        onclick="openQuestion(this)" title="Expand"></i>
-                                                                    <i class="fas fa-times-circle fa-lg ms-2 text-danger"
-                                                                        style="padding-top: 8px;cursor: pointer;"
-                                                                        onclick="removeQuestion(this)" title="Remove"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="card-body collaps-question bg-warning"
-                                                            style="display: none;">
-                                                            <input type="hidden" name="subject_id"
-                                                                value="{{ $q_subject->id }}">
-                                                            <input type="hidden" class="serial_number">
-                                                            <input type="hidden" name="exam_id"
-                                                                value="{{ request()->exam_id }}">
-
-                                                            <div class="col-md-12">
-                                                                <label for="">Question Name</label>
-                                                                <textarea class="question_name summernote11" placeholder="Enter question name here" name="" rows="5"
-                                                                    style="width: 100%;"></textarea>
-                                                            </div>
-
-                                                            <div class="col-md-12 mt-2">
-                                                                <div class="card card-outline card-info"
-                                                                    style="border-radius: 5px;">
-                                                                    <div class="card-header">
-                                                                        <div class="row">
-                                                                            <div class="col-md-6">
-                                                                                <h3 class="card-title">
-                                                                                    Options with Answer
-                                                                                </h3>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- /.card-header -->
-                                                                    <div class="p-5">
-                                                                        <div class="form-group">
-                                                                            @for ($i = 0; $i < 4; $i++)
-                                                                                <div class="d-flex justify-content-start">
-                                                                                    <div class="icheck-success d-inline">
-                                                                                        <input type="radio"
-                                                                                            class="question_option"
-                                                                                            value="{{ $i }}"
-                                                                                            @if ($i == 0) {{ 'checked' }} @endif>
-                                                                                        <label
-                                                                                            for="is_answer_{{ $q_subject->id }}_{{ $i }}">
-                                                                                        </label>
-                                                                                    </div>
-                                                                                    <textarea class="question_option_name " rows="2" style="width: 100%;"></textarea>
-                                                                                </div>
-                                                                                <br>
-                                                                                <br>
-                                                                            @endfor
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-md-12">
-                                                                <label for="">Question Explanation</label> <br>
-                                                                <textarea rows="5" style="width: 100%;" class="question_explanation "
-                                                                    placeholder="Enter question explanation here"></textarea>
-                                                            </div>
-                                                            <hr>
-                                                        </div>
-                                                    </div> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -313,11 +233,6 @@
 @endsection
 
 @section('js')
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
-    </script> --}}
     <!-- Summernote JS -->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
@@ -325,7 +240,11 @@
 
     <script>
         function addAnotherQuestion(e, subject_id) {
+
+
+
             var serial_number = parseInt($(e).data("serial_number"));
+
 
 
             var data = '';
@@ -344,7 +263,12 @@
                 '[]" rows="2" style="width: 100%;"></textarea> </div> <br> <br> @endfor </div> </div> </div> </div> <div class="col-md-12"> <label for="">Question Explanation</label> <br> <textarea rows="5" style="width: 100%;" class="question_explanation summernote11" placeholder="Enter question explanation here" name="question_explanation[]"></textarea> </div> <hr> </div> </div>';
             $("#subject_" + subject_id).append(data);
             $("#question-submit-button-" + subject_id).show();
-            // $(e).parent().find(".question_name").addClass('summernote');
+
+            $('.subject').prop('disabled', true);
+            $(e).removeAttr('disabled');
+
+            $('.question').prop('disabled', true);
+            $("#question-submit-button-" + subject_id).removeAttr('disabled');
 
             $(e).data('serial_number', ++serial_number);
             // $('.summernote11').summernote({focus:true});
@@ -358,17 +282,6 @@
                     ['misc', ['codeview']]
                 ],
             });
-            // $('.').summernote({
-            //     height: 100,
-            //     width: 1000,
-            //     toolbar: [
-            //         ['fontsize', ['10', '25']],
-            //         ['style', ['bold', 'italic', 'underline', 'clear']],
-            //         ['insert', ['picture', 'link', 'math']],
-            //         ['para', ['paragraph']],
-            //         ['misc', ['codeview']]
-            //     ],
-            // });
 
 
         }

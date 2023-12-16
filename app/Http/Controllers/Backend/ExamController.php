@@ -143,8 +143,9 @@ class ExamController extends Controller {
             if (isset($request->serial_number) && count($request->serial_number) > 0) {
 
                 foreach ($request->serial_number as $key => $serial_number) {
+                    $postfix = $request->input('question_option_name_' . $subject_id . $serial_number);
 
-                    if ($request->question_name[$key] != null) {
+                    if ($request->question_name[$key] != null && $postfix != null) {
                         $question = ExamQuestion::create([
                             'exam_id'              => $request->exam_id,
                             'subject_id'           => $subject_id,
@@ -152,26 +153,21 @@ class ExamController extends Controller {
                             'question_explanation' => $request->question_explanation[$key],
                         ]);
 
-                        $postfix = $request->input('question_option_name_' . $subject_id . $serial_number);
-
                         if ($postfix != null) {
 
                             foreach ($postfix as $o_key => $option) {
 
-                                if ($option) {
-
-                                    if ($request->input('question_option_' . $subject_id . $serial_number) == $o_key) {
-                                        $answer = 1;
-                                    } else {
-                                        $answer = 0;
-                                    }
-
-                                    ExamQuestionOption::create([
-                                        'exam_question_id' => $question->id,
-                                        'option'           => $option,
-                                        'is_answer'        => $answer,
-                                    ]);
+                                if ($request->input('question_option_' . $subject_id . $serial_number) == $o_key) {
+                                    $answer = 1;
+                                } else {
+                                    $answer = 0;
                                 }
+
+                                ExamQuestionOption::create([
+                                    'exam_question_id' => $question->id,
+                                    'option'           => $option ?? 'Not set yet',
+                                    'is_answer'        => $answer,
+                                ]);
 
                             }
 
