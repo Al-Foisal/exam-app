@@ -57,8 +57,9 @@ Route::middleware('auth:sanctum')->post('/contact-us', function (Request $reques
 
 });
 Route::post('/privacy-policy', function (Request $request) {
-
-    $data = Page::where('slug', 'privacy-policy')->first();
+    $data            = [];
+    $data['privacy'] = Page::where('slug', 'privacy-policy')->first();
+    $data['terms']   = Page::where('slug', 'terms-and-conditions')->first();
 
     return response()->json([
         'status' => true,
@@ -107,23 +108,6 @@ Route::middleware('auth:sanctum')->post('/get-material', function (Request $requ
     }
 
     if ($request->search) {
-
-// $subjects = Subject::where('name', 'LIKE', '%' . $request->search . '%')->pluck('id')->toArray();
-
-// if ($subjects) {
-
-//     $data = $data->orWhere('subject_id', 'LIKE', '%' . implode(',', $subjects) . '%');
-
-// }
-
-// $topic = TopicSource::where('topic', 'LIKE', '%' . $request->search . '%')->where('source', 'LIKE', '%' . $request->search . '%')->pluck('id')->toArray();
-
-// if ($topic) {
-
-//     return $topic;
-
-//     $data = $data->orWhere('topic_id', 'LIKE', '%' . implode(',', $topic) . '%');
-        // }
 
         $data = $data->where('name', 'LIKE', $request->search . '%');
 

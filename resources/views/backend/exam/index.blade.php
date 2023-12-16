@@ -29,6 +29,29 @@
         <div class="col-lg-12">
             <div class="white_card card_height_100 mb_30">
                 <div class="white_card_body">
+                    <form action="{{ route('exam.index') }}">
+                        <input type="hidden" name="ref" value="{{ request()->ref }}">
+                        <input type="hidden" name="type" value="{{ request()->type }}">
+                        @if (isset(request()->child))
+                            <input type="hidden" name="child" value="{{ request()->type }}">
+                        @endif
+                        <div class="row">
+                            <div class="col-md-6"></div>
+                            <div class="form-group col-md-5">
+                                <select name="exam_type" class="form-control" required>
+                                    <option value="">select option</option>
+                                    <option value="all" {{ request()->exam_type == 'all'?'selected':'' }}>All Exam</option>
+                                    <option value="archive" {{ request()->exam_type == 'archive'?'selected':'' }}>Archive Exam</option>
+                                    <option value="live" {{ request()->exam_type == 'live'?'selected':'' }}>Live Exam</option>
+                                    <option value="upcoming" {{ request()->exam_type == 'upcoming'?'selected':'' }}>Upcoming Exam
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -89,8 +112,8 @@
                                             Negative Mark: {{ $item->per_question_negative_mark }}
                                         </td>
                                         <td>
-                                            Published Date: {{ $item->published_at->format('Y-m-d H:i:s A') }}, <br>
-                                            Expired Date: {{ $item->expired_at->format('Y-m-d H:i:s A') }}
+                                            Published Date: {{ $item->published_at->format('d-m-Y h:i A') }}, <br>
+                                            Expired Date: {{ $item->expired_at->format('d-m-Y h:i A') }}
                                         </td>
                                         <td>{{ $item->duration / 60 }}</td>
                                         <td>{{ isset($item->questions) ? $item->questions_count : 0 }}</td>

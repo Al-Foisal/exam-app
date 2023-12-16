@@ -40,14 +40,15 @@
                                             <a href="{{ route('page.edit', $page) }}" class="btn btn-info me-2">
                                                 <i class="far fa-edit"></i>
                                             </a>
-
-                                            <form action="{{ route('page.delete', $page) }}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-danger">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
+                                            @if (!in_array($page->id, ['1', '3']))
+                                                <form action="{{ route('page.delete', $page) }}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="btn btn-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

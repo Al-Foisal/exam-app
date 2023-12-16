@@ -50,7 +50,11 @@ class PageController extends Controller {
             return back()->with('toast_error', $validator->messages()->all()[0])->withInput();
         }
 
-        $page->name    = $request->name;
+        if (!in_array($page->id, ['1', '3'])) {
+
+            $page->name = $request->name;
+        }
+
         $page->details = $request->details;
         $page->save();
 

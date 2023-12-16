@@ -34,7 +34,7 @@
                                     <th scope="col">Teacher Name</th>
                                     @if (request()->ref === 'Paid')
                                         <th>Payment Method</th>
-                                        <th>Others Note</th>
+                                        <th>TrxId or A/C</th>
                                     @endif
                                     <th scope="col">Amount</th>
                                     <th scope="col">Requested</th>
@@ -76,13 +76,20 @@
                                                                                 <div class="form-group mb-2">
                                                                                     <label for="">Payment
                                                                                         method</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        name="payment_method"
-                                                                                        placeholder="Bkash..">
+                                                                                    <select name="payment_method"
+                                                                                        class="form-control">
+                                                                                        <option value="">select option
+                                                                                        </option>
+                                                                                        <option value="">Bkash
+                                                                                        </option>
+                                                                                        <option value="Nagad">Nagad
+                                                                                        </option>
+                                                                                        <option value="Bank">Bank</option>
+                                                                                    </select>
                                                                                 </div>
                                                                                 <div class="form-group mb-2">
-                                                                                    <label for="">Note</label>
+                                                                                    <label for="">TrxId or
+                                                                                        A/C</label>
 
                                                                                     <input type="text"
                                                                                         class="form-control" name="note"
@@ -116,8 +123,8 @@
                                         @endif
                                         <td>{{ $item->wallet->user->name . ' - ' . $item->wallet->user->phone ?? '' }}</td>
                                         @if (request()->ref === 'Paid')
-                                            <td>{{ $item->payment_method ?? 'Not set yet' }}</td>
-                                            <td>{{ $item->note ?? 'Not set yet' }}</td>
+                                            <td>{{ $item->payment_method ?? '---' }}</td>
+                                            <td>{{ $item->note ?? '---' }}</td>
                                         @endif
                                         <td>{{ $item->amount }}</td>
                                         @if (request()->ref !== 'Pending')

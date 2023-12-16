@@ -159,7 +159,7 @@ class TeacherManagementController extends Controller {
         $data = WalletHistory::where('status', request()->ref);
 
         if (request()->ref == 'Paid') {
-            $data = $data->orderBy('id', 'desc');
+            $data = $data->orderBy('updated_at', 'desc');
         }
 
         $data = $data->paginate();

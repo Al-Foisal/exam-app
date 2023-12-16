@@ -11,6 +11,7 @@ use App\Models\Syllabus;
 use App\Models\TopicSource;
 use App\Models\Written;
 use App\Models\WrittenQuestion;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -23,6 +24,15 @@ class ExamController extends Controller {
 
         if (request()->child) {
             $exam = $exam->where('childcategory', request()->child);
+        }
+
+        if (request()->exam_type == 'archive') {
+            $exam = $exam->whereDate('published_at', '<=', date('Y-m-d'));
+        } elseif (request()->exam_type == 'upcoming') {
+            $exam = $exam->whereDate('published_at', '>=', date('Y-m-d'));
+        } elseif (request()->exam_type == 'live') {
+            $exam = $exam->where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
+                ->where('expired_at', '>=', Carbon::now('Asia/Dhaka')->toDateTimeString());
         }
 
         $exam = $exam->withCount('questions')->latest('published_at')
