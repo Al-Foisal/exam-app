@@ -10,7 +10,7 @@
 
 <nav class="sidebar vertical-scroll  ps-container ps-theme-default ps-active-y">
     <div class="logo d-flex justify-content-between">
-        <a href="index-2.html"><img src="{{ asset($company->logo) }}" style="height: 70px;"></a>
+        <a href="{{ route('dashboard') }}"><img src="{{ asset($company->logo) }}" style="height: 70px;"></a>
         <div class="sidebar_close_icon d-lg-none">
             <i class="ti-close"></i>
         </div>
@@ -70,7 +70,7 @@
                 <li>
                     <a href="{{ route('teacher.written.index', ['ref' => 'Others', 'type' => 'Written', 'child' => '11 to 20 Grade']) }}"
                         class="text-info">
-                        11 to 20 Grade
+                        Teacher & Lecturer
                     </a>
                 </li>
 
@@ -145,7 +145,7 @@
                 <li>
                     <a href="{{ route('exam.index', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => '11 to 20 Grade']) }}"
                         class="text-success">
-                        11 to 20 Grade Preliminary Exam
+                        Teacher & Lecturer Preliminary Exam
                     </a>
                 </li>
                 <li>
@@ -163,7 +163,7 @@
                 <li>
                     <a href="{{ route('exam.written', ['ref' => 'Others', 'type' => 'Written', 'child' => '11 to 20 Grade']) }}"
                         class="text-info">
-                        11 to 20 Grade Written Exam
+                        Teacher & Lecturer Written Exam
                     </a>
                 </li>
                 <li><a href="{{ route('exam.written', ['ref' => 'Others', 'type' => 'Written', 'child' => 'Job Solution']) }}"
@@ -181,7 +181,7 @@
                 <li>
                     <a href="{{ route('exam.syllabus', ['ref' => 'Others', 'type' => 'Preliminary', 'child' => '11 to 20 Grade']) }}"
                         class="text-success">
-                        11 to 20 Grade Preliminary Syllabus
+                        Teacher & Lecturer Preliminary Syllabus
                     </a>
                 </li>
                 <li>

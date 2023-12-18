@@ -145,7 +145,10 @@ class TeacherManagementController extends Controller {
     }
 
     public function show($id) {
-        $data = User::where('id', $id)->where('type', 'teacher')->first();
+        $data = User::where('id', $id)->where('type', 'teacher')->withCount(['assesment' => function ($q) {
+            $q->where('is_checked', 1);
+        },
+        ])->first();
 
         if (!$data) {
             return back();

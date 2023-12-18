@@ -48,14 +48,15 @@
                                             <a href="{{ route('admin.edit', $item) }}" class="btn btn-info me-2">
                                                 <i class="far fa-edit"></i>
                                             </a>
-
-                                            <form action="{{ route('admin.delete', $item) }}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-danger">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
+                                            @if ($item->id != 1)
+                                                <form action="{{ route('admin.delete', $item) }}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="btn btn-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

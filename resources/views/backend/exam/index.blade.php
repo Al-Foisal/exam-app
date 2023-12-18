@@ -6,14 +6,16 @@
             <div class="page_title_box d-flex align-items-center justify-content-between">
                 <div class="page_title_left">
                     <h3 class="f_s_30 f_w_700 text_white">List of
-                        {{ request()->child ?? request()->ref }}{{ ' ' . request()->type }}</h3>
+                        {{ request()->child && request()->child == '11 to 20 Grade' ? 'Teacher & Lecturer' : request()->child ?? request()->ref }}{{ ' ' . request()->type }}
+                    </h3>
                     <ol class="breadcrumb page_bradcam mb-0">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a
                                 href="javascript:void(0);">{{ request()->ref . ' ' . request()->type }}</a></li>
                         @if (request()->child)
                             <li class="breadcrumb-item"><a
-                                    href="javascript:void(0);">{{ request()->child . ' ' . request()->type }}
+                                    href="javascript:void(0);">{{ request()->child && request()->child == '11 to 20 Grade' ? 'Teacher & Lecturer' : request()->child }}
+                                    {{ ' ' . request()->type }}
                                     exam</a></li>
                         @endif
                         <li class="breadcrumb-item active">Index</li>
@@ -40,10 +42,15 @@
                             <div class="form-group col-md-5">
                                 <select name="exam_type" class="form-control" required>
                                     <option value="">select option</option>
-                                    <option value="all" {{ request()->exam_type == 'all'?'selected':'' }}>All Exam</option>
-                                    <option value="archive" {{ request()->exam_type == 'archive'?'selected':'' }}>Archive Exam</option>
-                                    <option value="live" {{ request()->exam_type == 'live'?'selected':'' }}>Live Exam</option>
-                                    <option value="upcoming" {{ request()->exam_type == 'upcoming'?'selected':'' }}>Upcoming Exam
+                                    <option value="all" {{ request()->exam_type == 'all' ? 'selected' : '' }}>All Exam
+                                    </option>
+                                    <option value="archive" {{ request()->exam_type == 'archive' ? 'selected' : '' }}>
+                                        Archive
+                                        Exam</option>
+                                    <option value="live" {{ request()->exam_type == 'live' ? 'selected' : '' }}>Live Exam
+                                    </option>
+                                    <option value="upcoming" {{ request()->exam_type == 'upcoming' ? 'selected' : '' }}>
+                                        Upcoming Exam
                                     </option>
                                 </select>
                             </div>
