@@ -72,20 +72,20 @@
                                     </label>
                                     <input type="number" class="form-control" id="inputCity"
                                         name="per_question_positive_mark" placeholder="1"
-                                        value="{{ isset($exam) ? $exam->per_question_positive_mark : '' }}">
+                                        value="{{ isset($exam) ? $exam->per_question_positive_mark : '' }}" required>
                                 </div>
                                 <div class=" col-md-6 mb-3">
                                     <label class="form-label" for="inputCity">Per question negative mark<span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="inputCity"
                                         name="per_question_negative_mark" placeholder="0.25"
-                                        value="{{ isset($exam) ? $exam->per_question_negative_mark : '' }}">
+                                        value="{{ isset($exam) ? $exam->per_question_negative_mark : '' }}" required>
                                 </div>
                                 <div class=" col-md-6 mb-3">
                                     <label class="form-label" for="inputZip">Duration (minutes)<span
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="inputZip" name="duration"
-                                        placeholder="30" value="{{ isset($exam) ? $exam->duration / 60 : '' }}">
+                                        placeholder="30" value="{{ isset($exam) ? $exam->duration / 60 : '' }}" required>
                                 </div>
                                 <div class=" col-md-6 mb-3">
                                     <label class="form-label" for="inputZip">Pass Marks<span
@@ -101,13 +101,13 @@
                                             class="text-danger">*</span>
                                     </label>
                                     <input type="datetime-local" class="form-control" id="inputCity" name="published_at"
-                                        value="{{ isset($exam) ? $exam->published_at : '' }}">
+                                        value="{{ isset($exam) ? $exam->published_at : '' }}" required>
                                 </div>
                                 <div class=" col-md-6">
                                     <label class="form-label" for="inputCity">Expired date & time<span
                                             class="text-danger">*</span></label>
                                     <input type="datetime-local" class="form-control" id="inputCity" name="expired_at"
-                                        value="{{ isset($exam) ? $exam->expired_at : '' }}">
+                                        value="{{ isset($exam) ? $exam->expired_at : '' }}" required>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Save</button>

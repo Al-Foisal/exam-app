@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Written;
 use App\Models\WrittenAnswer;
 use App\Services\FCMService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class TeacherExamAssignController extends Controller {
@@ -29,6 +30,20 @@ class TeacherExamAssignController extends Controller {
         $data['exam'] = $exam;
 
         return view('backend.teacher.exam.meritlist', $data);
+    }
+
+    public function writtenMeritlistDownload($written_id) {
+        $data = [];
+
+        $exam = WrittenAnswer::where('written_id', $written_id)->where('is_checked', 1)->orderBy('obtained_mark', 'desc')->with('written')->get();
+
+        $data['exam'] = $exam;
+
+        $pdf = Pdf::loadView('backend.teacher.exam.meritlistdownload', $data);
+
+        return $pdf->stream();
+
+        // return view('backend.teacher.exam.meritlistdownload', $data);
     }
 
     public function index(Request $request) {

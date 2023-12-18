@@ -5,11 +5,13 @@
         <div class="col-12">
             <div class="page_title_box d-flex align-items-center justify-content-between">
                 <div class="page_title_left">
-                    <h3 class="f_s_30 f_w_700 text_white">Merit List</h3>
-                    <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
-                    </ol>
+                    <h3 class="f_s_30 f_w_700 text_white">Merit List for
+                        {{ $exam->first()->written->category == '11 to 20 Grade' ? 'Teacher & Lecturer' : $exam->first()->written->category }}
+                    </h3>
                 </div>
+                <a href="{{ route('teacher.written.writtenMeritlistDownload', request()->id) }}" class="white_btn3"
+                    target="_blank">Download
+                    Meritlist</a>
             </div>
         </div>
     </div>

@@ -6,17 +6,54 @@ use App\Http\Controllers\Controller;
 use App\Models\Exam;
 use App\Models\ExamQuestion;
 use App\Models\ExamQuestionOption;
+use App\Models\PreliminaryAnswer;
 use App\Models\Subject;
 use App\Models\Syllabus;
 use App\Models\TopicSource;
 use App\Models\Written;
 use App\Models\WrittenQuestion;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class ExamController extends Controller {
+    public function writtenMeritlist($exam_id) {
+        $data = [];
+
+        $exam = PreliminaryAnswer::where('exam_id', $exam_id)->orderBy('obtained_marks', 'desc');
+
+        if (request()->registration_id) {
+            $exam = $exam->whereHas('user', function ($q) {
+                $q->where('registration_id', request()->registration_id);
+            });
+        }
+
+        $exam = $exam->paginate()->withQueryString();
+
+        $data['exam'] = $exam;
+        if ($exam) {
+            return back()->withToastInfo('No answer found still now');
+        }
+
+        return view('backend.exam.meritlist', $data);
+    }
+
+    public function writtenMeritlistDownload($exam_id) {
+        $data = [];
+
+        $exam = PreliminaryAnswer::where('exam_id', $exam_id)->get();
+
+        $data['exam'] = $exam;
+
+        $pdf = Pdf::loadView('backend.exam.meritlistdownload', $data);
+
+        return $pdf->stream();
+
+        // return view('backend.teacher.exam.meritlistdownload', $data);
+    }
+
     public function index() {
         $data = [];
         $exam = Exam::where('category', request()->ref)
@@ -109,13 +146,13 @@ class ExamController extends Controller {
 
             ])
             ->get();
-            
 
         $data['topic'] = DB::table('topic_sources')
             ->whereIn('id', explode(',', $exam->topic_id))
             ->get();
 
-            // dd($data);
+        // dd($data);
+
         return view('backend.exam.mcq-question', $data);
     }
 

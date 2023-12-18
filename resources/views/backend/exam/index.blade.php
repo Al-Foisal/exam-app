@@ -65,7 +65,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Action</th>
-                                    <th scope="col">Exam Name</th>
+                                    <th scope="col">Exam Date</th>
                                     <th scope="col">Subjects Name</th>
                                     <th scope="col">Topic & Source Name</th>
                                     <th scope="col">Marking System</th>
@@ -80,12 +80,17 @@
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td class="d-flex justify-content-around">
                                             <a href="{{ route('exam.mcqQuestion', [$item->id, 'ref' => request()->ref, 'type' => 'Preliminary', 'child' => $item->childcategory]) }}"
-                                                class="btn btn-info me-2">
+                                                title="Create or Update Question" class="btn btn-info me-2">
                                                 <i class="fas fa-file-signature"></i>
                                             </a>
                                             <a href="{{ route('exam.create', [$item->id, 'ref' => request()->ref, 'type' => 'Preliminary', 'child' => $item->childcategory]) }}"
-                                                class="btn btn-info me-2">
+                                                title="Edit exam" class="btn btn-info me-2">
                                                 <i class="far fa-edit"></i>
+                                            </a>
+
+                                            <a href="{{ route('exam.writtenMeritlist', $item->id) }}" title="Merit list"
+                                                class="btn btn-info me-2">
+                                                <i class="fas fa-users"></i>
                                             </a>
 
                                             {{-- <form action="{{ route('page.delete',$page) }}" method="post">

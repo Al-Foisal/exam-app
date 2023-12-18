@@ -73,6 +73,8 @@ Route::middleware('auth:admin')->group(function () {
     });
 
     Route::controller(ExamController::class)->prefix('/exam')->name('exam.')->group(function () {
+        Route::get('/written-meritlist/{id}', 'writtenMeritlist')->name('writtenMeritlist');
+        Route::get('/written-meritlist-download/{id}', 'writtenMeritlistDownload')->name('writtenMeritlistDownload');
         /**
          * preliminary
          */
@@ -132,6 +134,7 @@ Route::middleware('auth:admin')->group(function () {
             Route::post('/store-assign-paper', 'storeAssignPaper')->name('storeAssignPaper');
             Route::get('/removed-assign-teacher/{id}', 'removedAssignTeacher')->name('removedAssignTeacher');
             Route::get('/written-meritlist/{id}', 'writtenMeritlist')->name('writtenMeritlist');
+            Route::get('/written-meritlist-download/{id}', 'writtenMeritlistDownload')->name('writtenMeritlistDownload');
         });
     });
 
