@@ -94,6 +94,9 @@
                                                     <td>
                                                         <button type="button" class="btn btn-success btn-sm">Paper
                                                             Checked</button>
+
+                                                        <a href="{{ route('teacher.written.recheckAssignTeacher', $item->id) }}" onclick="return confirm('Are you sure want to recheck this paper?')"
+                                                            class="btn btn-warning btn-sm">Recheck Able</a>
                                                     </td>
                                                 @endif
                                             </tr>

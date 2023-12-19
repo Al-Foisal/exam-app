@@ -136,4 +136,13 @@ class TeacherExamAssignController extends Controller {
         return back()->withToastSuccess('Teacher removed from paper');
     }
 
+    public function recheckAssignTeacher($id) {
+        $answer = WrittenAnswer::find($id);
+
+        $answer->is_checked = 0;
+        $answer->save();
+
+        return back()->withToastSuccess('Paper is recheck able now');
+    }
+
 }
