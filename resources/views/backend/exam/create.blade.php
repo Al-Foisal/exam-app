@@ -6,7 +6,8 @@
             <div class="page_title_box d-flex align-items-center justify-content-between">
                 <div class="page_title_left">
                     <h3 class="f_s_30 f_w_700 text_white">{{ request()->exam_id ? 'Update' : 'Create' }} new
-                        {{ request()->child && request()->child=='11 to 20 Grade'?'Teacher & Lecturer':request()->child ?? request()->ref }}{{ ' ' . request()->type }} exam</h3>
+                        {{ request()->child && request()->child == '11 to 20 Grade' ? 'Teacher & Lecturer' : request()->child ?? request()->ref }}{{ ' ' . request()->type }}
+                        exam</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ $company->name }} </a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">{{ request()->ref . ' ' . request()->type }}
@@ -39,6 +40,41 @@
                             <input type="hidden" name="childcategory" value="{{ request()->child }}">
                             <div class="row mb-3">
                                 <div class="col-md-6 mb-3">
+                                    <h6>Select subject</h6>
+                                    <div style="max-height:200px;overflow:auto;">
+                                        @foreach ($subjects as $subject)
+                                            <div class="mb-3 form-check">
+                                                <input type="checkbox" class="form-check-input" id="{{ $subject->id }}"
+                                                    onchange="getSelectedsubject(this, '{{ $subject->id }}')"
+                                                    name="subject_id[]" data-url="{{ route('exam.getTopic') }}"
+                                                    {{ isset($exam) && in_array($subject->id, explode(',', $exam->subject_id)) ? 'checked' : '' }}
+                                                    value="{{ $subject->id }}">
+                                                <label class="form-check-label" for="{{ $subject->id }}">
+                                                    {{ $subject->name }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Selected topic and subject</h6>
+                                    <div style="max-height:200px;overflow:auto;">
+                                        <div id="selectedTS">
+                                            @if (isset($exam))
+                                                @foreach ($topic_source as $key => $source)
+                                                    <div class="mb-3 form-check"> <input type="checkbox"
+                                                            class="form-check-input" id="{{ $source->id . $key }}" name="topic_id[]"
+                                                            {{ isset($exam) && in_array($source->id, explode(',', $exam->topic_id)) ? 'checked' : '' }} value="{{ $source->id }}">
+                                                        <label class="form-check-label" for="{{ $source->id . $key }}">
+                                                            {{ $source->topic }} - ({{ $source->source }})
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- <div class="col-md-6 mb-3">
                                     <label class="form-label" for="inputAddress">Subjects <span
                                             class="text-danger">*</span></label>
                                     <select name="subject_id[]" class="form-control" multiple="multiple" id="subjects"
@@ -63,7 +99,7 @@
                                             @endforeach
                                         @endif
                                     </select>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="row mb-3">
                                 <div class=" col-md-6 mb-3">
@@ -121,29 +157,41 @@
 
 @section('js')
     <script>
-        $(document).ready(function() {
-            $('#subjects').on('change', function() {
-                var subjects = $(this).val();
-                var url = $(this).data('url');
+        var subject = [];
 
-                $.ajax({
-                    type: 'post',
-                    url: url,
-                    dataType: 'json',
-                    data: {
-                        subjects
-                    },
-                    success: function(data) {
-                        $('#topics').empty();
-                        $.each(data, function(key, value) {
-                            $('#topics').append(
-                                '<option value="' + value.id + '">' + value.topic +
-                                ' - (' + value.source + ')</option>'
-                            )
-                        });
-                    }
+        function getSelectedsubject(e, subject_id) {
+            var url = $(e).data('url');
+
+            if ($(e).is(":checked")) {
+                subject.push(subject_id);
+            } else {
+                subject = $.grep(subject, function(n) {
+                    return n != subject_id;
                 });
+            }
+
+            $.ajax({
+                type: 'post',
+                url: url,
+                dataType: 'json',
+                data: {
+                    subjects: subject
+                },
+                success: function(data) {
+                    console.log(data);
+                    $('#selectedTS').empty();
+                    $.each(data, function(key, value) {
+                        $('#selectedTS').append(
+                            '<div class="mb-3 form-check"> <input type="checkbox" class="form-check-input" id="' +
+                            value.id + key +
+                            '" name="topic_id[]"> <label class="form-check-label" for="' + value
+                            .id + key + '"> ' + value.topic + '(' + value.source +
+                            ') </label> </div>'
+                        )
+                    });
+                }
             });
-        });
+
+        }
     </script>
 @endsection
