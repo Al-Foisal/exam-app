@@ -29,7 +29,7 @@
 
 <body>
     @include('sweetalert::alert', ['cdn' => 'https://cdn.jsdelivr.net/npm/sweetalert2@9'])
-    <div class="loginBox"> <img class="user" src="{{ asset($company->logo) }}" height="100px" width="100px">
+    <div class="loginBox"> <img class="user" src="{{ asset($company->logo) }}" style="height: 40px; width: 180px;">
         <h3>{{ $company->name }}</h3>
         <form action="{{ route('storeLogin') }}" method="post">
             @csrf

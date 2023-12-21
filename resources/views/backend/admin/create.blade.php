@@ -52,13 +52,13 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="inputAddress">Address <span class="text-danger">*</span>
+                                <label class="form-label" for="inputAddress">Address
                                 </label>
                                 <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"
                                     name="address">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="inputZip">Image <span class="text-danger">*</span> </label>
+                                <label class="form-label" for="inputZip">Image </label>
                                 <input type="file" class="form-control" id="inputZip" name="image">
                             </div>
                             <button type="submit" class="btn btn-primary">Save</button>
