@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 @section('title', 'Manage question for ' . $exam->name)
 @section('css')
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet"> --}}
     <style>
         .note-editor.note-frame {
             border: none;
@@ -17,7 +17,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="page_title_box d-flex align-items-center justify-content-between">
+            <div class="page_title_box ">
                 <div class="page_title_left">
                     <h3 class="f_s_30 f_w_700 text_white">Manage question</h3>
                     <ol class="breadcrumb page_bradcam mb-0">
@@ -84,10 +84,8 @@
                                     <div class="col-lg-10">
                                         <div class="card_box box_shadow position-relative">
                                             <div class="white_box_tittle" style="padding: 20px;">
-                                                <div class="d-flex justify-content-between">
                                                     <h4>{{ $q_subject->name }}</h4>
 
-                                                </div>
                                             </div>
 
                                             <form action="{{ route('exam.createOrUpdateMCQQuestion', $exam->id) }}"
@@ -141,15 +139,9 @@
                                                                 <div class="col-md-12 mt-2">
                                                                     <div class="card card-outline card-info"
                                                                         style="border-radius: 5px;">
-                                                                        <div class="card-header">
-                                                                            <div class="row">
-                                                                                <div class="col-md-6">
-                                                                                    <h3 class="card-title">
-                                                                                        Options with Answer
-                                                                                    </h3>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
+                                                                        <h3 class="card-title">
+                                                                            Options with Answer
+                                                                        </h3>
                                                                         <!-- /.card-header -->
                                                                         <div class="p-5">
                                                                             <div class="form-group clearfix">
@@ -224,7 +216,7 @@
 
 @section('js')
     <!-- Summernote JS -->
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
     <script src="{{ asset('summernote-math.js') }}"></script>
 

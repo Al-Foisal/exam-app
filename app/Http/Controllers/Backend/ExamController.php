@@ -33,6 +33,7 @@ class ExamController extends Controller {
         $exam = $exam->paginate()->withQueryString();
 
         $data['exam'] = $exam;
+
         if ($exam) {
             return back()->withToastInfo('No answer found still now');
         }
@@ -138,10 +139,18 @@ class ExamController extends Controller {
     public function mcqQuestion($exam_id) {
         $data             = [];
         $data['exam']     = $exam     = Exam::where('id', $exam_id)->first();
-        $data['subjects'] = Subject::whereIn('id', explode(',', $exam->subject_id))
+        $data['subjects'] = Subject::select(['id', 'name'])
+            ->whereIn('id', explode(',', $exam->subject_id))
             ->with([
                 'exams' => function ($q) use ($exam) {
-                    return $q->where('exam_id', $exam->id)->with('questionOptions');
+                    return $q->where('exam_id', $exam->id)
+                        ->select(['id', 'exam_id', 'subject_id', 'question_name', 'question_explanation'])
+                        ->with([
+                            'questionOptions' => function ($option) {
+                                return $option->select(['id', 'exam_question_id', 'option', 'is_answer']);
+                            },
+
+                        ]);
                 },
 
             ])
@@ -150,8 +159,6 @@ class ExamController extends Controller {
         $data['topic'] = DB::table('topic_sources')
             ->whereIn('id', explode(',', $exam->topic_id))
             ->get();
-
-        // dd($data);
 
         return view('backend.exam.mcq-question', $data);
     }
