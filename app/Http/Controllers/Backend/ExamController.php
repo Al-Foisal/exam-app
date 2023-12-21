@@ -35,7 +35,7 @@ class ExamController extends Controller {
         $data['exam'] = $exam;
 
         if ($exam) {
-            return back()->withToastInfo('No answer found still now');
+            return back()->withToastInfo('Still now for this exam no answer is submitted. So there is nothing to show any of student merit list.');
         }
 
         return view('backend.exam.meritlist', $data);

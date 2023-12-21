@@ -110,6 +110,7 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/index', 'index')->name('index');
         Route::get('/create/{material_id?}', 'create')->name('create');
         Route::any('/store-or-update/{material_id?}', 'storeOrUpdate')->name('storeOrUpdate');
+        Route::delete('/delete/{id}', 'delete')->name('delete');
         Route::post('/get-topic', 'getTopic')->name('getTopic'); //ajax request
     });
 

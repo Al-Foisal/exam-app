@@ -47,18 +47,21 @@
                                     <tr>
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td>
-                                            <a href="{{ route('material.create', [$item->id, 'ref' => request()->ref]) }}"
-                                                class="btn btn-info me-2">
-                                                <i class="far fa-edit"></i>
-                                            </a>
+                                            <div class="d-flex justify-content-between">
+                                                <a href="{{ route('material.create', [$item->id, 'ref' => request()->ref]) }}"
+                                                    class="btn btn-info me-2">
+                                                    <i class="far fa-edit"></i>
+                                                </a>
 
-                                            {{-- <form action="{{ route('page.delete',$page) }}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-danger">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form> --}}
+                                                <form action="{{ route('material.delete', $item) }}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" onclick="return confirm('Are you sure?')"
+                                                        class="btn btn-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                         <td>{{ $item->name }}</td>
                                         <td>

@@ -156,7 +156,7 @@ class TeacherPanelController extends Controller {
                 $written_answer->result_status = $request->obtained_mark > $written_answer->written->pass_marks ? 1 : 0;
                 $written_answer->save();
 
-                if (isset($written_answer->user->fcm_token)) {
+                if (isset($written_answer->user->fcm_token) && $written_answer->is_checked == 1) {
 
                     FCMService::send(
                         $written_answer->user->fcm_token,

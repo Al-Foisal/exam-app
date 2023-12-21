@@ -74,7 +74,8 @@
                                     <input type="file" class="form-control" id="inputCity" name="logo">
 
                                     @if ($info->logo)
-                                        <img src="{{ $info->logo }}" style="height:100px;">
+                                        <img src="{{ $info->logo }}" style="height: 40px;
+                                        width: 180px;">
                                     @endif
                                 </div>
                                 <div class=" col-md-4">

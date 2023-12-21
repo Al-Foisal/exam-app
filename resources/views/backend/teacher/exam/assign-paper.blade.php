@@ -95,8 +95,13 @@
                                                         <button type="button" class="btn btn-success btn-sm">Paper
                                                             Checked</button>
 
-                                                        <a href="{{ route('teacher.written.recheckAssignTeacher', $item->id) }}" onclick="return confirm('Are you sure want to recheck this paper?')"
+                                                        <a href="{{ route('teacher.written.recheckAssignTeacher', $item->id) }}"
+                                                            onclick="return confirm('Are you sure want to recheck this paper?')"
                                                             class="btn btn-warning btn-sm">Recheck Able</a>
+                                                    </td>
+                                                @elseif ($item->teacher && $item->is_checked == 2)
+                                                    <td>
+                                                        <button type="button" class="btn btn-info btn-sm">Assigned For Recheck</button>
                                                     </td>
                                                 @endif
                                             </tr>

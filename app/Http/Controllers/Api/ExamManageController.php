@@ -92,7 +92,7 @@ class ExamManageController extends Controller {
         $data['childcategory'] = $child = $request->childcategory;
 
         if ($sub === 'Preliminary') {
-            $exam = Exam::whereDate('published_at', '>', date('Y-m-d'))
+            $exam = Exam::where('published_at', '>', Carbon::now('Asia/Dhaka')->toDateTimeString())
                 ->where('category', $category)
                 ->where('subcategory', $sub);
 
@@ -108,7 +108,7 @@ class ExamManageController extends Controller {
             }
 
         } elseif ($sub === 'Written') {
-            $exam = Written::whereDate('published_at', '>', date('Y-m-d'))
+            $exam = Written::where('published_at', '>', Carbon::now('Asia/Dhaka')->toDateTimeString())
                 ->where('category', $category)
                 ->where('subcategory', $sub);
 
@@ -139,7 +139,7 @@ class ExamManageController extends Controller {
         $data['childcategory'] = $child = $request->childcategory;
 
         if ($sub === 'Preliminary') {
-            $exam = Exam::where('published_at', '>', date('Y-m-d'));
+            $exam = Exam::where('published_at', '>', Carbon::now('Asia/Dhaka')->toDateTimeString());
 
             $exam = $exam->orderByDesc('id')->paginate();
 
@@ -149,7 +149,7 @@ class ExamManageController extends Controller {
             }
 
         } elseif ($sub === 'Written') {
-            $exam = Written::whereDate('published_at', '>', date('Y-m-d'));
+            $exam = Written::where('published_at', '>', Carbon::now('Asia/Dhaka')->toDateTimeString());
 
             $exam = $exam->orderByDesc('id')->paginate();
 
@@ -174,7 +174,7 @@ class ExamManageController extends Controller {
         $data['childcategory'] = $child = $request->childcategory;
 
         if ($sub === 'Preliminary') {
-            $exam = Exam::whereDate('expired_at', '<', date('Y-m-d'))
+            $exam = Exam::where('expired_at', '<', Carbon::now('Asia/Dhaka')->toDateTimeString())
                 ->where('category', $category)
                 ->where('subcategory', $sub);
 
@@ -261,7 +261,7 @@ class ExamManageController extends Controller {
             return $this->successMessage('', $data);
 
         } elseif ($sub === 'Written') {
-            $exam = Written::whereDate('expired_at', '<', date('Y-m-d'))
+            $exam = Written::where('expired_at', '<', Carbon::now('Asia/Dhaka')->toDateTimeString())
                 ->where('category', $category)
                 ->where('subcategory', $sub);
 

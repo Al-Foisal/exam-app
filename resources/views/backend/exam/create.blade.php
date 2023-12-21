@@ -63,8 +63,10 @@
                                             @if (isset($exam))
                                                 @foreach ($topic_source as $key => $source)
                                                     <div class="mb-3 form-check"> <input type="checkbox"
-                                                            class="form-check-input" id="{{ $source->id . $key }}" name="topic_id[]"
-                                                            {{ isset($exam) && in_array($source->id, explode(',', $exam->topic_id)) ? 'checked' : '' }} value="{{ $source->id }}">
+                                                            class="form-check-input" id="{{ $source->id . $key }}"
+                                                            name="topic_id[]"
+                                                            {{ isset($exam) && in_array($source->id, explode(',', $exam->topic_id)) ? 'checked' : '' }}
+                                                            value="{{ $source->id }}">
                                                         <label class="form-check-label" for="{{ $source->id . $key }}">
                                                             {{ $source->topic }} - ({{ $source->source }})
                                                         </label>
@@ -74,32 +76,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="inputAddress">Subjects <span
-                                            class="text-danger">*</span></label>
-                                    <select name="subject_id[]" class="form-control" multiple="multiple" id="subjects"
-                                        required data-placeholder="Select" data-url="{{ route('exam.getTopic') }}">
-                                        @foreach ($subjects as $subject)
-                                            <option value="{{ $subject->id }}"
-                                                {{ isset($exam) && in_array($subject->id, explode(',', $exam->subject_id)) ? 'selected' : '' }}>
-                                                {{ $subject->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="inputAddress">Topics & Sources <span
-                                            class="text-danger">*</span></label>
-                                    <select name="topic_id[]" class="form-control " multiple="multiple" id="topics"
-                                        required data-placeholder="Select">
-                                        @if (isset($exam))
-                                            @foreach ($topic_source as $source)
-                                                <option value="{{ $source->id }}"
-                                                    {{ isset($exam) && in_array($source->id, explode(',', $exam->topic_id)) ? 'selected' : '' }}>
-                                                    {{ $source->topic }} - ({{ $source->source }})</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div> --}}
                             </div>
                             <div class="row mb-3">
                                 <div class=" col-md-6 mb-3">

@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
 use App\Models\ExamQuestion;
+use App\Models\Notification;
 use App\Models\PreliminaryAnswer;
 use App\Models\Subject;
 use App\Models\TopicSource;
 use App\Models\WrittenAnswer;
 use App\Models\WrittenAnswerQuestion;
 use App\Models\WrittenAnswerQuestionScript;
+use App\Services\FCMService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -113,6 +115,25 @@ class AnswerController extends Controller {
 
             $answer->result_status = $obtained_mark > $exam_details->pass_marks ? 1 : 0;
             $answer->save();
+
+            if (isset($answer->user->fcm_token)) {
+
+                FCMService::send(
+                    $answer->user->fcm_token,
+                    [
+                        'title' => "Exam assesment completed",
+                        'body'  => "Your exam assesment is completed result is published",
+                    ]
+                );
+
+                Notification::create([
+                    'name'       => 'Preliminary exam assesment completed',
+                    'details'    => "Your preliminary exam assesment is completed and result published",
+                    'user_id'    => $answer->user->id,
+                    'written_id' => $answer->written_id,
+                    'to'         => 'user',
+                ]);
+            }
 
             DB::commit();
 

@@ -95,7 +95,7 @@ class MaterialController extends Controller {
                     $final_name1 = $image_url . $img_gen . '.' . $image_ext;
 
                     $image_file->move($image_url, $img_name);
-                    $material->image = $final_name1;
+                    $material->pdf = $final_name1;
                     $material->save();
 
                 }
@@ -113,6 +113,13 @@ class MaterialController extends Controller {
             return to_route('material.index', ['ref' => $request->category])->withToastSuccess('Material updated successfully');
         }
 
+    }
+
+    public function delete($id) {
+        $data = Material::find($id);
+        $data->delete();
+
+        return back()->withToastSuccess('Material deleted successfully');
     }
 
 //ajax response

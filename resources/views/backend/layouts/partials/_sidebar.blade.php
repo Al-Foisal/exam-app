@@ -10,7 +10,8 @@
 
 <nav class="sidebar vertical-scroll  ps-container ps-theme-default ps-active-y">
     <div class="logo d-flex justify-content-between">
-        <a href="{{ route('dashboard') }}"><img src="{{ asset($company->logo) }}" style="height: 70px;"></a>
+        <a href="{{ route('dashboard') }}"><img src="{{ asset($company->logo) }}" style="height: 40px;
+            width: 180px;"></a>
         <div class="sidebar_close_icon d-lg-none">
             <i class="ti-close"></i>
         </div>

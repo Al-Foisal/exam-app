@@ -27,6 +27,10 @@ class TeacherExamAssignController extends Controller {
 
         $exam = $exam->paginate()->withQueryString();
 
+        if (count($exam) == 0) {
+            return back()->withToastInfo('Still now for this exam no answer is submitted. So there is nothing to show any of student merit list.');
+        }
+
         $data['exam'] = $exam;
 
         return view('backend.teacher.exam.meritlist', $data);
@@ -139,7 +143,7 @@ class TeacherExamAssignController extends Controller {
     public function recheckAssignTeacher($id) {
         $answer = WrittenAnswer::find($id);
 
-        $answer->is_checked = 0;
+        $answer->is_checked = 2;
         $answer->save();
 
         return back()->withToastSuccess('Paper is recheck able now');

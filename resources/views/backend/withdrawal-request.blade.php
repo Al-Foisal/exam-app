@@ -75,12 +75,16 @@
                                                                                     value="Paid">
                                                                                 <div class="form-group mb-2">
                                                                                     <label for="">Payment
-                                                                                        method</label>
+                                                                                        method <span class="text-danger">*</span></label>
                                                                                     <select name="payment_method"
-                                                                                        class="form-control">
+                                                                                        class="form-control" required>
                                                                                         <option value="">select option
                                                                                         </option>
-                                                                                        <option value="">Bkash
+                                                                                        <option value="Cash">Cash
+                                                                                        </option>
+                                                                                        <option value="Bkash">Bkash
+                                                                                        </option>
+                                                                                        <option value="Rocket">Rocket
                                                                                         </option>
                                                                                         <option value="Nagad">Nagad
                                                                                         </option>
