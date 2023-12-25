@@ -161,14 +161,14 @@ class TeacherPanelController extends Controller {
                     FCMService::send(
                         $written_answer->user->fcm_token,
                         [
-                            'title' => "Exam assesment completed",
-                            'body'  => "Your exam assesment is completed result is published",
+                            'title' => "লাইভ পরীক্ষা",
+                            'body'  => "আপনার লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে,ফলাফল দেখুন।",
                         ]
                     );
 
                     Notification::create([
-                        'name'       => 'Exam assesment completed',
-                        'details'    => "Your exam paper assesment is completed result is published",
+                        'name'       => 'লাইভ পরীক্ষা',
+                        'details'    => "আপনার লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে,ফলাফল দেখুন।",
                         'user_id'    => $written_answer->user->id,
                         'written_id' => $written_answer->written_id,
                         'to'         => 'user',

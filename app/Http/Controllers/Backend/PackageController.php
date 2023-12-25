@@ -217,14 +217,14 @@ class PackageController extends Controller {
                         FCMService::send(
                             $user->fcm_token,
                             [
-                                'title' => "New Package",
-                                'body'  => "Hello talented! we have created a batch. you may check to judge your knowledge",
+                                'title' => "নতুন প্যাকেজ",
+                                'body'  => "নতুন একটি ব্যাচ চালু হয়েছে। আপনার প্রস্তুতি যাচাই করুন।",
                             ]
                         );
 
                         Notification::create([
                             'name'    => 'Exam paper assign',
-                            'details' => "Hello talented! we have created a batch. you may check to judge your knowledge",
+                            'details' => "নতুন একটি ব্যাচ চালু হয়েছে। আপনার প্রস্তুতি যাচাই করুন।",
                             'user_id' => $user->id,
                             'to'      => 'user',
                         ]);
