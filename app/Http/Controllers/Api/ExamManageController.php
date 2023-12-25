@@ -633,6 +633,7 @@ class ExamManageController extends Controller {
         $data['category']      = $category      = $request->category;
         $data['subcategory']   = $sub   = $request->subcategory;
         $data['childcategory'] = $child = $request->childcategory;
+        $examName              = 'প্রিলিমিনারি';
 
         if ($sub === 'Preliminary') {
             $exam = PreliminaryAnswer::where('user_id', Auth::id())
@@ -668,6 +669,7 @@ class ExamManageController extends Controller {
                 $get_exam_answer = $get_exam_answer->with('user')->paginate();
             }
 
+            $examName = 'প্রিলিমিনারি';
         } else {
             $written = WrittenAnswer::where('user_id', Auth::id())
                 ->where('is_checked', 1)
@@ -704,12 +706,13 @@ class ExamManageController extends Controller {
                 $get_exam_answer = $get_exam_answer->with('user')->paginate();
             }
 
+            $examName = 'লিখিত';
         }
 
         if (count($get_exam_answer) > 0) {
             return $this->successMessage('ok', $get_exam_answer);
         } else {
-            return $this->errorMessage('আপনি কোন লিখিত পরীক্ষায় অংশগ্রহণ করেননি।');
+            return $this->errorMessage('আপনি কোন ' . $examName . ' পরীক্ষায় অংশগ্রহণ করেননি।');
         }
 
     }
