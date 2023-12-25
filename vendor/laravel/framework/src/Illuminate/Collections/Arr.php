@@ -113,13 +113,13 @@ class Arr
 
         foreach ($array as $key => $value) {
             if (is_array($value) && ! empty($value)) {
-                $results = array_merge($results, static::dot($value, $prepend.$key.'.'));
+                $results[] = static::dot($value, $prepend.$key.'.');
             } else {
-                $results[$prepend.$key] = $value;
+                $results[] = [$prepend.$key => $value];
             }
         }
 
-        return $results;
+        return array_merge(...$results);
     }
 
     /**
@@ -195,6 +195,8 @@ class Arr
             foreach ($array as $item) {
                 return $item;
             }
+
+            return value($default);
         }
 
         foreach ($array as $key => $value) {
@@ -806,9 +808,9 @@ class Arr
      * @param  int  $options
      * @return array
      */
-    public function sortRecursiveDesc($array, $options = SORT_REGULAR)
+    public static function sortRecursiveDesc($array, $options = SORT_REGULAR)
     {
-        return $this->sortRecursive($array, $options, true);
+        return static::sortRecursive($array, $options, true);
     }
 
     /**
