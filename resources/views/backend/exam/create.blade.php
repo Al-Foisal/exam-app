@@ -46,9 +46,9 @@
                                             <div class="mb-3 form-check">
                                                 <input type="checkbox" class="form-check-input" id="{{ $subject->id }}"
                                                     onchange="getSelectedsubject(this, '{{ $subject->id }}')"
-                                                    name="subject_id[]" data-url="{{ route('exam.getTopic') }}"
+                                                    name="subject_id[]" data-url="{{ route('exam.getTopic') }}" 
                                                     {{ isset($exam) && in_array($subject->id, explode(',', $exam->subject_id)) ? 'checked' : '' }}
-                                                    value="{{ $subject->id }}">
+                                                    value="{{ $subject->id }}" >
                                                 <label class="form-check-label" for="{{ $subject->id }}">
                                                     {{ $subject->name }}
                                                 </label>

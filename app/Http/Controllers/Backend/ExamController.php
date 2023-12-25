@@ -102,6 +102,14 @@ class ExamController extends Controller {
 
     public function storeOrUpdate(Request $request, $exam_id = null) {
 
+        if ($request->subject_id == null) {
+            return back()->withToastError('Select at least one subject');
+        }
+
+        if ($request->topic_id == null) {
+            return back()->withToastError('Select at least one subjects topic');
+        }
+
         if (!$exam_id) {
             Exam::create([
                 'category'                   => $request->category,
@@ -326,6 +334,14 @@ class ExamController extends Controller {
     }
 
     public function writtenStoreOrUpdate(Request $request, $exam_id = null) {
+
+        if ($request->subject_id == null) {
+            return back()->withToastError('Select at least one subject');
+        }
+
+        if ($request->topic_id == null) {
+            return back()->withToastError('Select at least one subjects topic');
+        }
 
         if (!$exam_id) {
 

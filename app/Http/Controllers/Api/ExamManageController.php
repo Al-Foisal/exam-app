@@ -78,7 +78,7 @@ class ExamManageController extends Controller {
         $data['is_live_exam'] = $is_live;
 
         if (isset($exam) && $exam->userAnswer != null) {
-            return $this->errorMessage('আপনি ইতিমধ্যে এই পরিখাতে অংশগ্রোন কোরেছেন');
+            return $this->errorMessage('আপনি ইতিমধ্যে এই পরীক্ষায় অংশগ্রহণ করেছেন');
         }
 
         return $this->successMessage('', $data);
