@@ -218,7 +218,7 @@ class PackageController extends Controller {
                             $user->fcm_token,
                             [
                                 'title' => "New Package",
-                                'body'  => "New exam paper assign to you for assesment",
+                                'body'  => "Hello talented! we have created a batch. you may check to judge your knowledge",
                             ]
                         );
 
