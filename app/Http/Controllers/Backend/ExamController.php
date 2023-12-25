@@ -34,7 +34,7 @@ class ExamController extends Controller {
 
         $data['exam'] = $exam;
 
-        if (!$exam) {
+        if (count($exam) == 0) {
             return back()->withToastInfo('Still now for this exam no answer is submitted. So there is nothing to show any of student merit list.');
         }
 
