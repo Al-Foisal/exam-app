@@ -80,7 +80,7 @@
                                     <tr>
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td class="d-flex justify-content-around">
-                                            <a href="{{ route('exam.mcqQuestion', [$item->id, 'ref' => request()->ref, 'type' => 'Preliminary', 'child' => $item->childcategory]) }}"
+                                            <a href="{{ route('exam.mcqQuestion', [$item->id, 'ref' => request()->ref, 'type' => 'Preliminary', 'child' => $item->childcategory, '__s' => $item->subjects->first()->id]) }}"
                                                 title="Create or Update Question" class="btn btn-info me-2">
                                                 <i class="fas fa-file-signature"></i>
                                             </a>
@@ -93,14 +93,6 @@
                                                 class="btn btn-info me-2">
                                                 <i class="fas fa-users"></i>
                                             </a>
-
-                                            {{-- <form action="{{ route('page.delete',$page) }}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-danger">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form> --}}
                                         </td>
                                         <td>{{ $item->published_at->format('d F Y') }}</td>
                                         <td>

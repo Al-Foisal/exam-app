@@ -48,7 +48,12 @@
                             <div class="ms-5">
                                 <ul>
                                     @foreach ($subjects as $subject)
-                                        <li style="list-style-type: circle;color: rgb(17, 0, 255);">{{ $subject->name }}
+                                        <li style="list-style-type: circle;color: rgb(17, 0, 255);">
+                                            <a
+                                                href="{{ route('exam.mcqQuestion', [$exam->id, 'ref' => $exam->category, 'type' => 'Preliminary', 'child' => $exam->childcategory, '__s' => $subject->id]) }}">
+                                                {{ $subject->name }} - {{ $subject->exams_count }}
+                                            </a>
+
                                         </li>
                                     @endforeach
                                 </ul>
@@ -68,7 +73,8 @@
                             <b>Per question positive mark: </b>{{ $exam->per_question_positive_mark }} <br>
                             <b>Per question negative mark: </b>{{ $exam->per_question_negative_mark }} <br>
                             <b>Published Date: </b>{{ $exam->published_at->format('d-m-Y h:i A') }} <br>
-                            <b>Expired Date: </b>{{ $exam->expired_at->format('d-m-Y H:i A') }}
+                            <b>Expired Date: </b>{{ $exam->expired_at->format('d-m-Y H:i A') }} <br>
+                            <b>Total Questions: </b>{{ $exam->questions_count }}
                         </div>
                         @csrf
                         <h2 class="text-center"><u>Manage question according to subject</u></h2>
@@ -76,136 +82,129 @@
                         <br>
                         <br>
                         @if (isset($subjects))
-                            @foreach ($subjects as $q_subject)
-                                @php
-                                    $present_question = $q_subject->exams;
-                                @endphp
-                                <div class="row justify-content-center mb-5">
-                                    <div class="col-lg-10">
-                                        <div class="card_box box_shadow position-relative">
-                                            <div class="white_box_tittle" style="padding: 20px;">
-                                                    <h4>{{ $q_subject->name }}</h4>
+                            {{-- @foreach ($subjects as $q_subject) --}}
+                            @php
+                                $present_question = $s_s->exams;
+                            @endphp
+                            <div class="row justify-content-center mb-5">
+                                <div class="col-lg-10">
+                                    <div class="card_box box_shadow position-relative">
+                                        <div class="white_box_tittle" style="padding: 20px;">
+                                            <h4>{{ $s_s->name }}</h4>
 
-                                            </div>
+                                        </div>
 
-                                            <form action="{{ route('exam.createOrUpdateMCQQuestion', $exam->id) }}"
-                                                method="post" enctype="multipart/form-data">
-                                                @csrf
+                                        <form action="{{ route('exam.createOrUpdateMCQQuestion', $exam->id) }}"
+                                            method="post" enctype="multipart/form-data">
+                                            @csrf
 
-                                                <div class="box_body">
-                                                    {{-- existing question here to update --}}
-                                                    @foreach ($present_question as $question)
-                                                        @php
-                                                            $present_serial = $loop->iteration;
-                                                        @endphp
-                                                        <div class="mb-2">
-                                                            <div class="alert alert-success" style="margin-bottom: 1px;">
-                                                                <div class="d-flex justify-content-between">
-                                                                    <h4>Question Number #
-                                                                        <span>{{ $loop->iteration }}</span>
-                                                                    </h4>
-                                                                    <div class="d-flex justify-content-end">
-                                                                        <i class="fas fa-minus-circle fa-lg"
-                                                                            style="padding-top: 8px;display: none;cursor: pointer;"
-                                                                            onclick="closeQuestion(this)"
-                                                                            title="Collapse"></i>
-                                                                        <i class="fas fa-plus-circle fa-lg"
-                                                                            style="padding-top: 8px;cursor: pointer;"
-                                                                            onclick="openQuestion(this)" title="Expand"></i>
-                                                                        <i class="fas fa-times-circle fa-lg ms-2 text-danger"
-                                                                            style="padding-top: 8px;cursor: pointer;"
-                                                                            onclick="deleteQuestion(this)"
-                                                                            title="Delete this question"
-                                                                            data-url="{{ route('exam.deleteQuestion', $question->id) }}"></i>
-                                                                    </div>
+                                            <div class="box_body">
+                                                @foreach ($present_question as $question)
+                                                    @php
+                                                        $present_serial = $loop->iteration;
+                                                    @endphp
+                                                    <div class="mb-2">
+                                                        <div class="alert alert-success" style="margin-bottom: 1px;">
+                                                            <div class="d-flex justify-content-between">
+                                                                <h4>Question Number #
+                                                                    <span>{{ $loop->iteration }}</span>
+                                                                </h4>
+                                                                <div class="d-flex justify-content-end">
+                                                                    <i class="fas fa-minus-circle fa-lg"
+                                                                        style="padding-top: 8px;display: none;cursor: pointer;"
+                                                                        onclick="closeQuestion(this)" title="Collapse"></i>
+                                                                    <i class="fas fa-plus-circle fa-lg"
+                                                                        style="padding-top: 8px;cursor: pointer;"
+                                                                        onclick="openQuestion(this)" title="Expand"></i>
+                                                                    <i class="fas fa-times-circle fa-lg ms-2 text-danger"
+                                                                        style="padding-top: 8px;cursor: pointer;"
+                                                                        onclick="deleteQuestion(this)"
+                                                                        title="Delete this question"
+                                                                        data-url="{{ route('exam.deleteQuestion', $question->id) }}"></i>
                                                                 </div>
                                                             </div>
-                                                            <div class="card-body collaps-question bg-warning"
-                                                                style="display: none;">
-                                                                <input type="hidden" name="subject_id"
-                                                                    value="{{ $q_subject->id }}">
-                                                                {{-- <input type="hidden" class="serial_number"
-                                                                    name="serial_number[]" value="{{ $present_serial }}"> --}}
-                                                                <input type="hidden" name="exam_id"
-                                                                    value="{{ request()->exam_id }}">
-                                                                <input type="hidden" name="question_id[]"
-                                                                    value="{{ $question->id }}">
+                                                        </div>
+                                                        <div class="card-body collaps-question bg-warning"
+                                                            style="display: none;">
+                                                            <input type="hidden" name="subject_id"
+                                                                value="{{ $s_s->id }}">
+                                                            <input type="hidden" name="exam_id"
+                                                                value="{{ request()->exam_id }}">
+                                                            <input type="hidden" name="question_id[]"
+                                                                value="{{ $question->id }}">
 
-                                                                <div class="col-md-12">
-                                                                    <label for="">Question Name</label>
-                                                                    <textarea class="summernote11" placeholder="Enter question name here" name="question_name_{{ $question->id }}">{!! $question->question_name !!}</textarea>
-                                                                </div>
+                                                            <div class="col-md-12">
+                                                                <label for="">Question Name</label>
+                                                                <textarea class="summernote11" placeholder="Enter question name here" name="question_name_{{ $question->id }}">{!! $question->question_name !!}</textarea>
+                                                            </div>
 
-                                                                <div class="col-md-12 mt-2">
-                                                                    <div class="card card-outline card-info"
-                                                                        style="border-radius: 5px;">
-                                                                        <h3 class="card-title">
-                                                                            Options with Answer
-                                                                        </h3>
-                                                                        <!-- /.card-header -->
-                                                                        <div class="p-5">
-                                                                            <div class="form-group clearfix">
+                                                            <div class="col-md-12 mt-2">
+                                                                <div class="card card-outline card-info"
+                                                                    style="border-radius: 5px;">
+                                                                    <h3 class="card-title">
+                                                                        Options with Answer
+                                                                    </h3>
+                                                                    <!-- /.card-header -->
+                                                                    <div class="p-5">
+                                                                        <div class="form-group clearfix">
 
-                                                                                @foreach ($question->questionOptions as $option_key => $option)
-                                                                                    <div
-                                                                                        class="d-flex justify-content-start">
-                                                                                        <div
-                                                                                            class="icheck-success d-inline">
-                                                                                            <input type="radio"
-                                                                                                @if ($option->is_answer == 1) {{ 'checked' }} @endif
-                                                                                                name="question_option_{{ $question->id }}"
-                                                                                                value="{{ $option_key }}">
-                                                                                            <label for="is_answer">
-                                                                                            </label>
-                                                                                        </div>
-                                                                                        <textarea class="summernote11" name="question_option_name_{{ $question->id }}[]">
+                                                                            @foreach ($question->questionOptions as $option_key => $option)
+                                                                                <div class="d-flex justify-content-start">
+                                                                                    <div class="icheck-success d-inline">
+                                                                                        <input type="radio"
+                                                                                            @if ($option->is_answer == 1) {{ 'checked' }} @endif
+                                                                                            name="question_option_{{ $question->id }}"
+                                                                                            value="{{ $option_key }}">
+                                                                                        <label for="is_answer">
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <textarea class="summernote11" name="question_option_name_{{ $question->id }}[]">
                                                                                         {!! $option->option !!}
                                                                                         </textarea>
-                                                                                    </div>
-                                                                                    <br>
-                                                                                    <br>
-                                                                                @endforeach
+                                                                                </div>
+                                                                                <br>
+                                                                                <br>
+                                                                            @endforeach
 
-                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="col-md-12">
-                                                                    <label for="">Question Explanation</label>
-                                                                    <textarea class="summernote11" name="question_explanation_{{ $question->id }}"
-                                                                        placeholder="Enter question explanation here">{!! $question->question_explanation !!}</textarea>
-                                                                </div>
-                                                                <hr>
                                                             </div>
+
+                                                            <div class="col-md-12">
+                                                                <label for="">Question Explanation</label>
+                                                                <textarea class="summernote11" name="question_explanation_{{ $question->id }}"
+                                                                    placeholder="Enter question explanation here">{!! $question->question_explanation !!}</textarea>
+                                                            </div>
+                                                            <hr>
                                                         </div>
-                                                    @endforeach
-
-                                                    {{-- add multiple question from here --}}
-                                                    <div id="subject_{{ $q_subject->id }}">
                                                     </div>
+                                                @endforeach
 
-                                                    <button type="submit" class="btn btn-primary question"
-                                                        id="question-submit-button-{{ $q_subject->id }}"
-                                                        @if (count($present_question) > 0) style="display: block;" @else style="display: none;" @endif>Update
-                                                        or Create</button>
-
+                                                <div id="subject_{{ $s_s->id }}">
                                                 </div>
-                                            </form>
 
-                                            <div class="card-footer" style="text-align: right;">
+                                                <button type="submit" class="btn btn-primary question"
+                                                    id="question-submit-button-{{ $s_s->id }}"
+                                                    @if (count($present_question) > 0) style="display: block;" @else style="display: none;" @endif>Update
+                                                    or Create</button>
 
-                                                <button class="btn btn-primary subject" type="button"
-                                                    onclick="addAnotherQuestion(this, '{{ $q_subject->id }}')"
-                                                    data-serial_number="{{ count($present_question) > 0 ? 1 + $present_serial : 1 }}">{{ count($present_question) > 0 ? 'Add Another Question' : 'Add Question' }}</button>
-                                                <div class="add-more-question" style="display: none;">
+                                            </div>
+                                        </form>
 
-                                                </div>
+                                        <div class="card-footer" style="text-align: right;">
+
+                                            <button class="btn btn-primary subject" type="button"
+                                                onclick="addAnotherQuestion(this, '{{ $s_s->id }}')"
+                                                data-serial_number="{{ count($present_question) > 0 ? 1 + $present_serial : 1 }}">{{ count($present_question) > 0 ? 'Add Another Question' : 'Add Question' }}</button>
+                                            <div class="add-more-question" style="display: none;">
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            </div>
+                            {{-- @endforeach --}}
                         @endif
                     </div>
                 </div>
@@ -215,8 +214,6 @@
 @endsection
 
 @section('js')
-    <!-- Summernote JS -->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
     <script src="{{ asset('summernote-math.js') }}"></script>
 
@@ -239,7 +236,7 @@
                 '"> <input type="hidden" name="exam_id" value="{{ request()->exam_id }}"> <div class="col-md-12"> <label for="">Question Name</label> <textarea class="question_name summernote11" placeholder="Enter question name here" name="question_name[]" rows="5" style="width: 100%;"></textarea> </div> <div class="col-md-12 mt-2"> <div class="card card-outline card-info" style="border-radius: 5px;"> <div class="card-header"> <div class="row"> <div class="col-md-6"> <h3 class="card-title"> Options with Answer </h3> </div> </div> </div> <div class="p-5"> <div class="form-group"> @for ($i = 0; $i < 4; $i++) <div class="d-flex justify-content-start"> <div class="icheck-success d-inline"> <input type="radio" class="question_option" name="question_option_' +
                 subject_id +
                 serial_number +
-                '" value="{{ $i }}" @if ($i == 0) {{ 'checked' }} @endif> <label for="is_answer_{{ $q_subject->id }}_{{ $i }}"> </label> </div> <textarea class="question_option_name summernote11" name="question_option_name_' +
+                '" value="{{ $i }}" @if ($i == 0) {{ 'checked' }} @endif> <label for="is_answer_{{ $s_s->id }}_{{ $i }}"> </label> </div> <textarea class="question_option_name summernote11" name="question_option_name_' +
                 subject_id +
                 serial_number +
                 '[]" rows="2" style="width: 100%;"></textarea> </div> <br> <br> @endfor </div> </div> </div> </div> <div class="col-md-12"> <label for="">Question Explanation</label> <br> <textarea rows="5" style="width: 100%;" class="question_explanation summernote11" placeholder="Enter question explanation here" name="question_explanation[]"></textarea> </div> <hr> </div> </div>';

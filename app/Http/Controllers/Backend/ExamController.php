@@ -148,9 +148,18 @@ class ExamController extends Controller {
 
     public function mcqQuestion($exam_id) {
         $data             = [];
-        $data['exam']     = $exam     = Exam::where('id', $exam_id)->first();
+        $data['exam']     = $exam     = Exam::where('id', $exam_id)->withCount('questions')->first();
         $data['subjects'] = Subject::select(['id', 'name'])
             ->whereIn('id', explode(',', $exam->subject_id))
+            ->withCount([
+                'exams' => function ($q) use ($exam) {
+                    return $q->where('exam_id', $exam->id);
+                },
+
+            ])
+            ->get();
+        $data['s_s'] = Subject::select(['id', 'name'])
+            ->where('id', request()->__s)
             ->with([
                 'exams' => function ($q) use ($exam) {
                     return $q->where('exam_id', $exam->id)
@@ -164,7 +173,7 @@ class ExamController extends Controller {
                 },
 
             ])
-            ->get();
+            ->first();
 
         $data['topic'] = DB::table('topic_sources')
             ->whereIn('id', explode(',', $exam->topic_id))
