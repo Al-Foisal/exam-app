@@ -16,6 +16,7 @@ use App\Models\TopicSource;
 use App\Models\User;
 use App\Models\Written;
 use App\Services\FCMService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -130,13 +131,13 @@ Route::middleware('auth:sanctum')->get('/get-present-live-exam', function (Reque
 
     $data = [];
 
-    $exam = Exam::whereDate('published_at', '<=', date('Y-m-d'))
-        ->whereDate('expired_at', '>=', date('Y-m-d'))
+    $exam = Exam::where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
+        ->where('expired_at', '>=', Carbon::now('Asia/Dhaka')->toDateTimeString())
         ->select(['id', 'category', 'subcategory', 'childcategory'])
         ->get();
 
-    $written = Written::whereDate('published_at', '<=', date('Y-m-d'))
-        ->whereDate('expired_at', '>=', date('Y-m-d'))
+    $written = Written::where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
+        ->where('expired_at', '>=', Carbon::now('Asia/Dhaka')->toDateTimeString())
         ->select(['id', 'category', 'subcategory', 'childcategory'])
         ->get();
 

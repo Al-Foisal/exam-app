@@ -78,7 +78,7 @@ class ExamManageController extends Controller {
         $data['is_live_exam'] = $is_live;
 
         if (isset($exam) && $exam->userAnswer != null) {
-            return $this->errorMessage('Your participation in this live test is completed before.');
+            return $this->errorMessage('আপনি ইতিমধ্যে এই পরিখাতে অংশগ্রোন কোরেছেন');
         }
 
         return $this->successMessage('', $data);
@@ -709,7 +709,7 @@ class ExamManageController extends Controller {
         if (count($get_exam_answer) > 0) {
             return $this->successMessage('ok', $get_exam_answer);
         } else {
-            return $this->errorMessage('You do not have any perticipation for this categorised section.');
+            return $this->errorMessage('আপনি কোন লিখিত পরীক্ষায় অংশগ্রহণ করেননি।');
         }
 
     }
