@@ -638,6 +638,10 @@ class ExamManageController extends Controller {
         if ($sub === 'Preliminary') {
             $exam = PreliminaryAnswer::where('user_id', Auth::id())
                 ->latest()
+                ->whereHas('exam', function ($q) {
+                    return $q->where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
+                        ->where('expired_at', '>=', Carbon::now('Asia/Dhaka')->toDateTimeString());
+                })
                 ->whereHas('exam', function ($q) use ($category) {
                     return $q->where('category', $category);
                 })
@@ -674,6 +678,10 @@ class ExamManageController extends Controller {
             $written = WrittenAnswer::where('user_id', Auth::id())
                 ->where('is_checked', 1)
                 ->latest()
+                ->whereHas('written', function ($q) {
+                    return $q->where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
+                        ->where('expired_at', '>=', Carbon::now('Asia/Dhaka')->toDateTimeString());
+                })
                 ->whereHas('written', function ($q) use ($category) {
                     return $q->where('category', $category);
                 })
