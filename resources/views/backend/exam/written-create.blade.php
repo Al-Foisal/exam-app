@@ -131,6 +131,23 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="row mb-3">
+                                <div class="col-md-2">
+                                    Status
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="radio" name="status" value="1" id="active"
+                                        class="form-check-input" required
+                                        {{ isset($exam) && $exam->status == 1 ? 'checked' : '' }}>
+                                    <label for="active">Active</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="radio" name="status" value="0" id="inactive"
+                                        class="form-check-input" required
+                                        {{ isset($exam) && $exam->status == 0 ? 'checked' : '' }}>
+                                    <label for="inactive">Inctive</label>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form>
                     </div>

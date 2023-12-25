@@ -27,7 +27,7 @@ class ExamManageController extends Controller {
         $exam = [];
 
         if ($sub === 'Preliminary') {
-            $exam = Exam::where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
+            $exam = Exam::where('status', 1)->where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
                 ->where('expired_at', '>=', Carbon::now('Asia/Dhaka')->toDateTimeString())
                 ->where('category', $category)
                 ->where('subcategory', $sub);
@@ -44,7 +44,7 @@ class ExamManageController extends Controller {
             ])->first();
 
         } elseif ($sub === 'Written') {
-            $exam = Written::where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
+            $exam = Written::where('status', 1)->where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
                 ->where('expired_at', '>=', Carbon::now('Asia/Dhaka')->toDateTimeString())
                 ->where('category', $category)
                 ->where('subcategory', $sub);
@@ -92,7 +92,7 @@ class ExamManageController extends Controller {
         $data['childcategory'] = $child = $request->childcategory;
 
         if ($sub === 'Preliminary') {
-            $exam = Exam::where('published_at', '>', Carbon::now('Asia/Dhaka')->toDateTimeString())
+            $exam = Exam::where('status', 1)->where('published_at', '>', Carbon::now('Asia/Dhaka')->toDateTimeString())
                 ->where('category', $category)
                 ->where('subcategory', $sub);
 
@@ -108,7 +108,7 @@ class ExamManageController extends Controller {
             }
 
         } elseif ($sub === 'Written') {
-            $exam = Written::where('published_at', '>', Carbon::now('Asia/Dhaka')->toDateTimeString())
+            $exam = Written::where('status', 1)->where('published_at', '>', Carbon::now('Asia/Dhaka')->toDateTimeString())
                 ->where('category', $category)
                 ->where('subcategory', $sub);
 
@@ -139,7 +139,7 @@ class ExamManageController extends Controller {
         $data['childcategory'] = $child = $request->childcategory;
 
         if ($sub === 'Preliminary') {
-            $exam = Exam::where('published_at', '>', Carbon::now('Asia/Dhaka')->toDateTimeString());
+            $exam = Exam::where('status', 1)->where('published_at', '>', Carbon::now('Asia/Dhaka')->toDateTimeString());
 
             $exam = $exam->orderByDesc('id')->paginate();
 
@@ -149,7 +149,7 @@ class ExamManageController extends Controller {
             }
 
         } elseif ($sub === 'Written') {
-            $exam = Written::where('published_at', '>', Carbon::now('Asia/Dhaka')->toDateTimeString());
+            $exam = Written::where('status', 1)->where('published_at', '>', Carbon::now('Asia/Dhaka')->toDateTimeString());
 
             $exam = $exam->orderByDesc('id')->paginate();
 
@@ -174,7 +174,7 @@ class ExamManageController extends Controller {
         $data['childcategory'] = $child = $request->childcategory;
 
         if ($sub === 'Preliminary') {
-            $exam = Exam::where('expired_at', '<', Carbon::now('Asia/Dhaka')->toDateTimeString())
+            $exam = Exam::where('status', 1)->where('expired_at', '<', Carbon::now('Asia/Dhaka')->toDateTimeString())
                 ->where('category', $category)
                 ->where('subcategory', $sub);
 
@@ -196,7 +196,7 @@ class ExamManageController extends Controller {
                 ->paginate();
 
             if ($request->search) {
-                $exam = Exam::whereDate('expired_at', '<', date('Y-m-d'))
+                $exam = Exam::where('status', 1)->whereDate('expired_at', '<', date('Y-m-d'))
                     ->where('category', $category)
                     ->where('subcategory', $sub);
 
@@ -261,7 +261,7 @@ class ExamManageController extends Controller {
             return $this->successMessage('', $data);
 
         } elseif ($sub === 'Written') {
-            $exam = Written::where('expired_at', '<', Carbon::now('Asia/Dhaka')->toDateTimeString())
+            $exam = Written::where('status', 1)->where('expired_at', '<', Carbon::now('Asia/Dhaka')->toDateTimeString())
                 ->where('category', $category)
                 ->where('subcategory', $sub);
 
@@ -283,7 +283,7 @@ class ExamManageController extends Controller {
                 ->paginate();
 
             if ($request->search) {
-                $exam = Written::whereDate('expired_at', '<', date('Y-m-d'))
+                $exam = Written::where('status', 1)->whereDate('expired_at', '<', date('Y-m-d'))
                     ->where('category', $category)
                     ->where('subcategory', $sub);
 
@@ -374,7 +374,7 @@ class ExamManageController extends Controller {
         $data['childcategory'] = $child = $request->childcategory;
 
         if ($sub === 'Preliminary') {
-            $exam = Exam::where('id', $request->exam_id)
+            $exam = Exam::where('status', 1)->where('id', $request->exam_id)
                 ->with('questions.questionOptions')
                 ->first();
             $subjects = Subject::whereIn('id', explode(',', $exam->subject_id))->get();
@@ -382,7 +382,7 @@ class ExamManageController extends Controller {
         } else
 
         if ($sub === 'Written') {
-            $exam = Written::where('id', $request->exam_id)->with('writtenQuestion')->first();
+            $exam = Written::where('status', 1)->where('id', $request->exam_id)->with('writtenQuestion')->first();
 
             $subjects = Subject::whereIn('id', explode(',', $exam->subject_id))->get();
             $sources  = TopicSource::whereIn('id', explode(',', $exam->topic_id))->get();
