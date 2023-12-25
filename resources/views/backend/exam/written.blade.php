@@ -64,6 +64,7 @@
                                     <th scope="col">Exam Timeline</th>
                                     <th scope="col">Duration(Minutes)</th>
                                     <th scope="col">Question & Answer</th>
+                                    <th scope="col">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -130,6 +131,7 @@
                                                 No answer set yet
                                             @endif
                                         </td>
+                                        <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

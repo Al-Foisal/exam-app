@@ -72,6 +72,7 @@
                                     <th scope="col">Exam Timeline</th>
                                     <th scope="col">Duration(Minutes)</th>
                                     <th scope="col">Total Question</th>
+                                    <th scope="col">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -129,6 +130,7 @@
                                         </td>
                                         <td>{{ $item->duration / 60 }}</td>
                                         <td>{{ isset($item->questions) ? $item->questions_count : 0 }}</td>
+                                        <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
