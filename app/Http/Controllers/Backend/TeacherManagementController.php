@@ -125,20 +125,22 @@ class TeacherManagementController extends Controller {
             }
 
             User::create([
-                'name'            => $request->name,
-                'email'           => $request->email,
-                'phone'           => $request->phone,
-                'password'        => bcrypt($request->password),
-                'address'         => $request->address,
-                'image'           => $final_name1 ?? null,
-                'about'           => $request->about,
-                'type'            => 'teacher',
-                'amount'          => $request->amount,
-                'permission'      => implode(',', $request->permission),
-                'status'          => $request->status,
-                'registration_id' => date("y") . $register_number,
-                'register_number' => $registration_number,
+                'name'              => $request->name,
+                'email'             => $request->email,
+                'phone'             => $request->phone,
+                'password'          => bcrypt($request->password),
+                'address'           => $request->address,
+                'image'             => $final_name1 ?? null,
+                'about'             => $request->about,
+                'type'              => 'teacher',
+                'amount'            => $request->amount,
+                'email_varified_at' => now(),
+                'permission'        => implode(',', $request->permission),
+                'status'            => $request->status,
+                'registration_id'   => date("y") . $register_number,
+                'register_number'   => $registration_number,
             ]);
+
         }
 
         return to_route('teacher.index')->withToastSuccess('New teacher created successfully');
