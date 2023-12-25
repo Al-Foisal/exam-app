@@ -134,7 +134,7 @@ class TeacherManagementController extends Controller {
                 'about'             => $request->about,
                 'type'              => 'teacher',
                 'amount'            => $request->amount,
-                'email_varified_at' => now(),
+                'email_verified_at' => now(),
                 'permission'        => implode(',', $request->permission),
                 'status'            => $request->status,
                 'registration_id'   => date("y") . $register_number,
