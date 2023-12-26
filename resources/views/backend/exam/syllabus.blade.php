@@ -38,7 +38,7 @@
                 <div class="white_card_body">
                     <div class="card-body">
                         <form action="{{ route('exam.uploadSyllabus') }}" method="post" enctype="multipart/form-data">
-                            @csrf 
+                            @csrf
 
                             <input type="hidden" name="category" value="{{ request()->ref }}">
                             <input type="hidden" name="subcategory" value="{{ request()->type }}">
@@ -52,7 +52,7 @@
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form>
                         <hr>
-                        @if ($data && isset($data->syllabus))
+                        @if ($data && $data->syllabus != null)
                             <iframe src="{{ asset($data->syllabus) }}" frameborder="0"
                                 style="width: 100%;height:600px;"></iframe>
                         @else
