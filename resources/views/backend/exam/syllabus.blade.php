@@ -38,7 +38,7 @@
                 <div class="white_card_body">
                     <div class="card-body">
                         <form action="{{ route('exam.uploadSyllabus') }}" method="post" enctype="multipart/form-data">
-                            @csrf
+                            @csrf 
 
                             <input type="hidden" name="category" value="{{ request()->ref }}">
                             <input type="hidden" name="subcategory" value="{{ request()->type }}">
