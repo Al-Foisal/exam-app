@@ -156,24 +156,24 @@ class TeacherPanelController extends Controller {
                 $written_answer->result_status = $request->obtained_mark > $written_answer->written->pass_marks ? 1 : 0;
                 $written_answer->save();
 
-                if (isset($written_answer->user->fcm_token) && $written_answer->is_checked == 1) {
+                // if (isset($written_answer->user->fcm_token) && $written_answer->is_checked == 1) {
 
-                    FCMService::send(
-                        $written_answer->user->fcm_token,
-                        [
-                            'title' => "লাইভ পরীক্ষা",
-                            'body'  => "আপনার লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে, ফলাফল দেখুন।",
-                        ]
-                    );
+                //     FCMService::send(
+                //         $written_answer->user->fcm_token,
+                //         [
+                //             'title' => "লাইভ পরীক্ষা",
+                //             'body'  => "আপনার লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে, ফলাফল দেখুন।",
+                //         ]
+                //     );
 
-                    Notification::create([
-                        'name'       => 'লাইভ পরীক্ষা',
-                        'details'    => "আপনার লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে, ফলাফল দেখুন।",
-                        'user_id'    => $written_answer->user->id,
-                        'written_id' => $written_answer->written_id,
-                        'to'         => 'user',
-                    ]);
-                }
+                //     Notification::create([
+                //         'name'       => 'লাইভ পরীক্ষা',
+                //         'details'    => "আপনার লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে, ফলাফল দেখুন।",
+                //         'user_id'    => $written_answer->user->id,
+                //         'written_id' => $written_answer->written_id,
+                //         'to'         => 'user',
+                //     ]);
+                // }
 
                 if (!$is_checked_before) {
 

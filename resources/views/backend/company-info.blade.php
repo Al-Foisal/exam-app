@@ -106,7 +106,7 @@
                                     placeholder="Enter facebook link" name="facebook"
                                     value="{{ $info->facebook ?? '' }}">
                             </div>
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label class="form-label" for="inputAddress">Twitter</label>
                                 <input type="url" class="form-control" id="inputAddress"
                                     placeholder="Enter twitter link" name="twitter" value="{{ $info->twitter ?? '' }}">
@@ -133,7 +133,7 @@
                                 <input type="url" class="form-control" id="inputAddress"
                                     placeholder="Enter pinterest link" name="pinterest"
                                     value="{{ $info->pinterest ?? '' }}">
-                            </div>
+                            </div> --}}
                             <div class="mb-3">
                                 <label class="form-label" for="inputAddress">Telegram</label>
                                 <input type="url" class="form-control" id="inputAddress"

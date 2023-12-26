@@ -116,51 +116,51 @@ class AnswerController extends Controller {
             $answer->result_status = $obtained_mark > $exam_details->pass_marks ? 1 : 0;
             $answer->save();
 
-            if (isset($answer->user->fcm_token)) {
-                $catt = '';
+            // if (isset($answer->user->fcm_token)) {
+            //     $catt = '';
 
-                if ($exam_details->childcategory) {
+            //     if ($exam_details->childcategory) {
 
-                    if ($exam_details->childcategory == 'Primary') {
-                        $catt = 'প্রাইমারি';
-                    } elseif ($exam_details->childcategory == '11 to 20 Grade') {
-                        $catt = 'শিক্ষক এবং প্রভাষক';
-                    } elseif ($exam_details->childcategory == 'Non-Cadre') {
-                        $catt = 'নন-ক্যাডার';
-                    } elseif ($exam_details->childcategory == 'Job Solution') {
-                        $catt = 'জব সলুশন';
-                    } elseif ($exam_details->childcategory == 'Weekly') {
-                        $catt = 'সাপ্তাহিক';
-                    } elseif ($exam_details->childcategory == 'Daily') {
-                        $catt = 'দৈনিক';
-                    }
+            //         if ($exam_details->childcategory == 'Primary') {
+            //             $catt = 'প্রাইমারি';
+            //         } elseif ($exam_details->childcategory == '11 to 20 Grade') {
+            //             $catt = 'শিক্ষক এবং প্রভাষক';
+            //         } elseif ($exam_details->childcategory == 'Non-Cadre') {
+            //             $catt = 'নন-ক্যাডার';
+            //         } elseif ($exam_details->childcategory == 'Job Solution') {
+            //             $catt = 'জব সলুশন';
+            //         } elseif ($exam_details->childcategory == 'Weekly') {
+            //             $catt = 'সাপ্তাহিক';
+            //         } elseif ($exam_details->childcategory == 'Daily') {
+            //             $catt = 'দৈনিক';
+            //         }
 
-                } else {
+            //     } else {
 
-                    if ($exam_details->category == 'BCS') {
-                        $catt = 'বিসিএস';
-                    } else {
-                        $catt = 'ব্যাংক';
-                    }
+            //         if ($exam_details->category == 'BCS') {
+            //             $catt = 'বিসিএস';
+            //         } else {
+            //             $catt = 'ব্যাংক';
+            //         }
 
-                }
+            //     }
 
-                FCMService::send(
-                    $answer->user->fcm_token,
-                    [
-                        'title' => "লাইভ পরীক্ষা",
-                        'body'  => $catt . " প্রিলিমিনারি লাইভ পরীক্ষা শেষ হয়েছে, ফলাফল দেখুন।",
-                    ]
-                );
+            //     FCMService::send(
+            //         $answer->user->fcm_token,
+            //         [
+            //             'title' => "লাইভ পরীক্ষা",
+            //             'body'  => $catt . " প্রিলিমিনারি লাইভ পরীক্ষা শেষ হয়েছে, ফলাফল দেখুন।",
+            //         ]
+            //     );
 
-                Notification::create([
-                    'name'       => 'লাইভ পরীক্ষা',
-                    'details'    => $catt . " প্রিলিমিনারি লাইভ পরীক্ষা শেষ হয়েছে, ফলাফল দেখুন।",
-                    'user_id'    => $answer->user->id,
-                    'written_id' => $answer->written_id,
-                    'to'         => 'user',
-                ]);
-            }
+            //     Notification::create([
+            //         'name'       => 'লাইভ পরীক্ষা',
+            //         'details'    => $catt . " প্রিলিমিনারি লাইভ পরীক্ষা শেষ হয়েছে, ফলাফল দেখুন।",
+            //         'user_id'    => $answer->user->id,
+            //         'written_id' => $answer->written_id,
+            //         'to'         => 'user',
+            //     ]);
+            // }
 
             DB::commit();
 
