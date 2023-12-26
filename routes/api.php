@@ -15,7 +15,6 @@ use App\Models\Subject;
 use App\Models\TopicSource;
 use App\Models\User;
 use App\Models\Written;
-use App\Services\FCMService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,6 +48,20 @@ Route::middleware('auth:sanctum')->post('/contact-us', function (Request $reques
     ]);
 
 });
+
+Route::middleware('auth:sanctum')->post('/account-deletation/{user_id}', function (Request $request, $user_id) {
+    $data = User::find($user_id);
+
+    $data->status = 0;
+    $data->save();
+
+    return response()->json([
+        'status' => true,
+        'data'   => $data,
+    ]);
+
+});
+
 Route::post('/privacy-policy', function (Request $request) {
     $data            = [];
     $data['privacy'] = Page::where('slug', 'privacy-policy')->first();
