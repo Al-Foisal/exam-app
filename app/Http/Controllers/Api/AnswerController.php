@@ -149,13 +149,13 @@ class AnswerController extends Controller {
                     $answer->user->fcm_token,
                     [
                         'title' => "লাইভ পরীক্ষা",
-                        'body'  => $catt . " প্রিলিমিনারি লাইভ পরীক্ষা শেষ হয়েছে,ফলাফল দেখুন।",
+                        'body'  => $catt . " প্রিলিমিনারি লাইভ পরীক্ষা শেষ হয়েছে, ফলাফল দেখুন।",
                     ]
                 );
 
                 Notification::create([
                     'name'       => 'লাইভ পরীক্ষা',
-                    'details'    => $catt . " প্রিলিমিনারি লাইভ পরীক্ষা শেষ হয়েছে,ফলাফল দেখুন।",
+                    'details'    => $catt . " প্রিলিমিনারি লাইভ পরীক্ষা শেষ হয়েছে, ফলাফল দেখুন।",
                     'user_id'    => $answer->user->id,
                     'written_id' => $answer->written_id,
                     'to'         => 'user',

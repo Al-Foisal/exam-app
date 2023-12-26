@@ -134,6 +134,23 @@
                                     placeholder="Enter pinterest link" name="pinterest"
                                     value="{{ $info->pinterest ?? '' }}">
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="inputAddress">Telegram</label>
+                                <input type="url" class="form-control" id="inputAddress"
+                                    placeholder="Enter telegram link" name="telegram" value="{{ $info->telegram ?? '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="inputAddress">Messenger</label>
+                                <input type="url" class="form-control" id="inputAddress"
+                                    placeholder="Enter messenger link" name="messenger"
+                                    value="{{ $info->messenger ?? '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="inputAddress">WhatsApp</label>
+                                <input type="url" class="form-control" id="inputAddress"
+                                    placeholder="Enter whatsapp link" name="whatsapp"
+                                    value="{{ $info->whatsapp ?? '' }}">
+                            </div>
                             <button type="submit" class="btn btn-primary">Update Company Information</button>
                         </form>
                     </div>

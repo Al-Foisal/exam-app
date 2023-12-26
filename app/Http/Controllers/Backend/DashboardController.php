@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\FAQ;
 use App\Models\Package;
 use App\Models\PackageHistory;
 use App\Models\User;
@@ -136,6 +137,12 @@ class DashboardController extends Controller {
         }
 
         return view('backend.student.show', compact('data'));
+    }
+
+    public function studentRequest() {
+        $request = FAQ::latest()->paginate(100);
+
+        return view('backend.student-request', compact('request'));
     }
 
 }

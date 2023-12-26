@@ -94,14 +94,14 @@ class TeacherExamAssignController extends Controller {
             FCMService::send(
                 $t->fcm_token,
                 [
-                    'title' => "Exam paper assign",
-                    'body'  => "New exam paper assign to you for assesment",
+                    'title' => "পরীক্ষার বরাদ্দ",
+                    'body'  => "মূল্যায়নের জন্য আপনাকে একটি নতুন পরীক্ষার বরাদ্দ করা হয়েছে",
                 ]
             );
 
             Notification::create([
-                'name'    => 'Exam paper assign',
-                'details' => "New exam paper assign to you for assesment",
+                'name'    => 'পরীক্ষার বরাদ্দ',
+                'details' => "মূল্যায়নের জন্য আপনাকে একটি নতুন পরীক্ষার বরাদ্দ করা হয়েছে",
                 'user_id' => $t->id,
                 'to'      => 'teacher',
             ]);

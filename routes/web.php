@@ -43,6 +43,7 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/students', 'students')->name('students');
         Route::get('/change-student-status/{id}', 'changeStudentStatus')->name('changeStudentStatus');
         Route::get('/show-student-details/{id}', 'showStudentDetails')->name('showStudentDetails');
+        Route::get('/student-request', 'studentRequest')->name('studentRequest');
     });
 
     Route::controller(AdminManagementController::class)->prefix('/admin')->name('admin.')->group(function () {

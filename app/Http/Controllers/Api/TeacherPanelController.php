@@ -162,13 +162,13 @@ class TeacherPanelController extends Controller {
                         $written_answer->user->fcm_token,
                         [
                             'title' => "লাইভ পরীক্ষা",
-                            'body'  => "আপনার লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে,ফলাফল দেখুন।",
+                            'body'  => "আপনার লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে, ফলাফল দেখুন।",
                         ]
                     );
 
                     Notification::create([
                         'name'       => 'লাইভ পরীক্ষা',
-                        'details'    => "আপনার লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে,ফলাফল দেখুন।",
+                        'details'    => "আপনার লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে, ফলাফল দেখুন।",
                         'user_id'    => $written_answer->user->id,
                         'written_id' => $written_answer->written_id,
                         'to'         => 'user',

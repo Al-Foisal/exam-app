@@ -44,6 +44,9 @@ class CompanyInfoController extends Controller {
                 'youtube'     => $request->youtube,
                 'linkedin'    => $request->linkedin,
                 'pinterest'   => $request->pinterest,
+                'telegram'    => $request->telegram,
+                'messenger'   => $request->messenger,
+                'whatsapp'    => $request->whatsapp,
             ]
         );
 

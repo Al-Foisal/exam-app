@@ -52,9 +52,11 @@
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form>
                         <hr>
-                        @if ($data)
+                        @if ($data && isset($data->syllabus))
                             <iframe src="{{ asset($data->syllabus) }}" frameborder="0"
                                 style="width: 100%;height:600px;"></iframe>
+                        @else
+                            <h6>No syllabus uploaded yet</h6>
                         @endif
                     </div>
                 </div>
