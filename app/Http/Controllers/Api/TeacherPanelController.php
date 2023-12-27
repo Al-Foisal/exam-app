@@ -175,7 +175,7 @@ class TeacherPanelController extends Controller {
                 //     ]);
                 // }
 
-                if (!$is_checked_before) {
+                if (!$is_checked_before && $written_answer->is_checked == 1) {
 
                     if (TeacherWallet::where('user_id', Auth::id())->exists()) {
                         $wallet         = TeacherWallet::where('user_id', Auth::id())->first();
