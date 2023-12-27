@@ -117,7 +117,7 @@ class TeacherPanelController extends Controller {
 
             if ($question) {
 
-                $is_checked_before = $question->is_checked == 1 ? true : false;
+                $is_checked_before = $question->writtenAnswer->is_checked == 1 ? true : false;
 
                 if ($request->hasfile('teacher_script')) {
 
