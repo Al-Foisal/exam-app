@@ -12,6 +12,8 @@ use App\Http\Controllers\Backend\SubjectController;
 use App\Http\Controllers\Backend\TeacherExamAssignController;
 use App\Http\Controllers\Backend\TeacherManagementController;
 use App\Http\Controllers\Backend\TopicSourceController;
+use App\Models\Page;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -159,4 +161,13 @@ Route::middleware('auth:admin')->group(function () {
         Route::post('/store-or-update/{id?}', 'storeOrUpdate')->name('storeOrUpdate');
         Route::delete('/delete/{id}', 'destroy')->name('delete');
     });
+});
+
+Route::get('/privacy-policy', function () {
+    $data = Page::where('slug', 'privacy-policy')->first();
+
+    return Blade::render('
+        <h1>{{$data->name}}</h1> <br>
+        <p>{!! $data->details !!}</p>
+    ',['data'=>$data]);
 });
