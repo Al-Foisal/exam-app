@@ -145,7 +145,7 @@
                                     <label for="inactive">Inctive</label>
                                 </div>
                             </div>
-                            <button type="button" onclick="validateForm(this)"
+                            <button type="{{ request()->exam_id ? 'submit' : 'button' }}" onclick="validateForm(this)"
                                 class="submit btn btn-primary">Save</button>
                         </form>
                     </div>
