@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
 use App\Models\ExamQuestion;
-use App\Models\Notification;
 use App\Models\PreliminaryAnswer;
 use App\Models\Subject;
 use App\Models\TopicSource;
 use App\Models\WrittenAnswer;
 use App\Models\WrittenAnswerQuestion;
 use App\Models\WrittenAnswerQuestionScript;
-use App\Services\FCMService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -113,54 +111,8 @@ class AnswerController extends Controller {
             $answer->negative_marks = $negative_count * $exam_details->per_question_negative_mark;
             $answer->empty_marks    = $empty_marks;
 
-            $answer->result_status = $obtained_mark > $exam_details->pass_marks ? 1 : 0;
+            $answer->result_status = $obtained_mark >= $exam_details->pass_marks ? 1 : 0;
             $answer->save();
-
-            // if (isset($answer->user->fcm_token)) {
-            //     $catt = '';
-
-            //     if ($exam_details->childcategory) {
-
-            //         if ($exam_details->childcategory == 'Primary') {
-            //             $catt = 'প্রাইমারি';
-            //         } elseif ($exam_details->childcategory == '11 to 20 Grade') {
-            //             $catt = 'শিক্ষক এবং প্রভাষক';
-            //         } elseif ($exam_details->childcategory == 'Non-Cadre') {
-            //             $catt = 'নন-ক্যাডার';
-            //         } elseif ($exam_details->childcategory == 'Job Solution') {
-            //             $catt = 'জব সলুশন';
-            //         } elseif ($exam_details->childcategory == 'Weekly') {
-            //             $catt = 'সাপ্তাহিক';
-            //         } elseif ($exam_details->childcategory == 'Daily') {
-            //             $catt = 'দৈনিক';
-            //         }
-
-            //     } else {
-
-            //         if ($exam_details->category == 'BCS') {
-            //             $catt = 'বিসিএস';
-            //         } else {
-            //             $catt = 'ব্যাংক';
-            //         }
-
-            //     }
-
-            //     FCMService::send(
-            //         $answer->user->fcm_token,
-            //         [
-            //             'title' => "লাইভ পরীক্ষা",
-            //             'body'  => $catt . " প্রিলিমিনারি লাইভ পরীক্ষা শেষ হয়েছে, ফলাফল দেখুন।",
-            //         ]
-            //     );
-
-            //     Notification::create([
-            //         'name'       => 'লাইভ পরীক্ষা',
-            //         'details'    => $catt . " প্রিলিমিনারি লাইভ পরীক্ষা শেষ হয়েছে, ফলাফল দেখুন।",
-            //         'user_id'    => $answer->user->id,
-            //         'written_id' => $answer->written_id,
-            //         'to'         => 'user',
-            //     ]);
-            // }
 
             DB::commit();
 
@@ -306,7 +258,7 @@ class AnswerController extends Controller {
 
         if (isset($request->exam_id)) {
             $get_exam_answer = PreliminaryAnswer::where('exam_id', $request->exam_id)
-                ->select(['id', 'user_id', 'obtained_marks', 'created_at'])
+                ->select(['id', 'user_id', 'obtained_marks'])
                 ->orderBy('obtained_marks', 'desc');
 
             if ($request->search) {
@@ -315,11 +267,26 @@ class AnswerController extends Controller {
                 });
             }
 
-            $get_exam_answer = $get_exam_answer->with('user')->paginate();
+            $get_exam_answer = $get_exam_answer->with(['user' => function ($q) {
+                return $q->select(['id', 'name']);
+            },
+            ])->paginate();
+
+            $get_exam_answer_position = PreliminaryAnswer::where('exam_id', $request->exam_id)
+                ->select(['id', 'user_id', 'obtained_marks'])
+                ->orderBy('obtained_marks', 'desc')
+                ->pluck('user_id')
+                ->toArray();
+
+            foreach ($get_exam_answer as $key => $item) {
+
+                $item['position'] = array_search($item->user_id, $get_exam_answer_position) + 1;
+            }
+
         } else {
             $get_exam_answer = WrittenAnswer::where('written_id', $request->written_id)
                 ->where('is_checked', 1)
-                ->select(['id', 'user_id', 'obtained_mark', 'created_at'])
+                ->select(['id', 'user_id', 'obtained_mark'])
                 ->orderBy('obtained_mark', 'desc');
 
             if ($request->search) {
@@ -328,7 +295,23 @@ class AnswerController extends Controller {
                 });
             }
 
-            $get_exam_answer = $get_exam_answer->with('user')->paginate();
+            $get_exam_answer = $get_exam_answer->with(['user' => function ($q) {
+                return $q->select(['id', 'name']);
+            },
+            ])->paginate();
+
+            $get_exam_answer_position = WrittenAnswer::where('written_id', $request->written_id)
+                ->where('is_checked', 1)
+                ->select(['id', 'user_id', 'obtained_mark'])
+                ->orderBy('obtained_mark', 'desc')
+                ->pluck('user_id')
+                ->toArray();
+
+            foreach ($get_exam_answer as $key => $item) {
+
+                $item['position'] = array_search($item->user_id, $get_exam_answer_position) + 1;
+            }
+
         }
 
         return $this->successMessage('ok', $get_exam_answer);

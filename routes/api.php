@@ -136,12 +136,12 @@ Route::middleware('auth:sanctum')->get('/get-present-live-exam', function (Reque
 
     $data = [];
 
-    $exam = Exam::where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
+    $exam = Exam::where('status', 1)->where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
         ->where('expired_at', '>=', Carbon::now('Asia/Dhaka')->toDateTimeString())
         ->select(['id', 'category', 'subcategory', 'childcategory'])
         ->get();
 
-    $written = Written::where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
+    $written = Written::where('status', 1)->where('published_at', '<=', Carbon::now('Asia/Dhaka')->toDateTimeString())
         ->where('expired_at', '>=', Carbon::now('Asia/Dhaka')->toDateTimeString())
         ->select(['id', 'category', 'subcategory', 'childcategory'])
         ->get();

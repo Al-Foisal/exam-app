@@ -661,7 +661,7 @@ class ExamManageController extends Controller {
 
             if ($exam) {
                 $get_exam_answer = PreliminaryAnswer::where('exam_id', $exam->exam_id)
-                    ->select(['id', 'user_id', 'obtained_marks', 'created_at'])
+                    ->select(['id', 'user_id', 'obtained_marks'])
                     ->orderBy('obtained_marks', 'desc');
 
                 if ($request->search) {
@@ -670,7 +670,22 @@ class ExamManageController extends Controller {
                     });
                 }
 
-                $get_exam_answer = $get_exam_answer->with('user')->paginate();
+                $get_exam_answer = $get_exam_answer->with(['user' => function ($q) {
+                    return $q->select(['id', 'name']);
+                },
+                ])->paginate();
+
+                $get_exam_answer_position = PreliminaryAnswer::where('exam_id', $exam->exam_id)
+                    ->select(['id', 'user_id', 'obtained_marks'])
+                    ->orderBy('obtained_marks', 'desc')
+                    ->pluck('user_id')
+                    ->toArray();
+
+                foreach ($get_exam_answer as $key => $item) {
+
+                    $item['position'] = array_search($item->user_id, $get_exam_answer_position) + 1;
+                }
+
             }
 
             $examName = 'প্রিলিমিনারি';
@@ -702,7 +717,7 @@ class ExamManageController extends Controller {
             if ($written) {
                 $get_exam_answer = WrittenAnswer::where('written_id', $written->written_id)
                     ->where('is_checked', 1)
-                    ->select(['id', 'user_id', 'obtained_mark', 'created_at'])
+                    ->select(['id', 'user_id', 'obtained_mark'])
                     ->orderBy('obtained_mark', 'desc');
 
                 if ($request->search) {
@@ -711,7 +726,23 @@ class ExamManageController extends Controller {
                     });
                 }
 
-                $get_exam_answer = $get_exam_answer->with('user')->paginate();
+                $get_exam_answer = $get_exam_answer->with(['user' => function ($q) {
+                    return $q->select(['id', 'name']);
+                },
+                ])->paginate();
+
+                $get_exam_answer_position = WrittenAnswer::where('written_id', $written->written_id)
+                    ->where('is_checked', 1)
+                    ->select(['id', 'user_id', 'obtained_mark'])
+                    ->orderBy('obtained_mark', 'desc')
+                    ->pluck('user_id')
+                    ->toArray();
+
+                foreach ($get_exam_answer as $key => $item) {
+
+                    $item['position'] = array_search($item->user_id, $get_exam_answer_position) + 1;
+                }
+
             }
 
             $examName = 'লিখিত';

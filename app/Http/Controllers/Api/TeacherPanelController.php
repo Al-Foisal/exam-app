@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Notification;
 use App\Models\Subject;
 use App\Models\TeacherWallet;
 use App\Models\TopicSource;
@@ -12,7 +11,6 @@ use App\Models\Written;
 use App\Models\WrittenAnswer;
 use App\Models\WrittenAnswerQuestion;
 use App\Models\WrittenAnswerQuestionScript;
-use App\Services\FCMService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -153,27 +151,8 @@ class TeacherPanelController extends Controller {
                 $written_answer->is_checked = $request->is_checked;
 
                 $written_answer->obtained_mark = $request->obtained_mark;
-                $written_answer->result_status = $request->obtained_mark > $written_answer->written->pass_marks ? 1 : 0;
+                $written_answer->result_status = $request->obtained_mark >= $written_answer->written->pass_marks ? 1 : 0;
                 $written_answer->save();
-
-                // if (isset($written_answer->user->fcm_token) && $written_answer->is_checked == 1) {
-
-                //     FCMService::send(
-                //         $written_answer->user->fcm_token,
-                //         [
-                //             'title' => "লাইভ পরীক্ষা",
-                //             'body'  => "আপনার লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে, ফলাফল দেখুন।",
-                //         ]
-                //     );
-
-                //     Notification::create([
-                //         'name'       => 'লাইভ পরীক্ষা',
-                //         'details'    => "আপনার লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে, ফলাফল দেখুন।",
-                //         'user_id'    => $written_answer->user->id,
-                //         'written_id' => $written_answer->written_id,
-                //         'to'         => 'user',
-                //     ]);
-                // }
 
                 if (!$is_checked_before && $written_answer->is_checked == 1) {
 
