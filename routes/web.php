@@ -27,6 +27,11 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+Route::get('/deletion-policy', function () {
+
+    return view('delineation_policy');
+});
+
 Route::controller(AdminAuthenticationController::class)->middleware('guest:admin')->group(function () {
 
     Route::get('/', 'login')->name('login');
@@ -169,5 +174,5 @@ Route::get('/privacy-policy', function () {
     return Blade::render('
         <h1>{{$data->name}}</h1> <br>
         <p>{!! $data->details !!}</p>
-    ',['data'=>$data]);
+    ', ['data' => $data]);
 });

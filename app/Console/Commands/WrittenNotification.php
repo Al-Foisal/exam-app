@@ -7,6 +7,7 @@ use App\Models\Notification;
 use App\Models\PreliminaryAnswer;
 use App\Models\SendExamNotification;
 use App\Models\User;
+use App\Models\Written;
 use App\Models\WrittenAnswer;
 use App\Services\FCMService;
 use Carbon\Carbon;
@@ -52,17 +53,46 @@ class WrittenNotification extends Command {
 
                     if (isset($user->fcm_token)) {
 
+                        $exam_details = Written::where('id', $w_item->written_id)->first();
+                        $catt         = '';
+
+                        if ($exam_details->childcategory) {
+
+                            if ($exam_details->childcategory == 'Primary') {
+                                $catt = 'প্রাইমারি';
+                            } elseif ($exam_details->childcategory == '11 to 20 Grade') {
+                                $catt = 'শিক্ষক এবং প্রভাষক';
+                            } elseif ($exam_details->childcategory == 'Non-Cadre') {
+                                $catt = 'নন-ক্যাডার';
+                            } elseif ($exam_details->childcategory == 'Job Solution') {
+                                $catt = 'জব সলুশন';
+                            } elseif ($exam_details->childcategory == 'Weekly') {
+                                $catt = 'সাপ্তাহিক';
+                            } elseif ($exam_details->childcategory == 'Daily') {
+                                $catt = 'দৈনিক';
+                            }
+
+                        } else {
+
+                            if ($exam_details->category == 'BCS') {
+                                $catt = 'বিসিএস';
+                            } else {
+                                $catt = 'ব্যাংক';
+                            }
+
+                        }
+
                         FCMService::send(
                             $user->fcm_token,
                             [
                                 'title' => "লাইভ পরীক্ষা",
-                                'body'  => "আপনার লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে, ফলাফল দেখুন।",
+                                'body'  => $catt . " লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে, ফলাফল দেখুন।",
                             ]
                         );
 
                         Notification::create([
                             'name'       => 'লাইভ পরীক্ষা',
-                            'details'    => "আপনার লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে, ফলাফল দেখুন।",
+                            'details'    => $catt . " লিখিত পরীক্ষার খাতা মূল্যায়ন করা হয়েছে, ফলাফল দেখুন।",
                             'user_id'    => $user->id,
                             'written_id' => $w_item->written_id,
                             'to'         => 'user',
