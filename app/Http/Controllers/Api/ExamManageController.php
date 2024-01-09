@@ -141,7 +141,7 @@ class ExamManageController extends Controller {
         if ($sub === 'Preliminary') {
             $exam = Exam::where('status', 1)->where('published_at', '>', Carbon::now('Asia/Dhaka')->toDateTimeString());
 
-            $exam = $exam->orderByDesc('id')->paginate();
+            $exam = $exam->orderByAsc('id')->paginate();
 
             foreach ($exam as $item) {
                 $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
@@ -151,7 +151,7 @@ class ExamManageController extends Controller {
         } elseif ($sub === 'Written') {
             $exam = Written::where('status', 1)->where('published_at', '>', Carbon::now('Asia/Dhaka')->toDateTimeString());
 
-            $exam = $exam->orderByDesc('id')->paginate();
+            $exam = $exam->orderByAsc('id')->paginate();
 
             foreach ($exam as $item) {
                 $item['subjects'] = Subject::whereIn('id', explode(',', $item->subject_id))->get();
