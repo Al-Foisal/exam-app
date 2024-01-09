@@ -223,7 +223,7 @@ class PackageController extends Controller {
                         );
 
                         Notification::create([
-                            'name'    => 'Exam paper assign',
+                            'name'    => 'নতুন প্যাকেজ',
                             'details' => "নতুন একটি ব্যাচ চালু হয়েছে। আপনার প্রস্তুতি যাচাই করুন।",
                             'user_id' => $user->id,
                             'to'      => 'user',
