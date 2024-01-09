@@ -249,7 +249,7 @@
             <ul>
                 <li><a href="{{ route('material.index', ['ref' => 'BCS']) }}" class="text-success">BCS</a></li>
                 <li><a href="{{ route('material.index', ['ref' => 'Bank']) }}" class="text-success">Bank</a></li>
-                <li><a href="{{ route('material.index', ['ref' => 'Recent']) }}" class="text-success">Recent</a>
+                <li><a href="{{ route('material.index', ['ref' => 'Recent']) }}" class="text-success">Routine</a>
                 </li>
                 <li><a href="{{ route('material.index', ['ref' => 'Record Class']) }}" class="text-success">Record
                         Class</a></li>
